@@ -11,3 +11,6 @@ screen.png
 # 本地草稿与需求文档（不发布）
 resume.txt
 主页需求文档.md
+
+# 浏览器导出的页面修改（含 base64 图片，不提交）
+nresume-edits-*.json

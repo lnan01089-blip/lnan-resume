@@ -293,8 +293,9 @@ Depth is soft and minimal, never skeuomorphic.
 - Three project gallery blocks grouped under 项目图片. Each block shows its current thumbnails with 替换 / 移除 overlays, an editable note field under every image, an "添加图片" tile, a count line, and a gallery-level "恢复默认" link.
 - Notes are capped at 80 characters. Project and interest-card notes appear below the image in the lightbox; avatar and IP notes act as image hover titles and stay available in the manager.
 - Project galleries accept up to eight images and always keep at least one; multiple files can be added at once.
-- The footer holds "全部恢复默认" and "完成". Resetting an image or gallery also clears its notes.
+- The footer holds "导出修改", "全部恢复默认", and "完成". Resetting an image or gallery also clears its notes.
 - Images are compressed in-browser to max 1200px and stored as data URLs in `localStorage` (`nresume:image:*` for single slots, `nresume:gallery:*` for project galleries). Project gallery values are image objects with `src`, `alt`, and `caption`; single-slot notes use `nresume:note:*`. This is a local preview, not a server-side edit.
+- "导出修改" downloads a full page snapshot as JSON (`nresume-edits-*.json`): every single-image slot (data URL when replaced, otherwise its path), every note, all project galleries, all project text fields, and the derived project metadata used by the lightbox. `tools/publish_edits.py` bakes that snapshot into `assets/img`, `index.html`, and `assets/js/main.js`, and regenerates the font subset when needed.
 - Only raster formats are accepted (JPG / PNG / WebP / AVIF). SVG and GIF are rejected.
 
 ### Feedback

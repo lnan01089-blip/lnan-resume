@@ -1708,6 +1708,7 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
 .img-gallery__add-icon { font-size: 17px; line-height: 1; color: var(--ink-3); }
 .img-manager__foot {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;

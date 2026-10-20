@@ -149,6 +149,7 @@
   const PROJECT_MAX_IMAGES = 8;
   const NOTE_MAX_LENGTH = 80;
   const GALLERY_STORAGE_PREFIX = 'nresume:gallery:';
+  /* PUBLISHED_GALLERIES_START */
   const PROJECT_GALLERIES = {
     stashly: {
       label: 'Stashly 书柜 App',
@@ -182,6 +183,7 @@
       ]
     }
   };
+  /* PUBLISHED_GALLERIES_END */
 
   const projectStates = new Map();
   Object.entries(PROJECT_GALLERIES).forEach(([key, definition]) => {
@@ -1092,6 +1094,7 @@
   const imageManagerClose = $('#imageManagerClose');
   const imageManagerDone = $('#imageManagerDone');
   const imageManagerResetAll = $('#imageManagerResetAll');
+  const imageManagerExport = $('#imageManagerExport');
   const imageManagerOpenBtn = $('#imageManagerOpen');
   const IMAGE_STORAGE_PREFIX = 'nresume:image:';
   const NOTE_STORAGE_PREFIX = 'nresume:note:';
@@ -1669,7 +1672,7 @@
   }
 
   imageSlots.forEach((slot) => {
-    slot.note = readStoredNote(slot.key);
+    slot.note = readStoredNote(slot.key) || cleanNote(slot.img.dataset.note || '');
     applySlotNote(slot);
   });
   buildImageManager();
@@ -1679,6 +1682,95 @@
     else updateImageSlotUI(slot);
   });
   window.addEventListener('beforeunload', flushAllNoteSaves);
+
+  function collectPageSnapshot() {
+    flushAllNoteSaves();
+    flushAllProjectTextSaves();
+
+    const slots = {};
+    imageSlots.forEach((slot) => {
+      slots[slot.key] = {
+        src: slot.img.getAttribute('src') || '',
+        note: cleanNote(slot.note),
+        alt: slot.img.getAttribute('alt') || ''
+      };
+    });
+
+    const galleries = {};
+    projectStates.forEach((project, key) => {
+      galleries[key] = project.images.map((image) => ({
+        src: image.src,
+        alt: image.alt || '',
+        caption: cleanNote(image.caption)
+      }));
+    });
+
+    const projectText = {};
+    const projectMeta = {};
+    projectTextCards.forEach((project, key) => {
+      const fields = {};
+      project.fields.forEach((field, fieldKey) => {
+        fields[fieldKey] = cleanProjectText(field.textContent, projectFieldLimit(fieldKey));
+      });
+      projectText[key] = fields;
+      projectMeta[key] = {
+        label: project.label,
+        type: project.type,
+        title: project.title,
+        desc: project.desc
+      };
+    });
+
+    return {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      origin: location.origin,
+      slots,
+      galleries,
+      projectText,
+      projectMeta
+    };
+  }
+
+  function snapshotHasChanges() {
+    if (imageSlots.some((slot) => slot.custom || cleanNote(slot.note))) return true;
+    if ([...projectStates.values()].some((project) => project.custom)) return true;
+    return [...projectTextCards.values()].some((project) => {
+      if (Object.keys(project.textOverrides || {}).length) return true;
+      let changed = false;
+      project.fields.forEach((field, fieldKey) => {
+        const value = cleanProjectText(field.textContent, projectFieldLimit(fieldKey));
+        if (value !== project.textDefaults[fieldKey]) changed = true;
+      });
+      return changed;
+    });
+  }
+
+  function exportPageSnapshot() {
+    if (!snapshotHasChanges()) {
+      showToast('当前浏览器里还没有改过的内容');
+      return;
+    }
+
+    const snapshot = collectPageSnapshot();
+    const now = new Date();
+    const pad = (value) => String(value).padStart(2, '0');
+    const stamp = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+    const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `nresume-edits-${stamp}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+    showToast('已导出修改文件，请把它放入项目文件夹');
+  }
+
+  if (imageManagerExport) {
+    imageManagerExport.addEventListener('click', exportPageSnapshot);
+  }
 
   if (imageManagerOpenBtn) {
     imageManagerOpenBtn.hidden = false;

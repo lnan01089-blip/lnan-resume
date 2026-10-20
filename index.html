@@ -618,9 +618,10 @@
         </div>
         <button class="img-manager__close" id="imageManagerClose" type="button" aria-label="关闭图片替换面板" data-img-close>×</button>
       </header>
-      <p class="img-manager__note" id="imageManagerNote">头像、IP、项目图片与兴趣爱好图片都可替换，项目图片支持添加多张；每张图片都能填写备注，项目图片和兴趣图片的备注会显示在图片弹窗中。选择后会立即预览并保存在当前浏览器，正式发布前请按 README 的「素材替换」更新 assets/img 中的文件。</p>
+      <p class="img-manager__note" id="imageManagerNote">头像、IP、项目图片与兴趣爱好图片都可替换，项目图片支持添加多张；每张图片都能填写备注，项目图片和兴趣图片的备注会显示在图片弹窗中。选择后会立即预览并保存在当前浏览器；改好后点「导出修改」，把下载的 JSON 文件放入项目文件夹，即可发布给所有访客。</p>
       <div class="img-manager__body" id="imageManagerBody"></div>
       <footer class="img-manager__foot">
+        <button class="btn btn--outline btn--sm" type="button" id="imageManagerExport">导出修改</button>
         <button class="btn btn--outline btn--sm" type="button" id="imageManagerResetAll">全部恢复默认</button>
         <button class="btn btn--dark btn--sm" type="button" id="imageManagerDone">完成</button>
       </footer>
