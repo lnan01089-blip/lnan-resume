@@ -569,6 +569,52 @@ strong { font-weight: 600; }
 .edu-langs { display: flex; align-items: center; gap: 14px; margin-top: 18px; padding-left: 4px; }
 .edu-langs__label { font-size: 10.5px; letter-spacing: .14em; color: var(--ink-3); }
 
+/* ============ Campus ============ */
+.campus-card {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 52px;
+  padding: 38px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+.campus-card__aside { display: flex; flex-direction: column; align-items: flex-start; }
+.campus-card__when { font-size: 11px; font-weight: 500; letter-spacing: .1em; color: var(--ink-3); }
+.campus-card__role {
+  margin-top: 12px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(1.45rem, 2vw, 1.7rem);
+  line-height: 1.35;
+  letter-spacing: .005em;
+}
+.campus-card__org { margin-top: 6px; font-size: 13px; color: var(--ink-2); }
+.campus-card__aside .badge { margin-top: 16px; }
+.campus-card__tags { margin-top: auto; padding-top: 24px; }
+.campus-card__body .detail-list li { grid-template-columns: 96px minmax(0, 1fr); }
+.campus-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.campus-stat { padding: 16px 16px 0 0; }
+.campus-stat + .campus-stat { padding-left: 16px; border-left: 1px solid var(--line); }
+.campus-stat__value {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.65rem;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+.campus-stat__value span { font-size: 11px; color: var(--ink-3); }
+.campus-stat__label { margin-top: 7px; font-size: 11px; line-height: 1.5; color: var(--ink-2); }
+
 /* ============ Projects ============ */
 .project-grid {
   display: grid;
@@ -640,36 +686,40 @@ strong { font-weight: 600; }
 .project-card__result { margin-bottom: 14px; font-size: 12.5px; font-weight: 500; }
 
 /* ============ Skills ============ */
-.skills-card {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.skills-panel {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--card);
   box-shadow: var(--shadow-sm);
 }
-.skill-col { padding: 30px 30px 24px; }
-.skill-col + .skill-col { border-left: 1px solid var(--line); }
-.skill-col__title {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  font-weight: 600;
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
 }
-.skill-col__dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); }
-.skill-list li {
-  padding: 11px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 13.5px;
+.skill-card { padding: 28px 30px 30px; background: var(--card); }
+.skill-card__title {
+  margin-bottom: 18px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  letter-spacing: .01em;
+}
+.skill-chip-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-chip-list li {
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 12.5px;
+  line-height: 1.3;
   color: var(--ink-2);
+  white-space: nowrap;
 }
-.skill-list li:last-child { border-bottom: 0; }
-
-.skills-foot {
-  grid-column: 1 / -1;
+.skills-flow {
   display: flex;
   align-items: center;
   gap: 22px;
@@ -677,7 +727,7 @@ strong { font-weight: 600; }
   border-top: 1px solid var(--line);
   background: var(--card-2);
 }
-.skills-foot__label {
+.skills-flow__label {
   font-size: 10.5px;
   font-weight: 500;
   letter-spacing: .14em;
@@ -1264,10 +1314,14 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .project-grid { grid-template-columns: minmax(0, 1fr); }
   .project-card--wide { grid-column: auto; padding: 30px; }
 
-  .skills-card { grid-template-columns: minmax(0, 1fr); }
-  .skill-col + .skill-col { border-top: 1px solid var(--line); border-left: 0; }
-  .skill-col { padding: 26px 26px 20px; }
-  .skills-foot { align-items: flex-start; flex-direction: column; gap: 12px; padding: 18px 26px; }
+  .campus-card { grid-template-columns: minmax(0, 1fr); gap: 26px; padding: 30px; }
+  .campus-card__role { margin-top: 8px; }
+  .campus-card__aside .badge { margin-top: 12px; }
+  .campus-card__tags { margin-top: 4px; padding-top: 0; }
+
+  .skills-grid { grid-template-columns: minmax(0, 1fr); }
+  .skill-card { padding: 26px 26px 24px; }
+  .skills-flow { align-items: flex-start; flex-direction: column; gap: 12px; padding: 18px 26px; }
 
   .pf-panel {
     grid-template-columns: minmax(0, 1fr);
@@ -1351,8 +1405,17 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .metric__label { font-size: 10.5px; }
   .project-card__foot { padding-top: 18px; }
 
-  .skill-col { padding: 22px 22px 16px; }
-  .skills-foot { padding: 16px 22px; }
+  .campus-card { padding: 22px; border-radius: var(--radius); }
+  .campus-card__body .detail-list li { grid-template-columns: minmax(0, 1fr); }
+  .campus-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .campus-stat { padding: 14px 14px 12px 0; }
+  .campus-stat:nth-child(3) { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .campus-stat:nth-child(4) { border-top: 1px solid var(--line); }
+  .campus-stat__value { font-size: 1.5rem; }
+
+  .skill-card { padding: 22px; }
+  .skills-flow { padding: 16px 22px; }
+  .skill-chip-list li { font-size: 12px; padding: 6px 11px; }
   .ai-flow { gap: 8px; }
   .ai-flow__step { font-size: 11.5px; padding: 4px 10px; }
 

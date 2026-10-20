@@ -181,16 +181,17 @@ Used for everything functional:
 
 ## Layout & Spacing
 
-A single centered column, `min(100% - 48px, 1180px)`, with generous vertical sections (`88px` desktop, `56px` mobile). The page is long by design; sections are numbered 01–08 and separated by a hairline section head.
+A single centered column, `min(100% - 48px, 1180px)`, with generous vertical sections (`88px` desktop, `56px` mobile). The page is long by design; sections are numbered 01–09 and separated by a hairline section head. The narrative order is education → work → campus → projects, so a reader meets the academic foundation before the professional timeline.
 
 ### Grid Mechanics
 
 - **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Collapses to a single column below 900px with the portrait after the copy.
 - **About:** statement + bio on the left, a 2×2 stat card on the right; stats are separated by 1px hairlines, not gaps.
+- **Education:** one white card with rows separated by hairlines; language tags sit underneath.
 - **Experience:** vertical stack of accordion cards. Each head is a full-width button; closed state shows role, org, dates, tags.
-- **Education:** one white card with rows separated by hairlines.
-- **Projects:** a 12-column grid; the flagship project spans 7 columns, the two supporting projects sit side by side.
-- **Skills:** three equal columns in one card, with a full-width AI-workflow footer row.
+- **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (detail list + four-cell stat strip).
+- **Projects:** a two-column grid of equal cards; each card ends with a three-metric hairline row and a tag footer.
+- **Skills:** one rounded panel with three hairline-divided columns of category chips, plus a full-width AI-workflow footer row. This deliberately keeps the earlier chip-board layout instead of the long list treatment.
 - **Portfolio:** filter pills above a tablist; the active tab controls one large two-column panel (cover left, copy right). Tabs wrap to two rows on mobile instead of scrolling.
 - **Life:** a narrow left rail with the full-body mascot and vertical filters, plus a centered stacked deck of six 3:4 cards.
 - **Contact:** one full-width black card, two columns on desktop (copy + actions | contact rows).
@@ -245,7 +246,8 @@ Depth is soft and minimal, never skeuomorphic.
 
 - **Static card:** white, 1px line, 18–24px radius, soft shadow. No hover movement.
 - **Accordion card:** head is a button with role/org/dates on the left, tags and a circular +/− toggle on the right. Open state lifts the border to `--line-strong` and reveals a panel separated by a hairline.
-- **Project card:** title, description, tag row, and a footer of three metrics separated by vertical hairlines. The wide card adds a 16:10 cover.
+- **Project card:** title, description, a three-metric hairline row, and a tag footer. Both projects sit as equal halves of the two-column grid.
+- **Campus card:** a two-column feature card. The left aside carries dates, a serif role, organization, badge, and bottom-aligned tags; the right body carries a two-row detail list and a four-cell stat strip. Collapses to one column at 900px.
 - **Stat card:** 2×2 cells divided by hairlines; serif numerals with small sans labels.
 - **Contact card:** near-black, 24px radius, serif headline, two CTAs, then four contact rows separated by translucent hairlines.
 
@@ -253,7 +255,7 @@ Depth is soft and minimal, never skeuomorphic.
 
 - **Header:** fixed, 72px tall, transparent at the top; after 8px of scroll it gains a translucent canvas background, blur, and a hairline bottom border.
 - **Brand:** serif 廖楠 over a small tracked LIAO NAN.
-- **Links:** 8px-gap text links, 13px, ink-secondary; active link is ink with a 2px underline.
+- **Links:** eight text links in page order (关于 / 教育 / 经历 / 校园 / 项目 / 技能 / 作品集 / 生活), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`.
 - **Right side:** availability status text, a dark pill "联系我", and a circular menu button below 1080px.
 - **Mobile menu:** full-screen canvas overlay with large serif links, staggered entrance, and a close button; background content is `inert`.
 
