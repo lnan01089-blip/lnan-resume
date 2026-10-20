@@ -181,7 +181,7 @@ Used for everything functional:
 
 ## Layout & Spacing
 
-A single centered column, `min(100% - 48px, 1180px)`, with generous vertical sections (`88px` desktop, `56px` mobile). The page is long by design; sections are numbered 01–09 and separated by a hairline section head. The narrative order is education → work → campus → projects, so a reader meets the academic foundation before the professional timeline.
+A single centered column, `min(100% - 48px, 1180px)`, with generous vertical sections (`88px` desktop, `56px` mobile). The page is long by design; sections are numbered 01–09 and separated by a hairline section head. The narrative order is education → work → projects → campus, so a reader meets the academic foundation and professional work before the campus chapter.
 
 ### Grid Mechanics
 
@@ -189,8 +189,8 @@ A single centered column, `min(100% - 48px, 1180px)`, with generous vertical sec
 - **About:** statement + bio on the left, a 2×2 stat card on the right; stats are separated by 1px hairlines, not gaps.
 - **Education:** one white card with rows separated by hairlines; language tags sit underneath.
 - **Experience:** vertical stack of accordion cards. Each head is a full-width button; closed state shows role, org, dates, tags.
-- **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (detail list + four-cell stat strip).
 - **Projects:** a two-column grid of equal cards; each card ends with a three-metric hairline row and a tag footer.
+- **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (detail list + four-cell stat strip). It follows the project grid as a quieter closing chapter.
 - **Skills:** one rounded panel with three hairline-divided columns of category chips, plus a full-width AI-workflow footer row. This deliberately keeps the earlier chip-board layout instead of the long list treatment.
 - **Portfolio:** filter pills above a tablist; the active tab controls one large two-column panel (cover left, copy right). Tabs wrap to two rows on mobile instead of scrolling.
 - **Life:** a narrow left rail with the full-body mascot and vertical filters, plus a centered stacked deck of six 3:4 cards.
@@ -255,7 +255,7 @@ Depth is soft and minimal, never skeuomorphic.
 
 - **Header:** fixed, 72px tall, transparent at the top; after 8px of scroll it gains a translucent canvas background, blur, and a hairline bottom border.
 - **Brand:** serif 廖楠 over a small tracked LIAO NAN.
-- **Links:** eight text links in page order (关于 / 教育 / 经历 / 校园 / 项目 / 技能 / 作品集 / 生活), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`.
+- **Links:** eight text links in page order (关于 / 教育 / 经历 / 项目 / 校园 / 技能 / 作品集 / 生活), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`.
 - **Right side:** availability status text, a dark pill "联系我", and a circular menu button below 1080px.
 - **Mobile menu:** full-screen canvas overlay with large serif links, staggered entrance, and a close button; background content is `inert`.
 
