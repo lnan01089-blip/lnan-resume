@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" role="img" aria-label="廖楠个人 IP 形象：手持平板的项目型人类">
+  <!-- 身体：浅色风衣 -->
+  <path d="M132 520 L128 300 Q128 270 158 258 L242 258 Q272 270 272 300 L268 520 Z" fill="#E4E4E7"/>
+  <!-- 风衣翻领 -->
+  <path d="M158 258 L200 330 L242 258 Q200 248 158 258 Z" fill="#18181B"/>
+  <!-- 内搭 -->
+  <path d="M178 262 L200 330 L222 262 Q200 256 178 262 Z" fill="#3F3F46"/>
+  <!-- 腰带 + 中性点缀 -->
+  <rect x="128" y="350" width="144" height="14" rx="7" fill="#B8B8BD"/>
+  <rect x="190" y="346" width="20" height="22" rx="4" fill="#D4D4D8"/>
+
+  <!-- 双腿 -->
+  <rect x="150" y="500" width="34" height="20" rx="6" fill="#18181B"/>
+  <rect x="216" y="500" width="34" height="20" rx="6" fill="#18181B"/>
+
+  <!-- 左手臂 + 手持平板 -->
+  <path d="M132 300 Q108 350 132 392 L150 380 Q134 348 150 312 Z" fill="#E4E4E7"/>
+  <!-- 平板 -->
+  <g transform="rotate(-8 196 392)">
+    <rect x="150" y="356" width="92" height="64" rx="9" fill="#18181B"/>
+    <rect x="158" y="364" width="76" height="48" rx="5" fill="#D4D4D8"/>
+    <rect x="165" y="373" width="40" height="6" rx="3" fill="#18181B" opacity="0.55"/>
+    <rect x="165" y="385" width="54" height="6" rx="3" fill="#18181B" opacity="0.4"/>
+    <rect x="165" y="397" width="30" height="6" rx="3" fill="#18181B" opacity="0.3"/>
+  </g>
+  <!-- 右手臂 -->
+  <path d="M272 300 Q296 340 280 386 L262 378 Q276 346 258 312 Z" fill="#E4E4E7"/>
+
+  <!-- 脖子 -->
+  <rect x="186" y="226" width="28" height="34" rx="10" fill="#EDEDED"/>
+  <!-- 头部 -->
+  <circle cx="200" cy="190" r="48" fill="#F1F1F2"/>
+  <!-- 短发 -->
+  <path d="M152 188 Q150 138 200 134 Q250 138 248 188 Q244 168 224 162 Q210 156 200 158 Q190 156 176 162 Q156 168 152 188 Z" fill="#3F3F46"/>
+  <!-- 耳朵 -->
+  <circle cx="152" cy="194" r="8" fill="#EDEDED"/>
+  <circle cx="248" cy="194" r="8" fill="#EDEDED"/>
+
+  <!-- 眼睛（可眨眼） -->
+  <ellipse class="ip-eye" cx="182" cy="192" rx="5" ry="7" fill="#3F3F46"/>
+  <ellipse class="ip-eye" cx="218" cy="192" rx="5" ry="7" fill="#3F3F46"/>
+  <!-- 腮红暖色 -->
+  <circle cx="172" cy="208" r="7" fill="#EFEFF1" opacity="0.5"/>
+  <circle cx="228" cy="208" r="7" fill="#EFEFF1" opacity="0.5"/>
+  <!-- 微笑 -->
+  <path d="M186 210 Q200 222 214 210" stroke="#3F3F46" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- 头顶小绿植点缀 -->
+  <g transform="translate(244 142)">
+    <rect x="-2" y="0" width="14" height="14" rx="3" fill="#B8B8BD"/>
+    <path d="M5 0 Q-4 -14 8 -18 Q6 -6 5 0 Z" fill="#D4D4D8"/>
+    <path d="M5 0 Q14 -12 2 -18 Q6 -6 5 0 Z" fill="#A1A1AA"/>
+  </g>
+</svg>

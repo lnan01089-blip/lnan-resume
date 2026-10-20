@@ -1,0 +1,13 @@
+# 本地检查 / 截图输出
+.check/
+
+# 内部工具与记忆
+.workbuddy/
+
+# Stitch 原始模板（含外部 CDN 与占位内容，不发布）
+code.html
+screen.png
+
+# 本地草稿与需求文档（不发布）
+resume.txt
+主页需求文档.md
