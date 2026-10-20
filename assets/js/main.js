@@ -147,6 +147,7 @@
 
   /* ---------- Project galleries ---------- */
   const PROJECT_MAX_IMAGES = 8;
+  const NOTE_MAX_LENGTH = 80;
   const GALLERY_STORAGE_PREFIX = 'nresume:gallery:';
   const PROJECT_GALLERIES = {
     stashly: {
@@ -200,13 +201,31 @@
     });
   });
 
+  function cleanNote(value) {
+    return typeof value === 'string'
+      ? value.replace(/\s+/g, ' ').trim().slice(0, NOTE_MAX_LENGTH)
+      : '';
+  }
+
   function readStoredGallery(key) {
     try {
       const raw = localStorage.getItem(GALLERY_STORAGE_PREFIX + key);
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (!Array.isArray(parsed)) return null;
-      return parsed.filter((src) => typeof src === 'string' && src);
+      return parsed.map((entry) => {
+        if (typeof entry === 'string' && entry) {
+          return { src: entry, alt: '', caption: '', legacy: true };
+        }
+        if (!entry || typeof entry !== 'object' || typeof entry.src !== 'string' || !entry.src) {
+          return null;
+        }
+        return {
+          src: entry.src,
+          alt: typeof entry.alt === 'string' ? entry.alt : '',
+          caption: cleanNote(entry.caption || entry.note || '')
+        };
+      }).filter(Boolean);
     } catch (error) {
       return null;
     }
@@ -214,7 +233,11 @@
 
   function saveStoredGallery(key, images) {
     try {
-      localStorage.setItem(GALLERY_STORAGE_PREFIX + key, JSON.stringify(images.map((image) => image.src)));
+      localStorage.setItem(GALLERY_STORAGE_PREFIX + key, JSON.stringify(images.map((image) => ({
+        src: image.src,
+        alt: image.alt || '',
+        caption: cleanNote(image.caption)
+      }))));
       return true;
     } catch (error) {
       return false;
@@ -226,12 +249,17 @@
     catch (error) { /* storage can be unavailable; preview still works */ }
   }
 
-  function storedGalleryImages(project, sources) {
-    return sources.slice(0, PROJECT_MAX_IMAGES).map((src, index) => ({
-      src,
-      alt: `${project.title} 项目图片 ${index + 1}`,
-      caption: ''
-    }));
+  function storedGalleryImages(project, stored) {
+    return stored.slice(0, PROJECT_MAX_IMAGES).map((image, index) => {
+      const fallback = image.legacy
+        ? project.defaults.find((item) => item.src === image.src)
+        : null;
+      return {
+        src: image.src,
+        alt: image.alt || (fallback && fallback.alt) || `${project.title} 项目图片 ${index + 1}`,
+        caption: cleanNote(image.caption || (fallback && fallback.caption))
+      };
+    });
   }
 
   function updateProjectGalleryUI(project) {
@@ -264,6 +292,389 @@
   }
 
   hydrateProjectStates();
+
+  /* ---------- Project text editing (local preview) ---------- */
+  const PROJECT_TEXT_STORAGE_PREFIX = 'nresume:project-text:';
+  const projectTextCards = new Map();
+  const projectTextSaveTimers = new Map();
+  const projectGrid = $('.project-grid');
+  const projectSection = $('#projects');
+  const projectTextEditBtn = $('#projectTextEdit');
+  const projectTextBar = $('#projectEditBar');
+  const projectTextResetBtn = $('#projectTextReset');
+  const projectTextOpenBtn = $('#projectTextOpen');
+  let projectTextEditing = false;
+
+  function projectFieldLimit(field) {
+    if (field === 'desc') return 400;
+    if (field === 'title') return 80;
+    if (field === 'result') return 100;
+    if (field === 'type') return 60;
+    if (field.endsWith('-suffix')) return 6;
+    if (field.endsWith('-num')) return 14;
+    if (field.startsWith('metric-')) return 24;
+    if (field.startsWith('tag-')) return 24;
+    return 80;
+  }
+
+  function projectFieldLabel(field) {
+    if (field === 'type') return '项目类型';
+    if (field === 'title') return '项目名称';
+    if (field === 'desc') return '项目描述';
+    if (field === 'result') return '项目成果';
+    if (field.endsWith('-num')) return '项目数据';
+    if (field.endsWith('-suffix')) return '数据单位';
+    if (field.startsWith('metric-')) return '数据说明';
+    if (field.startsWith('tag-')) return '项目标签';
+    return '项目文字';
+  }
+
+  function cleanProjectText(value, max) {
+    return typeof value === 'string'
+      ? value.replace(/\s+/g, ' ').trim().slice(0, max)
+      : '';
+  }
+
+  function readStoredProjectText(key) {
+    try {
+      const raw = localStorage.getItem(PROJECT_TEXT_STORAGE_PREFIX + key);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+      const values = {};
+      Object.entries(parsed).forEach(([field, value]) => {
+        if (typeof value === 'string') values[field] = value;
+      });
+      return values;
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function saveStoredProjectText(project) {
+    const values = {};
+    project.fields.forEach((field, key) => {
+      if (project.textOverrides[key]) values[key] = project.textOverrides[key];
+    });
+    try {
+      if (Object.keys(values).length) {
+        localStorage.setItem(PROJECT_TEXT_STORAGE_PREFIX + project.key, JSON.stringify(values));
+      } else {
+        localStorage.removeItem(PROJECT_TEXT_STORAGE_PREFIX + project.key);
+      }
+      project.textCustom = Object.keys(values).length > 0;
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function removeStoredProjectText(key) {
+    try { localStorage.removeItem(PROJECT_TEXT_STORAGE_PREFIX + key); }
+    catch (error) { /* storage can be unavailable; editing still works */ }
+  }
+
+  function cancelProjectTextSave(project) {
+    const timer = projectTextSaveTimers.get(project.key);
+    if (timer) window.clearTimeout(timer);
+    projectTextSaveTimers.delete(project.key);
+  }
+
+  function scheduleProjectTextSave(project) {
+    cancelProjectTextSave(project);
+    const timer = window.setTimeout(() => {
+      projectTextSaveTimers.delete(project.key);
+      if (!saveStoredProjectText(project)) {
+        showToast('文字已修改，但浏览器存储空间不足，刷新后可能丢失');
+      }
+    }, 400);
+    projectTextSaveTimers.set(project.key, timer);
+  }
+
+  function flushProjectTextSave(project) {
+    cancelProjectTextSave(project);
+    if (!saveStoredProjectText(project)) {
+      showToast('文字已修改，但浏览器存储空间不足，刷新后可能丢失');
+    }
+  }
+
+  function flushAllProjectTextSaves() {
+    projectTextCards.forEach((project) => flushProjectTextSave(project));
+  }
+
+  function syncProjectManagerLabels(project) {
+    if (!project.managerEl || !project.managerEl.isConnected) return;
+    const label = $('.img-gallery__label', project.managerEl);
+    if (label) label.textContent = project.label;
+    const reset = $('[data-gallery-reset]', project.managerEl);
+    if (reset) reset.setAttribute('aria-label', `恢复「${project.label}」的默认图片`);
+    $$('[data-gallery-replace]', project.managerEl).forEach((button) => {
+      button.setAttribute('aria-label', `替换「${project.label}」的第 ${Number(button.dataset.index) + 1} 张图片`);
+    });
+    $$('[data-gallery-remove]', project.managerEl).forEach((button) => {
+      button.setAttribute('aria-label', `移除「${project.label}」的第 ${Number(button.dataset.index) + 1} 张图片`);
+    });
+    const add = $('[data-gallery-add]', project.managerEl);
+    if (add) add.setAttribute('aria-label', `向「${project.label}」添加图片`);
+  }
+
+  function syncProjectTextState(project) {
+    const title = cleanProjectText(project.textOverrides.title, projectFieldLimit('title'))
+      || project.defaultTitle;
+    const type = cleanProjectText(project.textOverrides.type, projectFieldLimit('type'));
+    const desc = cleanProjectText(project.textOverrides.desc, projectFieldLimit('desc'));
+
+    project.title = title;
+    project.label = title || project.defaultLabel;
+    project.type = type ? `项目图片 · ${type}` : project.defaultType;
+    project.desc = desc || project.defaultDesc;
+
+    updateProjectGalleryUI(project);
+    syncProjectManagerLabels(project);
+  }
+
+  function applyProjectTextFieldValues(project) {
+    project.fields.forEach((field, key) => {
+      field.textContent = project.textOverrides[key] || project.textDefaults[key] || '';
+    });
+  }
+
+  function projectFromField(field) {
+    const card = field.closest('[data-project-card]');
+    return card ? projectStates.get(card.getAttribute('data-project-card')) : null;
+  }
+
+  function refreshProjectFieldAria(project) {
+    project.fields.forEach((item, itemKey) => {
+      if (item.getAttribute('aria-label')) {
+        item.setAttribute('aria-label', `编辑${projectFieldLabel(itemKey)}：${project.label}`);
+      }
+    });
+  }
+
+  function updateProjectTextOverride(project, field, value, commit) {
+    const key = field.getAttribute('data-project-field');
+    const limit = projectFieldLimit(key);
+    const next = cleanProjectText(value, limit);
+    if (next && next !== project.textDefaults[key]) project.textOverrides[key] = next;
+    else delete project.textOverrides[key];
+
+    if (commit) {
+      const display = project.textOverrides[key] || project.textDefaults[key] || '';
+      if (field.textContent !== display) field.textContent = display;
+      flushProjectTextSave(project);
+      syncProjectTextState(project);
+      refreshProjectFieldAria(project);
+    } else {
+      scheduleProjectTextSave(project);
+    }
+  }
+
+  function commitProjectField(field) {
+    if (!field || !field.matches || !field.matches('[data-project-field]')) return;
+    const project = projectFromField(field);
+    if (project) updateProjectTextOverride(project, field, field.textContent, true);
+  }
+
+  function insertPlainTextAtCaret(field, text) {
+    const selection = window.getSelection();
+    if (!selection || !selection.rangeCount) {
+      field.textContent += text;
+      return;
+    }
+    const range = selection.getRangeAt(0);
+    if (!field.contains(range.commonAncestorContainer)) {
+      field.textContent += text;
+      return;
+    }
+    range.deleteContents();
+    const node = document.createTextNode(text);
+    range.insertNode(node);
+    range.setStartAfter(node);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  function setProjectEditing(on) {
+    if (!projectGrid || !projectTextEditBtn || on === projectTextEditing) return;
+
+    if (!on) commitProjectField(document.activeElement);
+
+    projectTextEditing = on;
+    projectGrid.classList.toggle('is-text-editing', on);
+    projectTextEditBtn.setAttribute('aria-pressed', String(on));
+    projectTextEditBtn.textContent = on ? '完成编辑' : '编辑文字';
+    if (projectTextBar) projectTextBar.hidden = !on;
+
+    projectTextCards.forEach((project) => {
+      project.fields.forEach((field, key) => {
+        if (on) {
+          field.setAttribute('contenteditable', 'true');
+          field.setAttribute('spellcheck', 'false');
+          field.setAttribute('role', 'textbox');
+          field.setAttribute('aria-label', `编辑${projectFieldLabel(key)}：${project.label}`);
+        } else {
+          field.removeAttribute('contenteditable');
+          field.removeAttribute('spellcheck');
+          field.removeAttribute('role');
+          field.removeAttribute('aria-label');
+        }
+      });
+      if (!on) {
+        applyProjectTextFieldValues(project);
+        flushProjectTextSave(project);
+        syncProjectTextState(project);
+      }
+    });
+
+    showToast(on ? '已进入项目文字编辑，修改会自动保存' : '项目文字已保存');
+  }
+
+  $$('[data-project-card]').forEach((card) => {
+    const project = projectStates.get(card.getAttribute('data-project-card'));
+    if (!project) return;
+    const fields = new Map();
+    $$('[data-project-field]', card).forEach((field) => {
+      const key = field.getAttribute('data-project-field');
+      if (key && !fields.has(key)) fields.set(key, field);
+    });
+    project.card = card;
+    project.fields = fields;
+    project.defaultType = project.type;
+    project.defaultTitle = project.title;
+    project.defaultDesc = project.desc;
+    project.defaultLabel = project.label;
+    project.textDefaults = {};
+    fields.forEach((field, key) => {
+      project.textDefaults[key] = cleanProjectText(field.textContent, projectFieldLimit(key));
+    });
+    projectTextCards.set(project.key, project);
+  });
+
+  projectTextCards.forEach((project) => {
+    const stored = readStoredProjectText(project.key);
+    const overrides = {};
+    Object.entries(stored).forEach(([key, value]) => {
+      if (!project.fields.has(key)) return;
+      const cleaned = cleanProjectText(value, projectFieldLimit(key));
+      if (cleaned && cleaned !== project.textDefaults[key]) overrides[key] = cleaned;
+    });
+    project.textOverrides = overrides;
+    applyProjectTextFieldValues(project);
+    syncProjectTextState(project);
+  });
+
+  if (projectGrid) {
+    projectGrid.addEventListener('input', (event) => {
+      if (!projectTextEditing) return;
+      const field = event.target && event.target.closest
+        ? event.target.closest('[data-project-field]')
+        : null;
+      if (!field) return;
+      const project = projectFromField(field);
+      if (project) {
+        updateProjectTextOverride(project, field, field.textContent, false);
+        syncProjectTextState(project);
+        refreshProjectFieldAria(project);
+      }
+    });
+
+    projectGrid.addEventListener('focusout', (event) => {
+      if (!projectTextEditing) return;
+      const field = event.target && event.target.closest
+        ? event.target.closest('[data-project-field]')
+        : null;
+      if (!field) return;
+      commitProjectField(field);
+    });
+
+    projectGrid.addEventListener('keydown', (event) => {
+      if (!projectTextEditing) return;
+      const field = event.target && event.target.closest
+        ? event.target.closest('[data-project-field]')
+        : null;
+      if (!field) return;
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        commitProjectField(field);
+        field.blur();
+      }
+      if (event.key === 'Tab') commitProjectField(field);
+    });
+
+    projectGrid.addEventListener('beforeinput', (event) => {
+      if (!projectTextEditing) return;
+      const field = event.target && event.target.closest
+        ? event.target.closest('[data-project-field]')
+        : null;
+      if (!field) return;
+      if (event.inputType === 'insertParagraph' || event.inputType === 'insertLineBreak') {
+        event.preventDefault();
+        commitProjectField(field);
+        field.blur();
+      }
+    });
+
+    projectGrid.addEventListener('paste', (event) => {
+      if (!projectTextEditing) return;
+      const field = event.target && event.target.closest
+        ? event.target.closest('[data-project-field]')
+        : null;
+      if (!field) return;
+      event.preventDefault();
+      const text = ((event.clipboardData && event.clipboardData.getData('text/plain')) || '')
+        .replace(/\s+/g, ' ')
+        .slice(0, projectFieldLimit(field.getAttribute('data-project-field')));
+      if (!text) return;
+      insertPlainTextAtCaret(field, text);
+      const project = projectFromField(field);
+      if (project) {
+        updateProjectTextOverride(project, field, field.textContent, false);
+        syncProjectTextState(project);
+        refreshProjectFieldAria(project);
+      }
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      if (!projectTextEditing) return;
+      const active = document.activeElement;
+      if (!active || !active.matches || !active.matches('[data-project-field]')) return;
+      if (active === event.target || active.contains(event.target)) return;
+      commitProjectField(active);
+    }, true);
+  }
+
+  if (projectTextEditBtn) {
+    projectTextEditBtn.hidden = false;
+    projectTextEditBtn.addEventListener('click', () => setProjectEditing(!projectTextEditing));
+  }
+
+  if (projectTextOpenBtn) {
+    projectTextOpenBtn.hidden = false;
+    projectTextOpenBtn.addEventListener('click', () => {
+      if (!projectTextEditing) setProjectEditing(true);
+      if (projectSection) {
+        projectSection.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      }
+      if (projectTextEditBtn) projectTextEditBtn.focus({ preventScroll: true });
+    });
+  }
+
+  if (projectTextResetBtn) {
+    projectTextResetBtn.addEventListener('click', () => {
+      projectTextCards.forEach((project) => {
+        cancelProjectTextSave(project);
+        project.textOverrides = {};
+        applyProjectTextFieldValues(project);
+        removeStoredProjectText(project.key);
+        syncProjectTextState(project);
+      });
+      showToast('已恢复默认项目文字');
+    });
+  }
+
+  window.addEventListener('beforeunload', flushAllProjectTextSaves);
 
   /* ---------- Overlay state (menu / lightbox) ---------- */
   const siteHeader = $('#siteHeader');
@@ -410,7 +821,8 @@
       button.type = 'button';
       button.className = 'lightbox__thumb';
       button.dataset.lightboxThumb = String(index);
-      button.setAttribute('aria-label', `查看第 ${index + 1} 张图片${image.caption ? '：' + image.caption : ''}`);
+      const note = cleanNote(image.caption);
+      button.setAttribute('aria-label', `查看第 ${index + 1} 张图片${note ? '：' + note : ''}`);
       const thumb = document.createElement('img');
       thumb.src = image.src;
       thumb.alt = '';
@@ -470,13 +882,14 @@
     if (lightboxIndexEl) lightboxIndexEl.textContent = String(lightboxIndex + 1);
     if (lightboxTotalEl) lightboxTotalEl.textContent = String(lightboxGallery.length);
 
+    const note = cleanNote(image.caption);
     if (lightboxCaption) {
-      lightboxCaption.textContent = image.caption || '';
-      lightboxCaption.hidden = !image.caption;
+      lightboxCaption.textContent = note;
+      lightboxCaption.hidden = !note;
     }
     if (lightboxStatus) {
       lightboxStatus.textContent = isGallery
-        ? `第 ${lightboxIndex + 1} 张，共 ${lightboxGallery.length} 张${image.caption ? '：' + image.caption : ''}`
+        ? `第 ${lightboxIndex + 1} 张，共 ${lightboxGallery.length} 张${note ? '：' + note : ''}`
         : '';
     }
 
@@ -502,7 +915,7 @@
       : (data.img ? [{
         src: data.img,
         alt: data.alt || data.title || '',
-        caption: '',
+        caption: cleanNote(data.caption),
         width: data.width,
         height: data.height
       }] : []);
@@ -636,6 +1049,10 @@
       } else if (menuOpen) {
         event.preventDefault();
         closeMenu();
+      } else if (projectTextEditing) {
+        event.preventDefault();
+        setProjectEditing(false);
+        if (projectTextEditBtn) projectTextEditBtn.focus({ preventScroll: true });
       }
       return;
     }
@@ -677,6 +1094,7 @@
   const imageManagerResetAll = $('#imageManagerResetAll');
   const imageManagerOpenBtn = $('#imageManagerOpen');
   const IMAGE_STORAGE_PREFIX = 'nresume:image:';
+  const NOTE_STORAGE_PREFIX = 'nresume:note:';
   const IMAGE_SLOT_DEFS = [
     { key: 'avatar', group: '头像与 IP', label: '个人头像', spec: '1:1 · 建议 720 × 720' },
     { key: 'mascot-head', group: '头像与 IP', label: '圆形 IP 头像', spec: '透明背景 · 方形' },
@@ -686,7 +1104,7 @@
     { key: 'life-6', group: '生活切片', label: 'Build mode · 做产品', spec: '3:4 竖图' },
     { key: 'life-3', group: '生活切片', label: 'Night read · 夜读', spec: '3:4 竖图' },
     { key: 'life-5', group: '生活切片', label: 'Exhibition · 看展', spec: '3:4 竖图' },
-    { key: 'life-4', group: '生活切片', label: 'On the road · 出行', spec: '3:4 竖图' }
+    { key: 'life-4', group: '生活切片', label: 'On the road · 在路上', spec: '3:4 竖图' }
   ];
   const imageSlots = IMAGE_SLOT_DEFS.map((def) => {
     const img = $(`img[data-img-slot="${def.key}"]`);
@@ -699,10 +1117,12 @@
       originalSrc: img.getAttribute('src') || '',
       originalSrcset: img.getAttribute('srcset'),
       originalLightboxSrc: trigger ? trigger.getAttribute('data-img') : null,
-      custom: false
+      custom: false,
+      note: ''
     };
   }).filter(Boolean);
   const imageSlotMap = new Map(imageSlots.map((slot) => [slot.key, slot]));
+  const pendingNoteSaves = new Map();
   let fileRequest = null;
   let imageManagerLastFocus = null;
   let imageManagerFocusTimer = null;
@@ -726,10 +1146,72 @@
     catch (error) { /* storage can be unavailable; preview still works */ }
   }
 
+  function readStoredNote(key) {
+    try { return cleanNote(localStorage.getItem(NOTE_STORAGE_PREFIX + key)); }
+    catch (error) { return ''; }
+  }
+
+  function saveStoredNote(key, note) {
+    try {
+      const value = cleanNote(note);
+      if (value) localStorage.setItem(NOTE_STORAGE_PREFIX + key, value);
+      else localStorage.removeItem(NOTE_STORAGE_PREFIX + key);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function removeStoredNote(key) {
+    try { localStorage.removeItem(NOTE_STORAGE_PREFIX + key); }
+    catch (error) { /* storage can be unavailable; preview still works */ }
+  }
+
+  function scheduleNoteSave(key, callback) {
+    cancelNoteSave(key);
+    const timer = window.setTimeout(() => {
+      pendingNoteSaves.delete(key);
+      if (!callback()) showToast('备注已更新，但浏览器存储空间不足，刷新后可能丢失');
+    }, 450);
+    pendingNoteSaves.set(key, { timer, callback });
+  }
+
+  function flushNoteSave(key) {
+    const pending = pendingNoteSaves.get(key);
+    if (!pending) return;
+    window.clearTimeout(pending.timer);
+    pendingNoteSaves.delete(key);
+    if (!pending.callback()) showToast('备注已更新，但浏览器存储空间不足，刷新后可能丢失');
+  }
+
+  function cancelNoteSave(key) {
+    const pending = pendingNoteSaves.get(key);
+    if (!pending) return;
+    window.clearTimeout(pending.timer);
+    pendingNoteSaves.delete(key);
+  }
+
+  function flushAllNoteSaves() {
+    [...pendingNoteSaves.keys()].forEach(flushNoteSave);
+  }
+
+  function applySlotNote(slot) {
+    const note = cleanNote(slot.note);
+    if (slot.img) {
+      if (note) slot.img.title = note;
+      else slot.img.removeAttribute('title');
+    }
+    if (slot.trigger) {
+      if (note) slot.trigger.title = note;
+      else slot.trigger.removeAttribute('title');
+    }
+    if (slot.resetBtn) slot.resetBtn.hidden = !(slot.custom || note);
+  }
+
   function updateImageSlotUI(slot) {
     if (slot.thumbImg) slot.thumbImg.src = slot.img.src;
     if (slot.card) slot.card.classList.toggle('has-custom', slot.custom);
-    if (slot.resetBtn) slot.resetBtn.hidden = !slot.custom;
+    if (slot.resetBtn) slot.resetBtn.hidden = !(slot.custom || cleanNote(slot.note));
   }
 
   function applyImage(slot, dataUrl) {
@@ -784,7 +1266,18 @@
     reset.hidden = true;
     actions.append(choose, reset);
 
-    card.append(thumb, info, actions);
+    const noteLabel = document.createElement('label');
+    noteLabel.className = 'img-slot__note';
+    const noteInput = document.createElement('input');
+    noteInput.type = 'text';
+    noteInput.maxLength = NOTE_MAX_LENGTH;
+    noteInput.value = slot.note || '';
+    noteInput.placeholder = slot.group === '生活切片' ? '备注，会显示在弹窗中' : '添加图片备注…';
+    noteInput.dataset.slotNote = slot.key;
+    noteInput.setAttribute('aria-label', `${slot.label}的图片备注`);
+    noteLabel.appendChild(noteInput);
+
+    card.append(thumb, info, actions, noteLabel);
     slot.card = card;
     slot.thumbImg = thumbImg;
     slot.resetBtn = reset;
@@ -827,14 +1320,17 @@
       const item = document.createElement('figure');
       item.className = 'img-gallery__item';
 
+      const thumbWrap = document.createElement('div');
+      thumbWrap.className = 'img-gallery__thumb';
       const thumb = document.createElement('img');
       thumb.src = image.src;
       thumb.alt = '';
       thumb.loading = 'lazy';
       thumb.decoding = 'async';
 
-      const caption = document.createElement('figcaption');
-      caption.textContent = `图片 ${index + 1}`;
+      const indexBadge = document.createElement('span');
+      indexBadge.className = 'img-gallery__index';
+      indexBadge.textContent = `图片 ${index + 1}`;
 
       const actions = document.createElement('div');
       actions.className = 'img-gallery__actions';
@@ -855,8 +1351,21 @@
       remove.setAttribute('aria-label', `移除「${project.label}」的第 ${index + 1} 张图片`);
       if (remove.disabled) remove.title = '至少保留一张图片';
       actions.append(replace, remove);
+      thumbWrap.append(thumb, indexBadge, actions);
 
-      item.append(thumb, caption, actions);
+      const noteLabel = document.createElement('label');
+      noteLabel.className = 'img-gallery__note';
+      const noteInput = document.createElement('input');
+      noteInput.type = 'text';
+      noteInput.maxLength = NOTE_MAX_LENGTH;
+      noteInput.value = image.caption || '';
+      noteInput.placeholder = '备注，如：首页 / 数据看板';
+      noteInput.dataset.galleryNote = project.key;
+      noteInput.dataset.galleryIndex = String(index);
+      noteInput.setAttribute('aria-label', `第 ${index + 1} 张图片的备注`);
+      noteLabel.appendChild(noteInput);
+
+      item.append(thumbWrap, noteLabel);
       grid.appendChild(item);
     });
 
@@ -958,6 +1467,7 @@
 
   function closeImageManager(restoreFocus = true) {
     if (!imageManager || !imagePanelOpen) return;
+    flushAllNoteSaves();
     imagePanelOpen = false;
     clearTimeout(imageManagerFocusTimer);
     imageManager.classList.remove('is-open');
@@ -1044,19 +1554,32 @@
   function resetImageSlot(key) {
     const slot = imageSlotMap.get(key);
     if (!slot) return;
+    cancelNoteSave(`slot:${key}`);
     restoreImage(slot);
     removeStoredImage(key);
-    showToast(`已恢复「${slot.label}」的默认图片`);
+    removeStoredNote(key);
+    slot.note = '';
+    applySlotNote(slot);
+    updateImageSlotUI(slot);
+    const noteInput = imageManager ? $(`[data-slot-note="${key}"]`, imageManager) : null;
+    if (noteInput) noteInput.value = '';
+    window.requestAnimationFrame(() => {
+      const choose = imageManager ? $(`[data-slot-choose="${key}"]`, imageManager) : null;
+      if (choose) choose.focus({ preventScroll: true });
+    });
+    showToast(`已恢复「${slot.label}」的默认图片和备注`);
   }
 
   function resetProjectGallery(project) {
+    if (!project) return;
+    cancelNoteSave(`gallery:${project.key}`);
     project.images = project.defaults.map((image) => ({ ...image }));
     project.custom = false;
     removeStoredGallery(project.key);
     updateProjectGalleryUI(project);
     renderProjectGalleryManager(project);
     restoreProjectManagerFocus(project, 'add');
-    showToast(`已恢复「${project.label}」的默认图片`);
+    showToast(`已恢复「${project.label}」的默认图片和备注`);
   }
 
   function removeProjectImage(project, index) {
@@ -1109,12 +1632,53 @@
     return { added: additions.length, saved };
   }
 
+  function handleNoteEdit(input, commit) {
+    if (!input || typeof input.getAttribute !== 'function') return;
+    const slotKey = input.getAttribute('data-slot-note');
+    if (slotKey) {
+      const slot = imageSlotMap.get(slotKey);
+      if (!slot) return;
+      let value = input.value.slice(0, NOTE_MAX_LENGTH);
+      if (commit) {
+        value = cleanNote(value);
+        if (input.value !== value) input.value = value;
+      }
+      slot.note = value;
+      applySlotNote(slot);
+      if (commit) flushNoteSave(`slot:${slotKey}`);
+      else scheduleNoteSave(`slot:${slotKey}`, () => saveStoredNote(slotKey, slot.note));
+      return;
+    }
+
+    const projectKey = input.getAttribute('data-gallery-note');
+    if (!projectKey) return;
+    const project = projectStates.get(projectKey);
+    const index = Number(input.getAttribute('data-gallery-index'));
+    if (!project || !project.images[index]) return;
+    let value = input.value.slice(0, NOTE_MAX_LENGTH);
+    if (commit) {
+      value = cleanNote(value);
+      if (input.value !== value) input.value = value;
+    }
+    project.images[index].caption = value;
+    project.custom = true;
+    const reset = imageManager ? $(`[data-gallery-reset="${project.key}"]`, imageManager) : null;
+    if (reset) reset.hidden = false;
+    if (commit) flushNoteSave(`gallery:${project.key}`);
+    else scheduleNoteSave(`gallery:${project.key}`, () => saveStoredGallery(project.key, project.images));
+  }
+
+  imageSlots.forEach((slot) => {
+    slot.note = readStoredNote(slot.key);
+    applySlotNote(slot);
+  });
   buildImageManager();
   imageSlots.forEach((slot) => {
     const stored = readStoredImage(slot.key);
     if (stored) applyImage(slot, stored);
     else updateImageSlotUI(slot);
   });
+  window.addEventListener('beforeunload', flushAllNoteSaves);
 
   if (imageManagerOpenBtn) {
     imageManagerOpenBtn.hidden = false;
@@ -1172,19 +1736,32 @@
         resetProjectGallery(projectStates.get(galleryReset.dataset.galleryReset));
       }
     });
+
+    imageManagerBody.addEventListener('input', (event) => {
+      handleNoteEdit(event.target, false);
+    });
+    imageManagerBody.addEventListener('change', (event) => {
+      handleNoteEdit(event.target, true);
+    });
   }
 
   if (imageManagerResetAll) {
     imageManagerResetAll.addEventListener('click', () => {
       let changed = false;
       imageSlots.forEach((slot) => {
-        if (slot.custom) {
-          restoreImage(slot);
-          changed = true;
-        }
+        cancelNoteSave(`slot:${slot.key}`);
+        if (slot.custom || cleanNote(slot.note)) changed = true;
+        restoreImage(slot);
+        slot.note = '';
+        applySlotNote(slot);
+        updateImageSlotUI(slot);
         removeStoredImage(slot.key);
+        removeStoredNote(slot.key);
+        const noteInput = imageManager ? $(`[data-slot-note="${slot.key}"]`, imageManager) : null;
+        if (noteInput) noteInput.value = '';
       });
       projectStates.forEach((project) => {
+        cancelNoteSave(`gallery:${project.key}`);
         if (project.custom) changed = true;
         project.images = project.defaults.map((image) => ({ ...image }));
         project.custom = false;
@@ -1192,7 +1769,7 @@
         updateProjectGalleryUI(project);
         renderProjectGalleryManager(project);
       });
-      showToast(changed ? '已恢复全部默认图片' : '当前已经是默认图片');
+      showToast(changed ? '已恢复全部默认图片和备注' : '当前已经是默认图片和备注');
     });
   }
 
@@ -1325,27 +1902,18 @@
   /* ---------- Life deck ---------- */
   const deck = $('#lifeDeck');
   const deckCards = $$('.deck-card');
-  const lifeFilters = $$('.life-filter');
   const lifeStatus = $('#lifeStatus');
-  let lifeFilter = 'all';
   let deckOrder = deckCards.slice();
   const MAX_VISIBLE_DEPTH = 4;
 
   function visibleDeckCards() {
-    return deckOrder.filter((card) => lifeFilter === 'all' || card.dataset.cat === lifeFilter);
+    return deckOrder;
   }
 
   function renderDeck() {
     const visible = visibleDeckCards();
 
     deckCards.forEach((card) => {
-      if (!visible.includes(card)) {
-        card.hidden = true;
-        card.classList.remove('is-top');
-        card.classList.add('is-out');
-        card.style.setProperty('--i', MAX_VISIBLE_DEPTH);
-        return;
-      }
       card.hidden = false;
       card.classList.remove('is-top');
     });
@@ -1368,28 +1936,19 @@
     renderDeck();
   }
 
-  lifeFilters.forEach((button) => {
-    button.addEventListener('click', () => {
-      lifeFilter = button.dataset.lifeFilter || 'all';
-      lifeFilters.forEach((item) => {
-        const active = item === button;
-        item.classList.toggle('is-active', active);
-        item.setAttribute('aria-pressed', String(active));
-      });
-      renderDeck();
-    });
-  });
-
   deckCards.forEach((card) => {
     card.addEventListener('click', () => {
       const visible = visibleDeckCards();
       if (visible[0] === card) {
+        const cardImage = card.querySelector('img');
+        const slot = cardImage ? imageSlotMap.get(cardImage.getAttribute('data-img-slot')) : null;
         openLightbox({
           img: card.dataset.img,
-          alt: card.querySelector('img') ? card.querySelector('img').alt : card.dataset.title,
+          alt: cardImage ? cardImage.alt : card.dataset.title,
           title: card.dataset.title,
           type: card.dataset.type,
-          desc: card.dataset.desc
+          desc: card.dataset.desc,
+          caption: slot ? slot.note : ''
         }, card);
       } else {
         bringToFront(card);

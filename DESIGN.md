@@ -15,7 +15,7 @@ colors:
 typography:
   display-xl:
     fontFamily: Noto Serif SC
-    fontSize: 5.4rem
+    fontSize: 4.4rem
     fontWeight: '500'
     lineHeight: '0.98'
     letterSpacing: -0.035em
@@ -156,7 +156,7 @@ Two families, strictly separated by role.
 
 Used for everything that should feel authored:
 
-- Hero masthead (`clamp(3rem, 6.2vw, 5.4rem)`, line-height .98), with 廖楠 · LIAO NAN as the tracked subtitle
+- Hero masthead (`clamp(2.6rem, 5.2vw, 4.4rem)` desktop, `clamp(1.72rem, 7vw, 2.05rem)` mobile, line-height .98), with 廖楠 · LIAO NAN as the tracked subtitle
 - Hero claim, about statement, section question
 - Section titles and project titles
 - Big stat numbers
@@ -188,14 +188,14 @@ A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sect
 
 ### Grid Mechanics
 
-- **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Collapses to a single column below 900px with the portrait after the copy.
+- **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Below 900px the copy becomes a single column and the portrait moves to the top-right corner as a 76–112px avatar, with the masthead width capped so the two never overlap.
 - **About:** statement + bio on the left, a 2×2 stat card on the right; stats are separated by 1px hairlines, not gaps.
 - **Education:** one white card with rows separated by hairlines; language tags sit underneath.
 - **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
 - **Projects:** a three-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes two columns at 1180px (last card spans) and one column at 900px.
-- **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (detail list + four-cell stat strip). It follows the project grid as a quieter closing chapter.
-- **Skills:** one rounded panel with three hairline-divided columns of category chips, plus a full-width AI-workflow footer row. This deliberately keeps the earlier chip-board layout instead of the long list treatment.
-- **Life:** a narrow left rail with the full-body mascot and vertical filters, plus a centered stacked deck of six 3:4 cards.
+- **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (four-cell stat strip first, then the two-row detail list). It follows the project grid as a quieter closing chapter.
+- **Skills:** one rounded panel with two hairline-divided columns of category chips (one column on mobile), plus a full-width AI-workflow footer row. The "研究与分析" group has been removed.
+- **Life:** a narrow left rail with only the full-body mascot, plus a centered stacked deck of six 3:4 cards. There are no category filters.
 - **Contact:** one full-width black card, two columns on desktop (copy + actions | contact rows).
 - **Footer:** black, flush with the contact card's visual block, ending the page.
 
@@ -240,7 +240,7 @@ Depth is soft and minimal, never skeuomorphic.
 ### Pills, Tags & Badges
 
 - **Tag:** 28px min-height, 1px `--line`, translucent white fill, 12px text, ink-secondary.
-- **Filter pill:** 34px height, 1px `--line-strong`; active state is a solid ink pill with white text.
+- **Editing outline:** project text fields that can be edited get a 1px dashed `--line-strong` outline with 3px offset; the focused field switches to a 2px solid ink outline and a white fill.
 - **Badge:** 28px pill, 11.5px text. Variants: default outlined, `--dark` (ink fill), `--soft` (canvas fill, tertiary text).
 - **Availability badge:** white pill with a 5–6px ink dot and uppercase tracked label; floats over the avatar ring.
 
@@ -249,9 +249,18 @@ Depth is soft and minimal, never skeuomorphic.
 - **Static card:** white, 1px line, 18–24px radius, soft shadow. No hover movement.
 - **Accordion card:** head is a button with role/org/dates on the left, tags and a circular +/− toggle on the right. Open state lifts the border to `--line-strong` and reveals a panel separated by a hairline.
 - **Project card:** type/title block with a top-right gallery trigger, description, a three-metric hairline row, and a tag footer. Three cards sit as equal columns on desktop; the trigger shows the latest cover, an image count badge, and a small "项目图片 ↗" cue.
-- **Campus card:** a two-column feature card. The left aside carries dates, a serif role, organization, badge, and bottom-aligned tags; the right body carries a two-row detail list and a four-cell stat strip. Collapses to one column at 900px.
+- **Campus card:** a two-column feature card. The left aside carries dates, a serif role, organization, badge, and bottom-aligned tags; the right body opens with a four-cell stat strip, followed by the two-row detail list. Collapses to one column at 900px.
 - **Stat card:** 2×2 cells divided by hairlines; serif numerals with small sans labels.
 - **Contact card:** near-black, 24px radius, serif headline, two CTAs, then four contact rows separated by translucent hairlines.
+
+### Project Text Editing
+
+- The project section head carries an "编辑文字" pill next to the section dot; the footer repeats the entry so it is reachable after a long scroll. Both toggle the same mode and label themselves "完成编辑" while active.
+- Entering edit mode exposes every type, title, description, metric, result, and tag on the three project cards as `contenteditable` text boxes with `role="textbox"` and field-specific labels. Dashed outlines mark editable fields without changing the card frame.
+- A soft edit bar above the grid explains that changes save automatically and holds "恢复默认文字". Exiting edit mode removes the outlines and normalizes empty fields back to defaults.
+- Edits are stored per project in `localStorage` under `nresume:project-text:<project-key>`; only fields that differ from defaults are written. Project titles and descriptions also flow into the gallery trigger labels, lightbox, and image manager.
+- Enter finishes the current field; Esc leaves edit mode; pasted text is flattened to plain text; field lengths match the display limits (title 80, description 400, result 100, type 60, metrics/tags 24).
+- Any tap or click outside the active field commits immediately, so the behavior is the same on phones and desktop.
 
 ### Navigation
 
@@ -263,8 +272,8 @@ Depth is soft and minimal, never skeuomorphic.
 
 ### Life Deck
 
-- **Rail:** full-body mascot above vertical filter buttons (全部 / 日常 / 出行 / 灵感).
-- **Deck:** six 3:4 cards stacked with progressive offsets. The top card has a caption pill. Clicking a back card brings it to the front; clicking the top card opens the lightbox. Filters rebuild the stack and announce the count.
+- **Rail:** full-body mascot only; the former 全部 / 日常 / 出行 / 灵感 filters have been removed.
+- **Deck:** six 3:4 cards stacked with progressive offsets. The top card has a caption pill. Clicking a back card brings it to the front; clicking the top card opens the lightbox. All six cards stay in the stack at every breakpoint.
 - **Illustrations:** monochrome city, coffee, hiking, reading, etc., with one soft gray circle motif.
 
 ### Lightbox
@@ -272,23 +281,24 @@ Depth is soft and minimal, never skeuomorphic.
 - Full-screen ink scrim (`rgba(15,16,19,.64)`) with backdrop blur.
 - Two-column white panel: media left, type/title/description/caption right. The media area holds the current image, a counter pill, circular prev/next buttons, and a thumbnail strip for multi-image galleries.
 - Opens from project gallery triggers and life cards. Focus moves to close, Tab is trapped, Esc and backdrop click close, and focus returns to the trigger.
-- Multi-image galleries support thumbnail selection, `←` / `→` / `Home` / `End`, and horizontal pointer swipes on touch devices. The image fades/scales slightly when switching; `prefers-reduced-motion` disables it.
+- The caption under the image is the image's editable note. Multi-image galleries support thumbnail selection, `←` / `→` / `Home` / `End`, and horizontal pointer swipes on touch devices. The image fades/scales slightly when switching; `prefers-reduced-motion` disables it.
 
 ### Image Manager
 
 - Opened from a low-contrast "替换图片" link in the footer.
 - Modal dialog over the ink scrim: white 24px panel, fixed header and footer, scrollable body, close button and Esc.
-- Nine single-image slots grouped as 头像与 IP / 生活切片, each with a thumbnail, label, recommended ratio, "选择图片" pill, and a per-slot "恢复默认" link once replaced.
-- Three project gallery blocks grouped under 项目图片. Each block shows its current thumbnails with 替换 / 移除 overlays, an "添加图片" tile, a count line, and a gallery-level "恢复默认" link.
+- Nine single-image slots grouped as 头像与 IP / 生活切片, each with a thumbnail, label, recommended ratio, a note field, "选择图片" pill, and a per-slot "恢复默认" link once replaced or annotated.
+- Three project gallery blocks grouped under 项目图片. Each block shows its current thumbnails with 替换 / 移除 overlays, an editable note field under every image, an "添加图片" tile, a count line, and a gallery-level "恢复默认" link.
+- Notes are capped at 80 characters. Project and life-card notes appear below the image in the lightbox; avatar and IP notes act as image hover titles and stay available in the manager.
 - Project galleries accept up to eight images and always keep at least one; multiple files can be added at once.
-- The footer holds "全部恢复默认" and "完成".
-- Images are compressed in-browser to max 1200px and stored as data URLs in `localStorage` (`nresume:image:*` for single slots, `nresume:gallery:*` for project galleries); this is a local preview, not a server-side edit.
+- The footer holds "全部恢复默认" and "完成". Resetting an image or gallery also clears its notes.
+- Images are compressed in-browser to max 1200px and stored as data URLs in `localStorage` (`nresume:image:*` for single slots, `nresume:gallery:*` for project galleries). Project gallery values are image objects with `src`, `alt`, and `caption`; single-slot notes use `nresume:note:*`. This is a local preview, not a server-side edit.
 - Only raster formats are accepted (JPG / PNG / WebP / AVIF). SVG and GIF are rejected.
 
 ### Feedback
 
 - **Toast:** ink pill, white text, bottom center, auto-dismiss after 2.2s; used for image changes and "邮箱已复制".
-- **Live regions:** visually hidden status text for life filter results and lightbox image position.
+- **Live regions:** visually hidden status text for lightbox image position and project editing toasts.
 
 ## Motion
 
@@ -305,10 +315,11 @@ Depth is soft and minimal, never skeuomorphic.
 - Skip link to main content; visible 2px ink focus ring everywhere.
 - Landmarks: header, nav, main, sections with accessible names, footer.
 - Accordion buttons use `aria-expanded` / `aria-controls`; closed panels are `inert`.
-- Life filters use `aria-pressed`; results are announced via `aria-live`.
-- Project gallery triggers use `aria-haspopup="dialog"` and `aria-controls`. The lightbox supports thumbnail buttons with `aria-current`, labelled prev/next buttons, arrow/Home/End keys, pointer swipes, and an `aria-live` position announcement.
+- Life cards are real buttons with captions; the removed category filters no longer introduce a filter state.
+- Project gallery triggers use `aria-haspopup="dialog"` and `aria-controls`. The lightbox supports thumbnail buttons with `aria-current`, labelled prev/next buttons, arrow/Home/End keys, pointer swipes, and an `aria-live` position announcement. Image notes are exposed as the lightbox caption and in thumbnail `aria-label`s.
+- Project text editing uses `aria-pressed` on the section toggle and labels every editable field with its project and field name; exiting removes the editing affordances. Esc exits the mode and returns focus to the toggle.
 - Menu, lightbox, and image manager: `aria-hidden` + `inert` on the background, body scroll lock, Esc to close, Tab trap, focus return.
-- Image manager actions return focus to the corresponding gallery button after add / replace / remove / reset.
+- Image manager actions return focus to the corresponding gallery button after add / replace / remove / reset. Every note field has an explicit accessible label, and long notes are capped at 80 characters.
 - Images have explicit dimensions, `alt` text, and lazy loading below the fold.
 - The dark contact card and footer meet contrast for body text; tertiary ink is reserved for large or non-essential text.
 - No information is conveyed by color alone.
@@ -317,8 +328,9 @@ Depth is soft and minimal, never skeuomorphic.
 
 - Plain HTML/CSS/JS; no framework, no build step. All assets are local.
 - The image manager is a client-side preview: single-image and project-gallery replacements live in `localStorage` for the current browser. Permanent asset changes require replacing files in `assets/img` and redeploying.
+- Project text edits are a client-side preview too, stored under `nresume:project-text:<project-key>` with only changed fields; "恢复默认文字" removes those keys. Other visitors see the defaults in the HTML.
 - Design tokens live at the top of `assets/css/style.css`; components consume variables, not raw hex values.
-- Breakpoints: 1180px (project grid three → two columns, last card spans), 1080px (nav → menu), 900px (grids collapse to one column; hero stacks), 640px (mobile type scale, stacked CTAs, two-column manager galleries, 300px deck), 380px (small-phone trims).
+- Breakpoints: 1180px (project grid three → two columns, last card spans), 1080px (nav → menu), 900px (grids collapse to one column; hero copy becomes single-column with a top-right avatar), 640px (compact mobile masthead, stacked CTAs, two-column manager galleries, 300px deck), 380px (small-phone trims and a 76px avatar).
 - Container width is capped at 1180px with 24px side margins (16px on mobile).
 - All image assets are raster (JPG / PNG / WebP); the page does not reference SVG files.
 - The self-hosted Noto Serif SC subset and Inter files are preloaded in `index.html`; the OG cover is generated from the same tokens.

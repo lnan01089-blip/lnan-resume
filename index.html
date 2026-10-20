@@ -272,15 +272,23 @@
             <span class="section-head__num" aria-hidden="true">04</span>
             <h2 class="section-head__title" id="projects-title">项目经历</h2>
           </div>
-          <span class="section-head__dot" aria-hidden="true"></span>
+          <div class="section-head__actions">
+            <button class="section-edit" type="button" id="projectTextEdit" aria-pressed="false" aria-controls="projectEditBar" hidden>编辑文字</button>
+            <span class="section-head__dot" aria-hidden="true"></span>
+          </div>
         </header>
 
+        <div class="project-edit-bar" id="projectEditBar" hidden>
+          <p class="project-edit-bar__hint">点击卡片文字直接修改，修改会自动保存在当前浏览器。</p>
+          <button class="project-edit-bar__reset" type="button" id="projectTextReset">恢复默认文字</button>
+        </div>
+
         <div class="project-grid">
-          <article class="project-card reveal">
+          <article class="project-card reveal" data-project-card="stashly">
             <div class="project-card__top">
               <div>
-                <p class="project-card__type">产品 / AI Coding</p>
-                <h3 class="project-card__title">Stashly 书柜 App</h3>
+                <p class="project-card__type" data-project-field="type">产品 / AI Coding</p>
+                <h3 class="project-card__title" data-project-field="title">Stashly 书柜 App</h3>
               </div>
               <button class="project-gallery" type="button" data-project-gallery="stashly" aria-haspopup="dialog" aria-controls="lightbox" aria-label="查看 Stashly 书柜 App 的项目图片">
                 <span class="project-gallery__thumb">
@@ -290,23 +298,23 @@
                 <span class="project-gallery__hint">项目图片 <span aria-hidden="true">↗</span></span>
               </button>
             </div>
-            <p class="project-card__desc">围绕个人实体藏书管理场景，借助 AI 工具辅助开发的网页端产品。</p>
+            <p class="project-card__desc" data-project-field="desc">围绕个人实体藏书管理场景，借助 AI 工具辅助开发的网页端产品。</p>
             <div class="metric-row">
-              <div class="metric"><p class="metric__value"><span class="metric__num">1</span><span class="metric__suffix">个</span></p><p class="metric__label">网页端产品</p></div>
-              <div class="metric"><p class="metric__value"><span class="metric__num">4</span><span class="metric__suffix">项</span></p><p class="metric__label">核心功能</p></div>
-              <div class="metric"><p class="metric__value"><span class="metric__num metric__num--text">离线</span></p><p class="metric__label">数据访问</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-0-num">1</span><span class="metric__suffix" data-project-field="metric-0-suffix">个</span></p><p class="metric__label" data-project-field="metric-0-label">网页端产品</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-1-num">4</span><span class="metric__suffix" data-project-field="metric-1-suffix">项</span></p><p class="metric__label" data-project-field="metric-1-label">核心功能</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num metric__num--text" data-project-field="metric-2-num">离线</span></p><p class="metric__label" data-project-field="metric-2-label">数据访问</p></div>
             </div>
             <div class="project-card__foot">
-              <p class="project-card__result">完成网页端功能搭建</p>
-              <ul class="tag-row"><li class="tag">需求分析</li><li class="tag">功能设计</li><li class="tag">本地存储</li><li class="tag">Vibe Coding</li></ul>
+              <p class="project-card__result" data-project-field="result">完成网页端功能搭建</p>
+              <ul class="tag-row"><li class="tag" data-project-field="tag-0">需求分析</li><li class="tag" data-project-field="tag-1">功能设计</li><li class="tag" data-project-field="tag-2">本地存储</li><li class="tag" data-project-field="tag-3">Vibe Coding</li></ul>
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card reveal" data-project-card="research">
             <div class="project-card__top">
               <div>
-                <p class="project-card__type">研究 / 国家自然科学基金</p>
-                <h3 class="project-card__title">既有建筑绿色改造研究</h3>
+                <p class="project-card__type" data-project-field="type">研究 / 国家自然科学基金</p>
+                <h3 class="project-card__title" data-project-field="title">既有建筑绿色改造研究</h3>
               </div>
               <button class="project-gallery" type="button" data-project-gallery="research" aria-haspopup="dialog" aria-controls="lightbox" aria-label="查看既有建筑绿色改造研究的项目图片">
                 <span class="project-gallery__thumb">
@@ -316,23 +324,23 @@
                 <span class="project-gallery__hint">项目图片 <span aria-hidden="true">↗</span></span>
               </button>
             </div>
-            <p class="project-card__desc">市场治理视角下既有建筑绿色改造多主体动力演化与耦合机理。</p>
+            <p class="project-card__desc" data-project-field="desc">市场治理视角下既有建筑绿色改造多主体动力演化与耦合机理。</p>
             <div class="metric-row">
-              <div class="metric"><p class="metric__value"><span class="metric__num">2</span><span class="metric__suffix">篇</span></p><p class="metric__label">一作核心论文</p></div>
-              <div class="metric"><p class="metric__value"><span class="metric__num">3</span><span class="metric__suffix">部</span></p><p class="metric__label">参与著作</p></div>
-              <div class="metric"><p class="metric__value"><span class="metric__num">1</span><span class="metric__suffix">项</span></p><p class="metric__label">国自然基金</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-0-num">2</span><span class="metric__suffix" data-project-field="metric-0-suffix">篇</span></p><p class="metric__label" data-project-field="metric-0-label">一作核心论文</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-1-num">3</span><span class="metric__suffix" data-project-field="metric-1-suffix">部</span></p><p class="metric__label" data-project-field="metric-1-label">参与著作</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-2-num">1</span><span class="metric__suffix" data-project-field="metric-2-suffix">项</span></p><p class="metric__label" data-project-field="metric-2-label">国自然基金</p></div>
             </div>
             <div class="project-card__foot">
-              <p class="project-card__result">第一作者核心论文 2 篇</p>
-              <ul class="tag-row"><li class="tag">多主体决策</li><li class="tag">数据分析</li><li class="tag">论文写作</li></ul>
+              <p class="project-card__result" data-project-field="result">第一作者核心论文 2 篇</p>
+              <ul class="tag-row"><li class="tag" data-project-field="tag-0">多主体决策</li><li class="tag" data-project-field="tag-1">数据分析</li><li class="tag" data-project-field="tag-2">论文写作</li></ul>
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card reveal" data-project-card="site">
             <div class="project-card__top">
               <div>
-                <p class="project-card__type">网页 / 原生前端</p>
-                <h3 class="project-card__title">N'RESUME 个人主页</h3>
+                <p class="project-card__type" data-project-field="type">网页 / 原生前端</p>
+                <h3 class="project-card__title" data-project-field="title">N'RESUME 个人主页</h3>
               </div>
               <button class="project-gallery" type="button" data-project-gallery="site" aria-haspopup="dialog" aria-controls="lightbox" aria-label="查看 N'RESUME 个人主页的项目图片">
                 <span class="project-gallery__thumb">
@@ -342,15 +350,15 @@
                 <span class="project-gallery__hint">项目图片 <span aria-hidden="true">↗</span></span>
               </button>
             </div>
-            <p class="project-card__desc">以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、教育、工作、项目、校园、技能、生活与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。</p>
+            <p class="project-card__desc" data-project-field="desc">以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、教育、工作、项目、校园、技能、生活与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。</p>
             <div class="metric-row">
-              <div class="metric"><p class="metric__value"><span class="metric__num">1</span><span class="metric__suffix">个</span></p><p class="metric__label">单页站点</p></div>
-              <div class="metric"><p class="metric__value"><span class="metric__num">8</span><span class="metric__suffix">个</span></p><p class="metric__label">内容章节</p></div>
-              <div class="metric"><p class="metric__value"><span class="metric__num">0</span><span class="metric__suffix">个</span></p><p class="metric__label">前端框架</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-0-num">1</span><span class="metric__suffix" data-project-field="metric-0-suffix">个</span></p><p class="metric__label" data-project-field="metric-0-label">单页站点</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-1-num">8</span><span class="metric__suffix" data-project-field="metric-1-suffix">个</span></p><p class="metric__label" data-project-field="metric-1-label">内容章节</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num" data-project-field="metric-2-num">0</span><span class="metric__suffix" data-project-field="metric-2-suffix">个</span></p><p class="metric__label" data-project-field="metric-2-label">前端框架</p></div>
             </div>
             <div class="project-card__foot">
-              <p class="project-card__result">桌面 / 移动端适配完成</p>
-              <ul class="tag-row"><li class="tag">原生前端</li><li class="tag">响应式</li><li class="tag">无障碍</li><li class="tag">图片管理</li></ul>
+              <p class="project-card__result" data-project-field="result">桌面 / 移动端适配完成</p>
+              <ul class="tag-row"><li class="tag" data-project-field="tag-0">原生前端</li><li class="tag" data-project-field="tag-1">响应式</li><li class="tag" data-project-field="tag-2">无障碍</li><li class="tag" data-project-field="tag-3">图片管理</li></ul>
             </div>
           </article>
         </div>
@@ -379,16 +387,16 @@
             </ul>
           </div>
           <div class="campus-card__body">
-            <ul class="detail-list">
-              <li><strong>平台运营</strong><p>负责微信公众号、QQ、易班等平台内容策划与日常运营，累计发布推文 500 余篇；统筹 30 余场校园活动宣传，协调 11 个部门推进执行。</p></li>
-              <li><strong>团队协作</strong><p>负责 2 个部门、6 个工作小组日常管理与任务推进；带领院系新生班级参加易班「我们这一班」风采大赛获校一等奖。</p></li>
-            </ul>
             <div class="campus-stats" aria-label="校园经历数据">
               <div class="campus-stat"><p class="campus-stat__value">500<span>+</span></p><p class="campus-stat__label">推文发布</p></div>
               <div class="campus-stat"><p class="campus-stat__value">30<span>+</span></p><p class="campus-stat__label">活动宣传统筹</p></div>
               <div class="campus-stat"><p class="campus-stat__value">11</p><p class="campus-stat__label">协同部门</p></div>
               <div class="campus-stat"><p class="campus-stat__value">1<span>项</span></p><p class="campus-stat__label">校级一等奖</p></div>
             </div>
+            <ul class="detail-list">
+              <li><strong>平台运营</strong><p>负责微信公众号、QQ、易班等平台内容策划与日常运营，累计发布推文 500 余篇；统筹 30 余场校园活动宣传，协调 11 个部门推进执行。</p></li>
+              <li><strong>团队协作</strong><p>负责 2 个部门、6 个工作小组日常管理与任务推进；带领院系新生班级参加易班「我们这一班」风采大赛获校一等奖。</p></li>
+            </ul>
           </div>
         </article>
       </div>
@@ -407,12 +415,6 @@
 
         <div class="skills-panel reveal">
           <div class="skills-grid">
-            <div class="skill-card">
-              <h3 class="skill-card__title">研究与分析</h3>
-              <ul class="skill-chip-list">
-                <li>需求分析</li><li>市场调研</li><li>资料检索</li><li>数据整理</li><li>论文写作</li>
-              </ul>
-            </div>
             <div class="skill-card">
               <h3 class="skill-card__title">项目与协同</h3>
               <ul class="skill-chip-list">
@@ -453,41 +455,34 @@
         <div class="life-grid">
           <aside class="life-aside reveal">
             <img class="life-mascot" data-img-slot="mascot-body" src="assets/img/ip-nan.png" alt="" width="220" height="286" loading="lazy" decoding="async">
-            <div class="life-filters" role="group" aria-label="筛选生活切片">
-              <button class="life-filter is-active" type="button" data-life-filter="all" aria-pressed="true">全部</button>
-              <button class="life-filter" type="button" data-life-filter="daily" aria-pressed="false">日常</button>
-              <button class="life-filter" type="button" data-life-filter="travel" aria-pressed="false">出行</button>
-              <button class="life-filter" type="button" data-life-filter="inspiration" aria-pressed="false">灵感</button>
-            </div>
-            <p class="life-hint">点击卡片查看大图<br>点击后方卡片切换</p>
           </aside>
 
           <div class="deck-stage reveal">
             <p class="sr-only" id="lifeStatus" role="status" aria-live="polite"></p>
             <div class="deck" id="lifeDeck">
-              <button class="deck-card is-top" type="button" style="--i:0" data-cat="daily" data-title="City walk" data-type="生活切片 · 日常" data-desc="城市散步" data-img="assets/img/life-1.webp" aria-label="查看 City walk 城市散步">
+              <button class="deck-card is-top" type="button" style="--i:0" data-title="City walk" data-type="生活切片" data-desc="城市散步" data-img="assets/img/life-1.webp" aria-label="查看 City walk 城市散步">
                 <img data-img-slot="life-1" src="assets/img/life-1.webp" alt="City walk 城市散步" width="600" height="800" loading="lazy" decoding="async">
                 <span class="deck-card__cap"><span class="deck-card__cap-en">City walk</span><span class="deck-card__cap-cn">城市散步</span></span>
               </button>
-              <button class="deck-card" type="button" style="--i:1" data-cat="daily" data-title="Coffee" data-type="生活切片 · 日常" data-desc="周末咖啡" data-img="assets/img/life-2.webp" aria-label="查看 Coffee 周末咖啡">
+              <button class="deck-card" type="button" style="--i:1" data-title="Coffee" data-type="生活切片" data-desc="周末咖啡" data-img="assets/img/life-2.webp" aria-label="查看 Coffee 周末咖啡">
                 <img data-img-slot="life-2" src="assets/img/life-2.webp" alt="Coffee 周末咖啡" width="600" height="800" loading="lazy" decoding="async">
                 <span class="deck-card__cap"><span class="deck-card__cap-en">Coffee</span><span class="deck-card__cap-cn">周末咖啡</span></span>
               </button>
-              <button class="deck-card" type="button" style="--i:2" data-cat="daily" data-title="Build mode" data-type="生活切片 · 日常" data-desc="做产品" data-img="assets/img/life-6.webp" aria-label="查看 Build mode 做产品">
+              <button class="deck-card" type="button" style="--i:2" data-title="Build mode" data-type="生活切片" data-desc="做产品" data-img="assets/img/life-6.webp" aria-label="查看 Build mode 做产品">
                 <img data-img-slot="life-6" src="assets/img/life-6.webp" alt="Build mode 做产品" width="600" height="800" loading="lazy" decoding="async">
                 <span class="deck-card__cap"><span class="deck-card__cap-en">Build mode</span><span class="deck-card__cap-cn">做产品</span></span>
               </button>
-              <button class="deck-card" type="button" style="--i:3" data-cat="inspiration" data-title="Night read" data-type="生活切片 · 灵感" data-desc="夜读" data-img="assets/img/life-3.webp" aria-label="查看 Night read 夜读">
+              <button class="deck-card" type="button" style="--i:3" data-title="Night read" data-type="生活切片" data-desc="夜读" data-img="assets/img/life-3.webp" aria-label="查看 Night read 夜读">
                 <img data-img-slot="life-3" src="assets/img/life-3.webp" alt="Night read 夜读" width="600" height="800" loading="lazy" decoding="async">
                 <span class="deck-card__cap"><span class="deck-card__cap-en">Night read</span><span class="deck-card__cap-cn">夜读</span></span>
               </button>
-              <button class="deck-card is-out" type="button" style="--i:4" data-cat="inspiration" data-title="Exhibition" data-type="生活切片 · 灵感" data-desc="看展" data-img="assets/img/life-5.webp" aria-label="查看 Exhibition 看展">
+              <button class="deck-card is-out" type="button" style="--i:4" data-title="Exhibition" data-type="生活切片" data-desc="看展" data-img="assets/img/life-5.webp" aria-label="查看 Exhibition 看展">
                 <img data-img-slot="life-5" src="assets/img/life-5.webp" alt="Exhibition 看展" width="600" height="800" loading="lazy" decoding="async">
                 <span class="deck-card__cap"><span class="deck-card__cap-en">Exhibition</span><span class="deck-card__cap-cn">看展</span></span>
               </button>
-              <button class="deck-card is-out" type="button" style="--i:5" data-cat="travel" data-title="On the road" data-type="生活切片 · 出行" data-desc="出行" data-img="assets/img/life-4.webp" aria-label="查看 On the road 出行">
-                <img data-img-slot="life-4" src="assets/img/life-4.webp" alt="On the road 出行" width="600" height="800" loading="lazy" decoding="async">
-                <span class="deck-card__cap"><span class="deck-card__cap-en">On the road</span><span class="deck-card__cap-cn">出行</span></span>
+              <button class="deck-card is-out" type="button" style="--i:5" data-title="On the road" data-type="生活切片" data-desc="在路上" data-img="assets/img/life-4.webp" aria-label="查看 On the road 在路上">
+                <img data-img-slot="life-4" src="assets/img/life-4.webp" alt="On the road 在路上" width="600" height="800" loading="lazy" decoding="async">
+                <span class="deck-card__cap"><span class="deck-card__cap-en">On the road</span><span class="deck-card__cap-cn">在路上</span></span>
               </button>
             </div>
           </div>
@@ -549,6 +544,7 @@
       </div>
       <p class="footer__meta">© 2026 廖楠 · N'RESUME 个人主页<br><span>用原生 HTML / CSS / JavaScript 搭建</span></p>
       <div class="footer__actions">
+        <button class="footer__edit" type="button" id="projectTextOpen" aria-controls="projects" hidden>编辑文字</button>
         <button class="footer__edit" type="button" id="imageManagerOpen" aria-haspopup="dialog" aria-controls="imageManager" hidden>替换图片</button>
         <a class="footer__top" href="#home">回到顶部 <span aria-hidden="true">↑</span></a>
       </div>
@@ -618,7 +614,7 @@
         </div>
         <button class="img-manager__close" id="imageManagerClose" type="button" aria-label="关闭图片替换面板" data-img-close>×</button>
       </header>
-      <p class="img-manager__note" id="imageManagerNote">头像、IP、项目图片与生活切片都可替换；项目图片支持添加多张。选择后会立即预览并保存在当前浏览器，正式发布前请按 README 的「素材替换」更新 assets/img 中的文件。</p>
+      <p class="img-manager__note" id="imageManagerNote">头像、IP、项目图片与生活切片都可替换，项目图片支持添加多张；每张图片都能填写备注，项目图片和生活切片的备注会显示在图片弹窗中。选择后会立即预览并保存在当前浏览器，正式发布前请按 README 的「素材替换」更新 assets/img 中的文件。</p>
       <div class="img-manager__body" id="imageManagerBody"></div>
       <footer class="img-manager__foot">
         <button class="btn btn--outline btn--sm" type="button" id="imageManagerResetAll">全部恢复默认</button>
