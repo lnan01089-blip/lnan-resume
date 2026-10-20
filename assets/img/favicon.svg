@@ -1,5 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Liao Nan monogram">
-  <rect width="64" height="64" fill="#FFFFFF"/>
-  <rect x="1" y="1" width="62" height="62" fill="none" stroke="#18181B" stroke-width="2"/>
-  <text x="32" y="40" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="21" font-weight="600" letter-spacing="-1" fill="#18181B">LN</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="廖楠 monogram">
+  <rect width="64" height="64" rx="16" fill="#16171A"/>
+  <text x="32" y="41" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="500" fill="#F4F5F8">LN</text>
 </svg>

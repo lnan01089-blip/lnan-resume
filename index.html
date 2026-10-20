@@ -1,497 +1,658 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="no-js">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>廖楠 · 管理科学与工程硕士 / 项目协同 / AI 工具</title>
-  <meta name="description" content="廖楠的个人主页，记录项目经历、研究、作品与生活切片。" />
-  <meta name="author" content="廖楠" />
-  <meta name="theme-color" content="#FFFFFF" />
-  <meta name="color-scheme" content="light" />
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>廖楠 · 个人求职主页 | 管理科学与工程</title>
+  <meta name="description" content="廖楠的个人求职主页。管理科学与工程硕士，聚焦项目协同、流程梳理与工程管理，关注 AI 工具在信息整理、方案验证和快速原型中的应用。">
+  <meta name="author" content="廖楠">
+  <meta name="theme-color" content="#F4F5F8">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="zh_CN" />
-  <meta property="og:url" content="https://lnan01089-blip.github.io/lnan-resume/" />
-  <meta property="og:title" content="廖楠 · 管理科学与工程硕士" />
-  <meta property="og:description" content="记录项目经历、研究、作品与生活切片。" />
-  <meta property="og:image" content="https://lnan01089-blip.github.io/lnan-resume/assets/img/og-cover.png" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="廖楠个人求职主页封面" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="canonical" href="https://lnan01089-blip.github.io/lnan-resume/" />
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="廖楠 · 个人求职主页">
+  <meta property="og:description" content="管理科学与工程硕士，聚焦项目协同、流程梳理与工程管理。把复杂的事，梳理清楚。">
+  <meta property="og:url" content="https://lnan01089-blip.github.io/lnan-resume/">
+  <meta property="og:image" content="https://lnan01089-blip.github.io/lnan-resume/assets/img/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="廖楠 · 个人求职主页">
+  <meta name="twitter:description" content="管理科学与工程硕士，聚焦项目协同、流程梳理与工程管理。">
+  <meta name="twitter:image" content="https://lnan01089-blip.github.io/lnan-resume/assets/img/og-cover.png">
+  <link rel="canonical" href="https://lnan01089-blip.github.io/lnan-resume/">
 
-  <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/inter-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/fonts/inter-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <script>document.documentElement.classList.add("js");</script>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/noto-serif-sc-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    window.setTimeout(function () {
+      if (!window.__revealReady) document.documentElement.classList.remove('js');
+    }, 2500);
+  </script>
 </head>
 <body>
-
   <a class="skip-link" href="#main">跳到主要内容</a>
 
-  <!-- 滚动进度条 -->
-  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-
-  <!-- 顶部导航 -->
   <header class="site-header" id="siteHeader">
-    <a class="brand" href="#home" aria-label="回到首页">
-      <span class="brand__cn">廖楠</span>
-      <span class="brand__en">LIAO NAN</span>
-    </a>
+    <div class="wrap header__inner">
+      <a class="brand" href="#home" aria-label="廖楠，回到首页">
+        <span class="brand__name">廖楠</span>
+        <span class="brand__en">LIAO NAN</span>
+      </a>
 
-    <nav class="nav" id="primaryNav" aria-label="主导航">
-      <a href="#home" class="nav__link" data-target="home" aria-current="location">首页</a>
-      <a href="#about" class="nav__link" data-target="about">关于我</a>
-      <a href="#experience" class="nav__link" data-target="experience">经历</a>
-      <a href="#education" class="nav__link" data-target="education">教育</a>
-      <a href="#projects" class="nav__link" data-target="projects">项目</a>
-      <a href="#portfolio" class="nav__link" data-target="portfolio">作品</a>
-      <a href="#skills" class="nav__link" data-target="skills">能力</a>
-      <a href="#interests" class="nav__link" data-target="interests">生活</a>
-      <a href="#resume" class="nav__link" data-target="resume">简历</a>
-      <a href="#contact" class="nav__link" data-target="contact">联系</a>
-    </nav>
+      <nav class="nav" aria-label="主导航">
+        <a class="nav__link" href="#about">关于</a>
+        <a class="nav__link" href="#experience">经历</a>
+        <a class="nav__link" href="#education">教育</a>
+        <a class="nav__link" href="#projects">项目</a>
+        <a class="nav__link" href="#skills">技能</a>
+        <a class="nav__link" href="#portfolio">作品集</a>
+        <a class="nav__link" href="#interests">生活</a>
+      </nav>
 
-    <div class="header-actions">
-      <span class="status-pill" title="正在寻找新机会">
-        <span class="status-pill__dot"></span>Open to work
-      </span>
-      <a class="btn btn--ghost" href="%E5%BB%96%E6%A5%A0%E2%80%9418374627109(1).pdf" target="_blank" rel="noopener">简历 PDF</a>
-      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="mobileMenu" aria-haspopup="true">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="header__actions">
+        <span class="status"><span class="status__dot" aria-hidden="true"></span>在职 · 寻找机会</span>
+        <a class="btn btn--dark btn--sm" href="#contact">联系我</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="menu-toggle__lines" aria-hidden="true"><span></span><span></span></span>
+          <span class="sr-only">打开菜单</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- 移动端全屏菜单 -->
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <nav class="mobile-menu__nav" aria-label="移动端导航">
-      <a href="#home" class="mobile-menu__link" aria-current="location">首页</a>
-      <a href="#about" class="mobile-menu__link">关于我</a>
-      <a href="#experience" class="mobile-menu__link">经历</a>
-      <a href="#education" class="mobile-menu__link">教育</a>
-      <a href="#projects" class="mobile-menu__link">项目</a>
-      <a href="#portfolio" class="mobile-menu__link">作品</a>
-      <a href="#skills" class="mobile-menu__link">能力</a>
-      <a href="#interests" class="mobile-menu__link">生活</a>
-      <a href="#resume" class="mobile-menu__link">简历</a>
-      <a href="#contact" class="mobile-menu__link">联系</a>
-    </nav>
-  </div>
-
-  <main id="main" tabindex="-1">
-    <!-- ============ HOME ============ -->
-    <section class="section section--home" id="home">
-      <div class="home__inner">
-        <div class="home__text reveal">
-          <span class="eyebrow">管理科学与工程硕士 · 杭州</span>
-          <h1 class="home__name">廖楠<span class="home__name-en">LIAO NAN</span></h1>
-          <p class="home__claim">把复杂的事，<em>梳理清楚</em>。</p>
-          <p class="home__lead">管理科学与工程硕士，聚焦项目协同、流程梳理与工程管理。做过绿色改造研究、工程项目与校园新媒体，也习惯把 AI 工具用在信息整理、方案验证和快速原型上。</p>
-          <div class="home__tags">
-            <span class="tag">项目协同</span>
-            <span class="tag">流程梳理</span>
-            <span class="tag">工程管理</span>
-            <span class="tag">AI 工具</span>
-          </div>
-          <div class="home__cta">
-            <a class="btn btn--primary" href="#experience">查看经历</a>
-            <a class="btn btn--ghost" href="%E5%BB%96%E6%A5%A0%E2%80%9418374627109(1).pdf" target="_blank" rel="noopener">下载简历</a>
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow reveal">OPEN TO WORK · 管理科学与工程硕士</p>
+          <h1 class="hero__name reveal" id="hero-title">廖楠</h1>
+          <p class="hero__en reveal">LIAO NAN</p>
+          <p class="hero__claim reveal">把复杂的事，<br>梳理清楚。</p>
+          <p class="hero__lead reveal">管理科学与工程硕士，聚焦项目协同、流程梳理与工程管理。做过绿色改造研究、工程项目与校园新媒体，也习惯把 AI 工具用在信息整理、方案验证和快速原型上。</p>
+          <ul class="tag-row hero__tags reveal" aria-label="核心方向">
+            <li class="tag">项目协同</li>
+            <li class="tag">流程梳理</li>
+            <li class="tag">工程管理</li>
+            <li class="tag">AI 工具</li>
+          </ul>
+          <div class="hero__cta reveal">
+            <a class="btn btn--dark" href="廖楠-求职简历.pdf" download="廖楠-求职简历.pdf">下载简历 <span class="btn__arrow" aria-hidden="true">↓</span></a>
+            <a class="btn btn--outline" href="#experience">查看经历 <span class="btn__arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
 
-        <div class="home__visual reveal">
-          <div class="ip-card">
-            <img class="ip-figure" src="assets/img/ip-nan.svg" alt="廖楠个人 IP 形象" width="400" height="520" />
+        <div class="hero__figure reveal">
+          <div class="avatar-wrap">
+            <div class="avatar-ring">
+              <img class="avatar" src="assets/img/avatar-720.jpg" srcset="assets/img/avatar-360.jpg 360w, assets/img/avatar-720.jpg 720w" sizes="(max-width: 720px) 220px, 320px" width="720" height="720" alt="廖楠" fetchpriority="high" decoding="async">
+            </div>
+            <span class="avatar-badge"><span aria-hidden="true"></span>OPEN TO WORK</span>
           </div>
+          <p class="hero__caption">天津城建大学 · 管理科学与工程硕士<br><span>2025 届 · 硕士研究生国家奖学金</span></p>
         </div>
       </div>
-      <a class="scroll-hint" href="#about" aria-label="向下滚动">
-        <span></span>
-      </a>
     </section>
 
     <!-- ============ ABOUT ============ -->
-    <section class="section" id="about">
-      <div class="section__head reveal">
-        <span class="section__index">01 / ABOUT</span>
-        <h2 class="section__title">关于我</h2>
-      </div>
-      <div class="about__grid">
-        <p class="about__bio reveal">从工程造价到管理科学与工程，我习惯先理解系统，再拆解问题。做过既有建筑绿色改造研究，也跟过建材市场与工程项目；写过论文，也运营过校园新媒体。现在，我把 AI 当作第二支笔，用它整理信息、验证想法、快速做出原型。</p>
-        <div class="about__stats reveal">
-          <div class="stat">
-            <span class="stat__num">2<small>篇</small></span>
-            <span class="stat__label">第一作者核心论文</span>
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">01</span>
+            <h2 class="section-head__title" id="about-title">关于我</h2>
+            <img class="section-head__mascot" src="assets/img/mascot-head.svg" alt="" width="48" height="48" loading="lazy" decoding="async">
           </div>
-          <div class="stat">
-            <span class="stat__num">500<small>+</small></span>
-            <span class="stat__label">校园推文发布</span>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
+
+        <div class="about__grid">
+          <div class="about__copy reveal">
+            <p class="about__statement">先理解系统，<br>再拆解问题。</p>
+            <p class="about__bio">从工程造价到管理科学与工程，我习惯先理解系统，再拆解问题。做过既有建筑绿色改造研究，也跟过建材市场与工程项目；写过论文，也运营过校园新媒体。现在，我把 AI 当作第二支笔，用它整理信息、验证想法、快速做出原型。</p>
+            <p class="about__sign">— 把复杂的事，梳理清楚。</p>
           </div>
-          <div class="stat">
-            <span class="stat__num">30<small>+</small></span>
-            <span class="stat__label">统筹校园活动</span>
-          </div>
-          <div class="stat">
-            <span class="stat__num">11<small>个</small></span>
-            <span class="stat__label">协同部门</span>
+
+          <div class="stat-card reveal">
+            <div class="stat">
+              <p class="stat__value"><span class="stat__num">2</span><span class="stat__suffix">篇</span></p>
+              <p class="stat__label">第一作者核心论文</p>
+            </div>
+            <div class="stat">
+              <p class="stat__value"><span class="stat__num">500</span><span class="stat__suffix">+</span></p>
+              <p class="stat__label">校园推文发布</p>
+            </div>
+            <div class="stat">
+              <p class="stat__value"><span class="stat__num">30</span><span class="stat__suffix">+</span></p>
+              <p class="stat__label">统筹校园活动</p>
+            </div>
+            <div class="stat">
+              <p class="stat__value"><span class="stat__num">11</span><span class="stat__suffix">个</span></p>
+              <p class="stat__label">协同部门</p>
+            </div>
           </div>
         </div>
       </div>
-      <p class="about__sign reveal">— 把复杂的事，梳理清楚。</p>
     </section>
 
     <!-- ============ EXPERIENCE ============ -->
-    <section class="section" id="experience">
-      <div class="section__head reveal">
-        <span class="section__index">02 / EXPERIENCE</span>
-        <h2 class="section__title">工作经历</h2>
-      </div>
-      <div class="accordion" id="accordion">
-
-        <div class="acc-item is-open">
-          <button class="acc-head" id="exp-trigger-1" aria-expanded="true" aria-controls="exp-panel-1">
-            <span class="acc-head__meta">
-              <span class="acc-head__time">2026.03 – 至今</span>
-              <span class="acc-head__role">工程项目管理管培生</span>
-            </span>
-            <span class="acc-head__company">杭州毅君建筑科技有限公司</span>
-            <span class="acc-head__icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" id="exp-panel-1" role="region" aria-labelledby="exp-trigger-1">
-            <ul class="acc-list">
-              <li><strong>市场调研：</strong>调研中亚建筑材料市场准入要求及当地技术规范，整理产品信息与供应商报价，为目标市场产品筛选提供参考。</li>
-              <li><strong>客户拓展：</strong>参与哈萨克斯坦阿拉木图 KazBuild 国际建材展，结合公司业务定位及优势，收集展商信息并开展初步沟通。</li>
-              <li><strong>流程梳理：</strong>参与梳理装修质量检查流程、服务评价指标及考核维度，为后续服务质量评估和管理规范化提供参考。</li>
-              <li><strong>工程算量：</strong>根据设计图纸核对工程量并整理清单；协同设计部门及供应商确认材料相关信息。</li>
-            </ul>
-            <div class="acc-tags"><span class="tag">市场调研</span><span class="tag">流程梳理</span><span class="tag">工程算量</span><span class="tag">跨部门协同</span></div>
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">02</span>
+            <h2 class="section-head__title" id="experience-title">工作经历</h2>
           </div>
-        </div>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
 
-        <div class="acc-item">
-          <button class="acc-head" id="exp-trigger-2" aria-expanded="false" aria-controls="exp-panel-2">
-            <span class="acc-head__meta">
-              <span class="acc-head__time">2025.07 – 2026.02</span>
-              <span class="acc-head__role">综合行政见习生</span>
-            </span>
-            <span class="acc-head__company">湖南蓝山县委行政学院</span>
-            <span class="acc-head__icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" id="exp-panel-2" role="region" aria-labelledby="exp-trigger-2">
-            <ul class="acc-list">
-              <li><strong>流程与信息管理：</strong>负责公文收发、文件流转及 OA 系统管理，处理日常文件与信息流转。</li>
-              <li><strong>活动组织与协同：</strong>协助培训班管理、学员考勤、会议准备及现场事务协调，保障相关工作有序推进。</li>
-            </ul>
-            <div class="acc-tags"><span class="tag">OA 系统</span><span class="tag">公文流转</span><span class="tag">活动协同</span></div>
-          </div>
-        </div>
+        <div class="exp-list" id="expList">
+          <article class="exp-card is-open reveal">
+            <button class="exp-card__head" type="button" id="exp-trigger-1" aria-expanded="true" aria-controls="exp-panel-1">
+              <span class="exp-card__main">
+                <span class="exp-card__when">2026.03 — 至今</span>
+                <span class="exp-card__role">工程项目管理管培生</span>
+                <span class="exp-card__org">杭州毅君建筑科技有限公司</span>
+              </span>
+              <span class="badge badge--dark">全职</span>
+              <span class="exp-card__toggle" aria-hidden="true"></span>
+            </button>
+            <div class="exp-card__panel" id="exp-panel-1" role="region" aria-labelledby="exp-trigger-1">
+              <div class="exp-card__inner">
+                <ul class="detail-list">
+                  <li><strong>市场调研</strong><p>调研中亚建筑材料市场准入要求及当地技术规范，整理产品信息与供应商报价，为目标市场产品筛选提供参考。</p></li>
+                  <li><strong>客户拓展</strong><p>参与哈萨克斯坦阿拉木图 KazBuild 国际建材展，结合公司业务定位及优势，收集展商信息并开展初步沟通。</p></li>
+                  <li><strong>流程梳理</strong><p>参与梳理装修质量检查流程、服务评价指标及考核维度，为后续服务质量评估和管理规范化提供参考。</p></li>
+                  <li><strong>工程算量</strong><p>根据设计图纸核对工程量并整理清单；协同设计部门及供应商确认材料相关信息。</p></li>
+                </ul>
+                <ul class="tag-row exp-card__tags" aria-label="用到的能力">
+                  <li class="tag">市场调研</li><li class="tag">流程梳理</li><li class="tag">工程算量</li><li class="tag">跨部门协同</li>
+                </ul>
+              </div>
+            </div>
+          </article>
 
-        <div class="acc-item">
-          <button class="acc-head" id="exp-trigger-3" aria-expanded="false" aria-controls="exp-panel-3">
-            <span class="acc-head__meta">
-              <span class="acc-head__time">2018 – 2022</span>
-              <span class="acc-head__role">假期实践</span>
-            </span>
-            <span class="acc-head__company">忘不了日化超市</span>
-            <span class="acc-head__icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" id="exp-panel-3" role="region" aria-labelledby="exp-trigger-3">
-            <ul class="acc-list">
-              <li><strong>门店运营：</strong>参与商品陈列、库存补货、促销执行及日常销售，具备观察顾客需求、沟通服务及灵活应变能力。</li>
-            </ul>
-            <div class="acc-tags"><span class="tag">门店运营</span><span class="tag">顾客沟通</span><span class="tag">灵活应变</span></div>
-          </div>
-        </div>
+          <article class="exp-card reveal">
+            <button class="exp-card__head" type="button" id="exp-trigger-2" aria-expanded="false" aria-controls="exp-panel-2">
+              <span class="exp-card__main">
+                <span class="exp-card__when">2025.07 — 2026.02</span>
+                <span class="exp-card__role">综合行政见习生</span>
+                <span class="exp-card__org">湖南蓝山县委行政学院</span>
+              </span>
+              <span class="badge">实习</span>
+              <span class="exp-card__toggle" aria-hidden="true"></span>
+            </button>
+            <div class="exp-card__panel" id="exp-panel-2" role="region" aria-labelledby="exp-trigger-2">
+              <div class="exp-card__inner">
+                <ul class="detail-list">
+                  <li><strong>流程与信息管理</strong><p>负责公文收发、文件流转及 OA 系统管理，处理日常文件与信息流转。</p></li>
+                  <li><strong>活动组织与协同</strong><p>协助培训班管理、学员考勤、会议准备及现场事务协调，保障相关工作有序推进。</p></li>
+                </ul>
+                <ul class="tag-row exp-card__tags" aria-label="用到的能力">
+                  <li class="tag">OA 系统</li><li class="tag">公文流转</li><li class="tag">活动协同</li>
+                </ul>
+              </div>
+            </div>
+          </article>
 
+          <article class="exp-card reveal">
+            <button class="exp-card__head" type="button" id="exp-trigger-3" aria-expanded="false" aria-controls="exp-panel-3">
+              <span class="exp-card__main">
+                <span class="exp-card__when">2018 — 2022</span>
+                <span class="exp-card__role">假期实践</span>
+                <span class="exp-card__org">忘不了日化超市</span>
+              </span>
+              <span class="badge badge--soft">实践</span>
+              <span class="exp-card__toggle" aria-hidden="true"></span>
+            </button>
+            <div class="exp-card__panel" id="exp-panel-3" role="region" aria-labelledby="exp-trigger-3">
+              <div class="exp-card__inner">
+                <ul class="detail-list">
+                  <li><strong>门店运营</strong><p>参与商品陈列、库存补货、促销执行及日常销售，具备观察顾客需求、沟通服务及灵活应变能力。</p></li>
+                </ul>
+                <ul class="tag-row exp-card__tags" aria-label="用到的能力">
+                  <li class="tag">门店运营</li><li class="tag">顾客沟通</li><li class="tag">灵活应变</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
     <!-- ============ EDUCATION ============ -->
-    <section class="section" id="education">
-      <div class="section__head reveal">
-        <span class="section__index">03 / EDUCATION</span>
-        <h2 class="section__title">教育背景</h2>
-      </div>
-      <ol class="timeline">
-        <li class="timeline__item reveal">
-          <span class="timeline__time">2022.09 – 2025.06</span>
-          <div class="timeline__body">
-            <h3 class="timeline__school">天津城建大学</h3>
-            <p class="timeline__major">管理科学与工程 · 硕士</p>
-            <p class="timeline__honor">硕士研究生国家奖学金、一等奖学金；优秀研究生</p>
+    <section class="section" id="education" aria-labelledby="education-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">03</span>
+            <h2 class="section-head__title" id="education-title">教育背景</h2>
           </div>
-        </li>
-        <li class="timeline__item reveal">
-          <span class="timeline__time">2018.09 – 2022.06</span>
-          <div class="timeline__body">
-            <h3 class="timeline__school">湖南工学院</h3>
-            <p class="timeline__major">工程造价 · 本科</p>
-            <p class="timeline__honor">一等奖学金、优秀学生会干部、优秀工作者</p>
-          </div>
-        </li>
-      </ol>
-      <div class="edu-extra reveal">
-        <span class="tag">CET-4</span><span class="tag">CET-6</span>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
+
+        <div class="edu-card reveal">
+          <article class="edu-row">
+            <p class="edu-row__when">2022.09 — 2025.06</p>
+            <div class="edu-row__body">
+              <h3 class="edu-row__school">天津城建大学</h3>
+              <p class="edu-row__major">管理科学与工程 · 硕士</p>
+              <p class="edu-row__honors">硕士研究生国家奖学金 · 一等奖学金 · 优秀研究生</p>
+            </div>
+            <span class="badge badge--dark">硕士</span>
+          </article>
+          <article class="edu-row">
+            <p class="edu-row__when">2018.09 — 2022.06</p>
+            <div class="edu-row__body">
+              <h3 class="edu-row__school">湖南工学院</h3>
+              <p class="edu-row__major">工程造价 · 本科</p>
+              <p class="edu-row__honors">一等奖学金 · 优秀学生会干部 · 优秀工作者</p>
+            </div>
+            <span class="badge">本科</span>
+          </article>
+        </div>
+
+        <div class="edu-langs reveal">
+          <span class="edu-langs__label">语言</span>
+          <ul class="tag-row"><li class="tag">CET-4</li><li class="tag">CET-6</li></ul>
+        </div>
       </div>
     </section>
 
     <!-- ============ PROJECTS ============ -->
-    <section class="section" id="projects">
-      <div class="section__head reveal">
-        <span class="section__index">04 / PROJECTS</span>
-        <h2 class="section__title">重点项目</h2>
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">04</span>
+            <h2 class="section-head__title" id="projects-title">项目经历</h2>
+          </div>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
+
+        <div class="project-grid">
+          <article class="project-card project-card--wide reveal">
+            <div class="project-card__top">
+              <div>
+                <p class="project-card__type">产品 / AI Coding</p>
+                <h3 class="project-card__title">Stashly 书柜 App</h3>
+              </div>
+              <span class="badge">个人产品</span>
+            </div>
+            <p class="project-card__desc">围绕个人实体藏书管理场景，借助 AI 工具辅助开发的网页端产品。</p>
+            <div class="metric-row">
+              <div class="metric"><p class="metric__value"><span class="metric__num">1</span><span class="metric__suffix">个</span></p><p class="metric__label">网页端产品</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num">4</span><span class="metric__suffix">项</span></p><p class="metric__label">核心功能</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num">离线</span></p><p class="metric__label">数据访问</p></div>
+            </div>
+            <div class="project-card__foot">
+              <p class="project-card__result">完成网页端功能搭建</p>
+              <ul class="tag-row"><li class="tag">需求分析</li><li class="tag">功能设计</li><li class="tag">本地存储</li><li class="tag">Vibe Coding</li></ul>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-card__top">
+              <div>
+                <p class="project-card__type">研究 / 国家自然科学基金</p>
+                <h3 class="project-card__title">既有建筑绿色改造研究</h3>
+              </div>
+              <span class="badge">研究</span>
+            </div>
+            <p class="project-card__desc">市场治理视角下既有建筑绿色改造多主体动力演化与耦合机理。</p>
+            <div class="metric-row">
+              <div class="metric"><p class="metric__value"><span class="metric__num">2</span><span class="metric__suffix">篇</span></p><p class="metric__label">一作核心论文</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num">3</span><span class="metric__suffix">部</span></p><p class="metric__label">参与著作</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num">1</span><span class="metric__suffix">项</span></p><p class="metric__label">国家自然科学基金</p></div>
+            </div>
+            <div class="project-card__foot">
+              <p class="project-card__result">第一作者核心论文 2 篇</p>
+              <ul class="tag-row"><li class="tag">多主体决策</li><li class="tag">数据分析</li><li class="tag">论文写作</li></ul>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-card__top">
+              <div>
+                <p class="project-card__type">内容 / 团队管理</p>
+                <h3 class="project-card__title">校园新媒体与活动协同</h3>
+              </div>
+              <span class="badge">校园</span>
+            </div>
+            <p class="project-card__desc">负责校园新媒体平台运营与活动宣传，统筹多部门协作执行。</p>
+            <div class="metric-row">
+              <div class="metric"><p class="metric__value"><span class="metric__num">500</span><span class="metric__suffix">+</span></p><p class="metric__label">推文发布</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num">30</span><span class="metric__suffix">+</span></p><p class="metric__label">活动统筹</p></div>
+              <div class="metric"><p class="metric__value"><span class="metric__num">11</span><span class="metric__suffix">个</span></p><p class="metric__label">协同部门</p></div>
+            </div>
+            <div class="project-card__foot">
+              <p class="project-card__result">500+ 推文 · 30+ 活动</p>
+              <ul class="tag-row"><li class="tag">内容策划</li><li class="tag">团队管理</li><li class="tag">活动统筹</li></ul>
+            </div>
+          </article>
+        </div>
       </div>
-      <div class="projects__grid">
-
-        <article class="project-card reveal">
-          <div class="project-card__top">
-            <span class="project-card__no">01</span>
-            <span class="project-card__type">产品 / AI Coding</span>
-          </div>
-          <img class="project-card__cover" src="assets/img/work-stashly.svg" alt="Stashly 书柜 App 封面" width="480" height="300" loading="lazy" decoding="async" />
-          <h3 class="project-card__name">Stashly 书柜 App</h3>
-          <p class="project-card__desc">围绕个人实体藏书管理场景，借助 AI 工具辅助开发的网页端产品。</p>
-          <div class="project-card__foot">
-            <span class="project-card__role">个人产品</span>
-            <span class="project-card__result">完成网页端功能搭建</span>
-          </div>
-          <div class="acc-tags"><span class="tag">需求分析</span><span class="tag">功能设计</span><span class="tag">本地存储</span><span class="tag">Vibe Coding</span></div>
-        </article>
-
-        <article class="project-card reveal">
-          <div class="project-card__top">
-            <span class="project-card__no">02</span>
-            <span class="project-card__type">研究 / 国家自然科学基金</span>
-          </div>
-          <img class="project-card__cover" src="assets/img/work-research.svg" alt="既有建筑绿色改造研究封面" width="480" height="300" loading="lazy" decoding="async" />
-          <h3 class="project-card__name">既有建筑绿色改造研究</h3>
-          <p class="project-card__desc">市场治理视角下既有建筑绿色改造多主体动力演化与耦合机理。</p>
-          <div class="project-card__foot">
-            <span class="project-card__role">主要参与成员</span>
-            <span class="project-card__result">第一作者核心论文 2 篇</span>
-          </div>
-          <div class="acc-tags"><span class="tag">多主体决策</span><span class="tag">数据分析</span><span class="tag">论文写作</span></div>
-        </article>
-
-        <article class="project-card reveal">
-          <div class="project-card__top">
-            <span class="project-card__no">03</span>
-            <span class="project-card__type">内容 / 团队管理</span>
-          </div>
-          <img class="project-card__cover" src="assets/img/work-media.svg" alt="校园新媒体与活动协同封面" width="480" height="300" loading="lazy" decoding="async" />
-          <h3 class="project-card__name">校园新媒体与活动协同</h3>
-          <p class="project-card__desc">负责校园新媒体平台运营与活动宣传，统筹多部门协作执行。</p>
-          <div class="project-card__foot">
-            <span class="project-card__role">新媒体中心部长</span>
-            <span class="project-card__result">500+ 推文 · 30+ 活动</span>
-          </div>
-          <div class="acc-tags"><span class="tag">内容策划</span><span class="tag">团队管理</span><span class="tag">活动统筹</span></div>
-        </article>
-
-      </div>
-      <p class="media-note reveal">注：项目封面为统一风格的原创 SVG 占位图，待补充真实截图后替换。</p>
-    </section>
-
-    <!-- ============ PORTFOLIO ============ -->
-    <section class="section" id="portfolio">
-      <div class="section__head reveal">
-        <span class="section__index">05 / PORTFOLIO</span>
-        <h2 class="section__title">作品集</h2>
-      </div>
-      <div class="portfolio__grid" id="portfolioGrid">
-        <button class="pf-card reveal" type="button" aria-haspopup="dialog"
-          data-title="Stashly 书柜 App" data-type="产品 · AI Coding"
-          data-img="assets/img/work-stashly.svg"
-          data-detail="围绕个人实体藏书管理场景，梳理图书查找、分类、成本记录与售出收益统计等需求；规划产品结构及核心功能，借助 Claude 等 AI 工具辅助开发，实现本地数据存储与离线访问，完成 APP 网页端功能搭建。">
-          <img src="assets/img/work-stashly.svg" alt="Stashly 书柜 App" width="480" height="300" loading="lazy" decoding="async" />
-          <span class="pf-card__type">产品</span>
-          <span class="pf-card__name">Stashly 书柜 App</span>
-        </button>
-
-        <button class="pf-card reveal" type="button" aria-haspopup="dialog"
-          data-title="既有建筑绿色改造研究" data-type="研究 · 国家自然科学基金"
-          data-img="assets/img/work-research.svg"
-          data-detail="围绕既有建筑绿色改造多主体决策行为，识别核心决策主体及其利益诉求，梳理行为影响因素并开展数据分析；以第一作者发表核心论文 2 篇，参与 1 篇期刊论文及 3 部著作编写。">
-          <img src="assets/img/work-research.svg" alt="既有建筑绿色改造研究" width="480" height="300" loading="lazy" decoding="async" />
-          <span class="pf-card__type">研究</span>
-          <span class="pf-card__name">既有建筑绿色改造研究</span>
-        </button>
-
-        <button class="pf-card reveal" type="button" aria-haspopup="dialog"
-          data-title="校园新媒体与活动协同" data-type="内容 · 团队管理"
-          data-img="assets/img/work-media.svg"
-          data-detail="负责微信公众号、QQ、易班等平台内容策划与日常运营，累计发布推文 500 余篇；统筹 30 余场校园活动宣传，协调 11 个部门推进执行；带领院系新生班级获易班风采大赛校一等奖。">
-          <img src="assets/img/work-media.svg" alt="校园新媒体与活动协同" width="480" height="300" loading="lazy" decoding="async" />
-          <span class="pf-card__type">内容</span>
-          <span class="pf-card__name">校园新媒体与活动协同</span>
-        </button>
-
-        <button class="pf-card reveal" type="button" aria-haspopup="dialog"
-          data-title="廖楠求职主页" data-type="个人主页 · 网页搭建"
-          data-img="assets/img/pf-site.svg"
-          data-detail="以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、经历、项目、作品、能力与生活切片；瑞士极简无彩色视觉，含平滑滚动、章节高亮、作品灯箱与移动端适配。">
-          <img src="assets/img/pf-site.svg" alt="廖楠 personal job-seeking homepage" width="480" height="300" loading="lazy" decoding="async" />
-          <span class="pf-card__type">个人主页</span>
-          <span class="pf-card__name">廖楠求职主页</span>
-        </button>
-      </div>
-      <p class="media-note reveal">注：作品集封面与项目封面共用占位素材，真实截图补充后可直接替换。</p>
     </section>
 
     <!-- ============ SKILLS ============ -->
-    <section class="section" id="skills">
-      <div class="section__head reveal">
-        <span class="section__index">06 / SKILLS</span>
-        <h2 class="section__title">核心能力</h2>
-      </div>
-      <div class="skills__grid">
-        <div class="skill-card reveal">
-          <h3 class="skill-card__title">研究与分析</h3>
-          <ul class="skill-card__list">
-            <li>需求分析</li><li>市场调研</li><li>资料检索</li><li>数据整理</li><li>论文写作</li>
-          </ul>
-        </div>
-        <div class="skill-card reveal">
-          <h3 class="skill-card__title">项目与协同</h3>
-          <ul class="skill-card__list">
-            <li>流程梳理</li><li>跨部门沟通</li><li>活动统筹</li><li>供应商对接</li><li>清单管理</li>
-          </ul>
-        </div>
-        <div class="skill-card reveal">
-          <h3 class="skill-card__title">工具与表达</h3>
-          <ul class="skill-card__list">
-            <li>GPT</li><li>Claude</li><li>Codex</li><li>WPS / Office</li><li>OA</li><li>微信公众号</li><li>Vibe Coding</li>
-          </ul>
-        </div>
-      </div>
-      <div class="ai-flow reveal">
-        <span class="ai-flow__label">AI 工作流</span>
-        <div class="ai-flow__steps">
-          <span class="ai-flow__step">收集</span><span class="ai-flow__arrow">→</span>
-          <span class="ai-flow__step">结构化</span><span class="ai-flow__arrow">→</span>
-          <span class="ai-flow__step">原型</span><span class="ai-flow__arrow">→</span>
-          <span class="ai-flow__step">迭代</span>
-        </div>
-      </div>
-    </section>
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">05</span>
+            <h2 class="section-head__title" id="skills-title">技能</h2>
+          </div>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
 
-    <!-- ============ INTERESTS ============ -->
-    <section class="section" id="interests">
-      <div class="section__head reveal">
-        <span class="section__index">07 / INTERESTS</span>
-        <h2 class="section__title">生活切片</h2>
-      </div>
-      <div class="filter reveal" id="lifeFilter">
-        <button class="filter__btn is-active" type="button" data-filter="all" aria-pressed="true">全部</button>
-        <button class="filter__btn" type="button" data-filter="daily" aria-pressed="false">日常</button>
-        <button class="filter__btn" type="button" data-filter="travel" aria-pressed="false">出行</button>
-        <button class="filter__btn" type="button" data-filter="inspiration" aria-pressed="false">灵感</button>
-      </div>
-      <p class="filter__status" id="filterStatus" role="status" aria-live="polite">显示 6 张生活切片</p>
-      <div class="life__grid" id="lifeGrid">
-        <figure class="life-item reveal" data-cat="daily">
-          <img src="assets/img/life-1.svg" alt="City walk 城市散步" width="600" height="800" loading="lazy" decoding="async" />
-          <figcaption><span class="life-item__title">City walk</span><span class="life-item__en">城市散步</span></figcaption>
-        </figure>
-        <figure class="life-item reveal" data-cat="daily">
-          <img src="assets/img/life-2.svg" alt="Coffee 周末咖啡" width="600" height="800" loading="lazy" decoding="async" />
-          <figcaption><span class="life-item__title">Coffee</span><span class="life-item__en">周末咖啡</span></figcaption>
-        </figure>
-        <figure class="life-item reveal" data-cat="inspiration">
-          <img src="assets/img/life-3.svg" alt="Night read 夜读" width="600" height="800" loading="lazy" decoding="async" />
-          <figcaption><span class="life-item__title">Night read</span><span class="life-item__en">夜读</span></figcaption>
-        </figure>
-        <figure class="life-item reveal" data-cat="travel">
-          <img src="assets/img/life-4.svg" alt="On the road 出行" width="600" height="800" loading="lazy" decoding="async" />
-          <figcaption><span class="life-item__title">On the road</span><span class="life-item__en">出行</span></figcaption>
-        </figure>
-        <figure class="life-item reveal" data-cat="inspiration">
-          <img src="assets/img/life-5.svg" alt="Exhibition 看展" width="600" height="800" loading="lazy" decoding="async" />
-          <figcaption><span class="life-item__title">Exhibition</span><span class="life-item__en">看展</span></figcaption>
-        </figure>
-        <figure class="life-item reveal" data-cat="daily">
-          <img src="assets/img/life-6.svg" alt="Build mode 做产品" width="600" height="800" loading="lazy" decoding="async" />
-          <figcaption><span class="life-item__title">Build mode</span><span class="life-item__en">做产品</span></figcaption>
-        </figure>
-      </div>
-      <p class="interests__note reveal">注：生活区为统一风格的原创插画占位，待补充真实照片后替换。</p>
-    </section>
-
-    <!-- ============ RESUME ============ -->
-    <section class="section" id="resume">
-      <div class="section__head reveal">
-        <span class="section__index">08 / RESUME</span>
-        <h2 class="section__title">简历下载</h2>
-      </div>
-      <div class="resume-card reveal">
-        <div class="resume-card__meta">
-          <span class="resume-card__type">PDF</span>
-          <div>
-            <p class="resume-card__name">廖楠 · 求职简历</p>
-            <p class="resume-card__sub">1 页 · 更新于 2026.10</p>
+        <div class="skills-card reveal">
+          <div class="skill-col">
+            <h3 class="skill-col__title"><span class="skill-col__dot" aria-hidden="true"></span>研究与分析</h3>
+            <ul class="skill-list">
+              <li>需求分析</li><li>市场调研</li><li>资料检索</li><li>数据整理</li><li>论文写作</li>
+            </ul>
+          </div>
+          <div class="skill-col">
+            <h3 class="skill-col__title"><span class="skill-col__dot" aria-hidden="true"></span>项目与协同</h3>
+            <ul class="skill-list">
+              <li>流程梳理</li><li>跨部门沟通</li><li>活动统筹</li><li>供应商对接</li><li>清单管理</li>
+            </ul>
+          </div>
+          <div class="skill-col">
+            <h3 class="skill-col__title"><span class="skill-col__dot" aria-hidden="true"></span>工具与表达</h3>
+            <ul class="skill-list">
+              <li>GPT</li><li>Claude</li><li>Codex</li><li>WPS / Office</li><li>OA</li><li>微信公众号</li><li>Vibe Coding</li>
+            </ul>
+          </div>
+          <div class="skills-foot">
+            <span class="skills-foot__label">AI 工作流</span>
+            <div class="ai-flow" aria-label="AI 工作流：收集、结构化、原型、迭代">
+              <span class="ai-flow__step">收集</span><span class="ai-flow__arrow" aria-hidden="true">→</span>
+              <span class="ai-flow__step">结构化</span><span class="ai-flow__arrow" aria-hidden="true">→</span>
+              <span class="ai-flow__step">原型</span><span class="ai-flow__arrow" aria-hidden="true">→</span>
+              <span class="ai-flow__step">迭代</span>
+            </div>
           </div>
         </div>
-        <div class="resume-card__actions">
-          <a class="btn btn--primary" href="%E5%BB%96%E6%A5%A0%E2%80%9418374627109(1).pdf" download>下载 PDF</a>
-          <a class="btn btn--ghost" href="%E5%BB%96%E6%A5%A0%E2%80%9418374627109(1).pdf" target="_blank" rel="noopener">在线预览</a>
+      </div>
+    </section>
+
+    <!-- ============ PORTFOLIO ============ -->
+    <section class="section" id="portfolio" aria-labelledby="portfolio-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">06</span>
+            <h2 class="section-head__title" id="portfolio-title">作品集</h2>
+          </div>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
+
+        <div class="pf-toolbar reveal">
+          <div class="pf-filters" role="group" aria-label="按分类筛选作品">
+            <button class="filter-pill is-active" type="button" data-filter="all" aria-pressed="true">全部</button>
+            <button class="filter-pill" type="button" data-filter="product" aria-pressed="false">产品</button>
+            <button class="filter-pill" type="button" data-filter="research" aria-pressed="false">研究</button>
+            <button class="filter-pill" type="button" data-filter="content" aria-pressed="false">内容</button>
+            <button class="filter-pill" type="button" data-filter="site" aria-pressed="false">个人主页</button>
+          </div>
+
+          <p class="sr-only" id="pfStatus" role="status" aria-live="polite"></p>
+          <div class="pf-tabs" id="pfTabs" role="tablist" aria-label="作品条目">
+            <button class="pf-tab is-active" type="button" role="tab" id="tab-stashly" aria-controls="pf-stashly" aria-selected="true" tabindex="0" data-cat="product">Stashly 书柜 App</button>
+            <button class="pf-tab" type="button" role="tab" id="tab-research" aria-controls="pf-research" aria-selected="false" tabindex="-1" data-cat="research">既有建筑绿色改造研究</button>
+            <button class="pf-tab" type="button" role="tab" id="tab-media" aria-controls="pf-media" aria-selected="false" tabindex="-1" data-cat="content">校园新媒体与活动协同</button>
+            <button class="pf-tab" type="button" role="tab" id="tab-site" aria-controls="pf-site" aria-selected="false" tabindex="-1" data-cat="site">廖楠求职主页</button>
+          </div>
+        </div>
+
+        <div class="pf-panels reveal">
+          <article class="pf-panel is-active" id="pf-stashly" role="tabpanel" aria-labelledby="tab-stashly">
+            <div class="pf-panel__body">
+              <p class="pf-panel__eyebrow">PRODUCT · AI CODING</p>
+              <h3 class="pf-panel__title">Stashly 书柜 App</h3>
+              <p class="pf-panel__meta"><span>个人产品</span><span>网页端</span><span>本地优先</span></p>
+              <p class="pf-panel__desc">围绕个人实体藏书管理场景，梳理图书查找、分类、成本记录与售出收益统计等需求；规划产品结构及核心功能，借助 Claude 等 AI 工具辅助开发，实现本地数据存储与离线访问，完成 APP 网页端功能搭建。</p>
+              <div class="pf-panel__note"><span>项目注脚</span><p>从藏书管理这一件小事出发，把需求、结构与实现串成完整闭环。</p></div>
+              <ul class="tag-row"><li class="tag">需求分析</li><li class="tag">功能设计</li><li class="tag">本地存储</li><li class="tag">Vibe Coding</li></ul>
+            </div>
+            <button class="pf-panel__cover" type="button" aria-haspopup="dialog"
+              data-title="Stashly 书柜 App" data-type="作品封面 · 产品 / AI Coding"
+              data-desc="围绕个人实体藏书管理场景，梳理图书查找、分类、成本记录与售出收益统计等需求；规划产品结构及核心功能，借助 Claude 等 AI 工具辅助开发，实现本地数据存储与离线访问，完成 APP 网页端功能搭建。"
+              data-img="assets/img/work-stashly.svg" data-alt="Stashly 书柜 App 封面">
+              <img src="assets/img/work-stashly.svg" alt="Stashly 书柜 App 封面" width="480" height="300" loading="lazy" decoding="async">
+              <span class="pf-panel__zoom">查看封面 <span aria-hidden="true">↗</span></span>
+            </button>
+          </article>
+
+          <article class="pf-panel" id="pf-research" role="tabpanel" aria-labelledby="tab-research">
+            <div class="pf-panel__body">
+              <p class="pf-panel__eyebrow">RESEARCH · GREEN RETROFIT</p>
+              <h3 class="pf-panel__title">既有建筑绿色改造研究</h3>
+              <p class="pf-panel__meta"><span>主要参与成员</span><span>国家自然科学基金</span><span>论文 2 篇</span></p>
+              <p class="pf-panel__desc">围绕既有建筑绿色改造多主体决策行为，识别核心决策主体及其利益诉求，梳理行为影响因素并开展数据分析；以第一作者发表核心论文 2 篇，参与 1 篇期刊论文及 3 部著作编写。</p>
+              <div class="pf-panel__note"><span>项目注脚</span><p>从多主体决策视角，理解绿色改造为什么发生、又如何协同。</p></div>
+              <ul class="tag-row"><li class="tag">多主体决策</li><li class="tag">数据分析</li><li class="tag">论文写作</li></ul>
+            </div>
+            <button class="pf-panel__cover" type="button" aria-haspopup="dialog"
+              data-title="既有建筑绿色改造研究" data-type="作品封面 · 研究 / 国家自然科学基金"
+              data-desc="围绕既有建筑绿色改造多主体决策行为，识别核心决策主体及其利益诉求，梳理行为影响因素并开展数据分析；以第一作者发表核心论文 2 篇，参与 1 篇期刊论文及 3 部著作编写。"
+              data-img="assets/img/work-research.svg" data-alt="既有建筑绿色改造研究封面">
+              <img src="assets/img/work-research.svg" alt="既有建筑绿色改造研究封面" width="480" height="300" loading="lazy" decoding="async">
+              <span class="pf-panel__zoom">查看封面 <span aria-hidden="true">↗</span></span>
+            </button>
+          </article>
+
+          <article class="pf-panel" id="pf-media" role="tabpanel" aria-labelledby="tab-media">
+            <div class="pf-panel__body">
+              <p class="pf-panel__eyebrow">CONTENT · CAMPUS MEDIA</p>
+              <h3 class="pf-panel__title">校园新媒体与活动协同</h3>
+              <p class="pf-panel__meta"><span>新媒体中心部长</span><span>校园新媒体</span><span>500+ 推文</span></p>
+              <p class="pf-panel__desc">负责微信公众号、QQ、易班等平台内容策划与日常运营，累计发布推文 500 余篇；统筹 30 余场校园活动宣传，协调 11 个部门推进执行；带领院系新生班级获易班风采大赛校一等奖。</p>
+              <div class="pf-panel__note"><span>项目注脚</span><p>内容不只是发出去，更要让信息真正抵达人。</p></div>
+              <ul class="tag-row"><li class="tag">内容策划</li><li class="tag">团队管理</li><li class="tag">活动统筹</li></ul>
+            </div>
+            <button class="pf-panel__cover" type="button" aria-haspopup="dialog"
+              data-title="校园新媒体与活动协同" data-type="作品封面 · 内容 / 团队管理"
+              data-desc="负责微信公众号、QQ、易班等平台内容策划与日常运营，累计发布推文 500 余篇；统筹 30 余场校园活动宣传，协调 11 个部门推进执行；带领院系新生班级获易班风采大赛校一等奖。"
+              data-img="assets/img/work-media.svg" data-alt="校园新媒体与活动协同封面">
+              <img src="assets/img/work-media.svg" alt="校园新媒体与活动协同封面" width="480" height="300" loading="lazy" decoding="async">
+              <span class="pf-panel__zoom">查看封面 <span aria-hidden="true">↗</span></span>
+            </button>
+          </article>
+
+          <article class="pf-panel" id="pf-site" role="tabpanel" aria-labelledby="tab-site">
+            <div class="pf-panel__body">
+              <p class="pf-panel__eyebrow">WEB · PERSONAL SITE</p>
+              <h3 class="pf-panel__title">廖楠求职主页</h3>
+              <p class="pf-panel__meta"><span>个人项目</span><span>原生前端</span><span>持续更新</span></p>
+              <p class="pf-panel__desc">以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、经历、项目、作品、技能与生活切片；柔和编辑风视觉，含平滑滚动、章节高亮、作品灯箱与移动端适配。</p>
+              <div class="pf-panel__note"><span>项目注脚</span><p>把简历变成一段可以滚动浏览的自我介绍。</p></div>
+              <ul class="tag-row"><li class="tag">HTML</li><li class="tag">CSS</li><li class="tag">JavaScript</li><li class="tag">响应式</li></ul>
+            </div>
+            <button class="pf-panel__cover" type="button" aria-haspopup="dialog"
+              data-title="廖楠求职主页" data-type="作品封面 · 个人主页 / 网页搭建"
+              data-desc="以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、经历、项目、作品、技能与生活切片；柔和编辑风视觉，含平滑滚动、章节高亮、作品灯箱与移动端适配。"
+              data-img="assets/img/pf-site.svg" data-alt="廖楠求职主页封面">
+              <img src="assets/img/pf-site.svg" alt="廖楠求职主页封面" width="480" height="300" loading="lazy" decoding="async">
+              <span class="pf-panel__zoom">查看封面 <span aria-hidden="true">↗</span></span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LIFE ============ -->
+    <section class="section" id="interests" aria-labelledby="interests-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">07</span>
+            <h2 class="section-head__title" id="interests-title">工作之外</h2>
+          </div>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
+
+        <div class="life-grid">
+          <aside class="life-aside reveal">
+            <img class="life-mascot" src="assets/img/ip-nan.svg" alt="" width="220" height="286" loading="lazy" decoding="async">
+            <div class="life-filters" role="group" aria-label="筛选生活切片">
+              <button class="life-filter is-active" type="button" data-life-filter="all" aria-pressed="true">全部</button>
+              <button class="life-filter" type="button" data-life-filter="daily" aria-pressed="false">日常</button>
+              <button class="life-filter" type="button" data-life-filter="travel" aria-pressed="false">出行</button>
+              <button class="life-filter" type="button" data-life-filter="inspiration" aria-pressed="false">灵感</button>
+            </div>
+            <p class="life-hint">点击卡片查看大图<br>点击后方卡片切换</p>
+          </aside>
+
+          <div class="deck-stage reveal">
+            <p class="sr-only" id="lifeStatus" role="status" aria-live="polite"></p>
+            <div class="deck" id="lifeDeck">
+              <button class="deck-card is-top" type="button" style="--i:0" data-cat="daily" data-title="City walk" data-type="生活切片 · 日常" data-desc="城市散步" data-img="assets/img/life-1.svg" aria-label="查看 City walk 城市散步">
+                <img src="assets/img/life-1.svg" alt="City walk 城市散步" width="600" height="800" loading="lazy" decoding="async">
+                <span class="deck-card__cap"><span class="deck-card__cap-en">City walk</span><span class="deck-card__cap-cn">城市散步</span></span>
+              </button>
+              <button class="deck-card" type="button" style="--i:1" data-cat="daily" data-title="Coffee" data-type="生活切片 · 日常" data-desc="周末咖啡" data-img="assets/img/life-2.svg" aria-label="查看 Coffee 周末咖啡">
+                <img src="assets/img/life-2.svg" alt="Coffee 周末咖啡" width="600" height="800" loading="lazy" decoding="async">
+                <span class="deck-card__cap"><span class="deck-card__cap-en">Coffee</span><span class="deck-card__cap-cn">周末咖啡</span></span>
+              </button>
+              <button class="deck-card" type="button" style="--i:2" data-cat="daily" data-title="Build mode" data-type="生活切片 · 日常" data-desc="做产品" data-img="assets/img/life-6.svg" aria-label="查看 Build mode 做产品">
+                <img src="assets/img/life-6.svg" alt="Build mode 做产品" width="600" height="800" loading="lazy" decoding="async">
+                <span class="deck-card__cap"><span class="deck-card__cap-en">Build mode</span><span class="deck-card__cap-cn">做产品</span></span>
+              </button>
+              <button class="deck-card" type="button" style="--i:3" data-cat="inspiration" data-title="Night read" data-type="生活切片 · 灵感" data-desc="夜读" data-img="assets/img/life-3.svg" aria-label="查看 Night read 夜读">
+                <img src="assets/img/life-3.svg" alt="Night read 夜读" width="600" height="800" loading="lazy" decoding="async">
+                <span class="deck-card__cap"><span class="deck-card__cap-en">Night read</span><span class="deck-card__cap-cn">夜读</span></span>
+              </button>
+              <button class="deck-card is-out" type="button" style="--i:4" data-cat="inspiration" data-title="Exhibition" data-type="生活切片 · 灵感" data-desc="看展" data-img="assets/img/life-5.svg" aria-label="查看 Exhibition 看展">
+                <img src="assets/img/life-5.svg" alt="Exhibition 看展" width="600" height="800" loading="lazy" decoding="async">
+                <span class="deck-card__cap"><span class="deck-card__cap-en">Exhibition</span><span class="deck-card__cap-cn">看展</span></span>
+              </button>
+              <button class="deck-card is-out" type="button" style="--i:5" data-cat="travel" data-title="On the road" data-type="生活切片 · 出行" data-desc="出行" data-img="assets/img/life-4.svg" aria-label="查看 On the road 出行">
+                <img src="assets/img/life-4.svg" alt="On the road 出行" width="600" height="800" loading="lazy" decoding="async">
+                <span class="deck-card__cap"><span class="deck-card__cap-en">On the road</span><span class="deck-card__cap-cn">出行</span></span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section section--contact" id="contact">
-      <div class="section__head reveal">
-        <span class="section__index">09 / CONTACT</span>
-        <h2 class="section__title">联系方式</h2>
-      </div>
-      <div class="contact__inner reveal">
-        <h3 class="contact__title">一起做点有意义的事。</h3>
-        <p class="contact__desc">如果你正在寻找一位懂业务、能协同、也愿意拥抱新工具的人，欢迎给我发一封邮件。</p>
-        <div class="contact__cards">
-          <a class="contact-card" href="mailto:ln0827an@163.com">
-            <span class="contact-card__label">邮箱</span>
-            <span class="contact-card__value">ln0827an@163.com</span>
-          </a>
-          <a class="contact-card" href="tel:18374627109">
-            <span class="contact-card__label">电话</span>
-            <span class="contact-card__value">18374627109</span>
-          </a>
-          <button class="contact-card contact-card--btn" id="copyEmail" type="button" data-email="ln0827an@163.com">
-            <span class="contact-card__label">复制邮箱</span>
-            <span class="contact-card__value">点击复制</span>
-          </button>
+    <section class="section section--contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <header class="section-head reveal">
+          <div class="section-head__left">
+            <span class="section-head__num" aria-hidden="true">08</span>
+            <h2 class="section-head__title" id="contact-title">联系我</h2>
+          </div>
+          <span class="section-head__dot" aria-hidden="true"></span>
+        </header>
+
+        <div class="contact-card reveal">
+          <div class="contact-card__main">
+            <p class="contact-card__eyebrow">LET'S TALK</p>
+            <p class="contact-card__title">期待与你一起，<br>把复杂的事梳理清楚。</p>
+            <p class="contact-card__desc">如果你正在寻找一位懂业务、能协同、也愿意拥抱新工具的人，欢迎给我发一封邮件。</p>
+            <div class="contact-card__cta">
+              <a class="btn btn--light" href="廖楠-求职简历.pdf" download="廖楠-求职简历.pdf">下载简历 PDF <span class="btn__arrow" aria-hidden="true">↓</span></a>
+              <a class="btn btn--ghost-light" href="mailto:ln0827an@163.com">发送邮件 <span class="btn__arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+
+          <div class="contact-card__side">
+            <div class="contact-row">
+              <span class="contact-row__label">邮箱</span>
+              <a class="contact-row__value" href="mailto:ln0827an@163.com">ln0827an@163.com</a>
+              <button class="copy-email" type="button" data-email="ln0827an@163.com">复制</button>
+            </div>
+            <div class="contact-row">
+              <span class="contact-row__label">电话</span>
+              <a class="contact-row__value" href="tel:18374627109">18374627109</a>
+            </div>
+            <div class="contact-row">
+              <span class="contact-row__label">城市</span>
+              <span class="contact-row__value">杭州 · 可异地</span>
+            </div>
+            <div class="contact-row">
+              <span class="contact-row__label">状态</span>
+              <span class="contact-row__value">在职，寻找新机会</span>
+            </div>
+          </div>
         </div>
-        <p class="contact__extra">所在城市：杭州 / 可异地 · 求职状态：在职，寻找新机会</p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <span>© 2026 廖楠 · LIAO NAN</span>
-    <span class="site-footer__note">用原生 HTML / CSS / JavaScript 搭建</span>
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <span class="footer__name">廖楠</span>
+        <p>管理科学与工程 · 项目协同 · 杭州</p>
+      </div>
+      <p class="footer__meta">© 2026 廖楠 · 个人求职主页<br><span>用原生 HTML / CSS / JavaScript 搭建</span></p>
+      <a class="footer__top" href="#home">回到顶部 <span aria-hidden="true">↑</span></a>
+    </div>
   </footer>
 
-  <!-- 作品灯箱 -->
-  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" aria-describedby="lightboxDesc">
-    <div class="lightbox__overlay" data-close></div>
-    <div class="lightbox__panel">
-      <button class="lightbox__close" id="lightboxClose" aria-label="关闭" data-close>×</button>
-      <img class="lightbox__img" id="lightboxImg" alt="" />
-      <span class="lightbox__type" id="lightboxType"></span>
-      <h3 class="lightbox__title" id="lightboxTitle"></h3>
-      <p class="lightbox__desc" id="lightboxDesc"></p>
+  <!-- 移动端菜单 -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
+    <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="导航菜单">
+      <div class="mobile-menu__head">
+        <a class="brand" href="#home" aria-label="廖楠，回到首页">
+          <span class="brand__name">廖楠</span>
+          <span class="brand__en">LIAO NAN</span>
+        </a>
+        <button class="mobile-menu__close" id="menuClose" type="button" aria-label="关闭菜单">×</button>
+      </div>
+      <nav class="mobile-menu__nav" aria-label="移动端导航">
+        <a class="mobile-menu__link" href="#about"><span>01</span>关于我</a>
+        <a class="mobile-menu__link" href="#experience"><span>02</span>工作经历</a>
+        <a class="mobile-menu__link" href="#education"><span>03</span>教育背景</a>
+        <a class="mobile-menu__link" href="#projects"><span>04</span>项目经历</a>
+        <a class="mobile-menu__link" href="#skills"><span>05</span>技能</a>
+        <a class="mobile-menu__link" href="#portfolio"><span>06</span>作品集</a>
+        <a class="mobile-menu__link" href="#interests"><span>07</span>工作之外</a>
+        <a class="mobile-menu__link" href="#contact"><span>08</span>联系我</a>
+      </nav>
+      <div class="mobile-menu__foot">
+        <p class="mobile-menu__status"><span class="status__dot" aria-hidden="true"></span>在职 · 寻找新机会</p>
+        <a class="btn btn--dark" href="廖楠-求职简历.pdf" download="廖楠-求职简历.pdf">下载简历</a>
+        <a class="btn btn--outline" href="mailto:ln0827an@163.com">发送邮件</a>
+      </div>
     </div>
   </div>
 
-  <!-- 复制提示 -->
+  <!-- 作品灯箱 -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" aria-describedby="lightboxDesc" inert>
+    <div class="lightbox__overlay" data-close></div>
+    <div class="lightbox__panel">
+      <button class="lightbox__close" id="lightboxClose" type="button" aria-label="关闭" data-close>×</button>
+      <div class="lightbox__media"><img class="lightbox__img" id="lightboxImg" alt="" width="600" height="800"></div>
+      <div class="lightbox__info">
+        <p class="lightbox__type" id="lightboxType"></p>
+        <h3 class="lightbox__title" id="lightboxTitle"></h3>
+        <p class="lightbox__desc" id="lightboxDesc"></p>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/js/main.js"></script>
+  <noscript>
+    <style>
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .exp-card__panel { max-height: none !important; }
+      .deck { aspect-ratio: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .deck-card { position: static; transform: none !important; }
+      .deck-card.is-out { display: block; opacity: 1; }
+    </style>
+  </noscript>
+
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

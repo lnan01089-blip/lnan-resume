@@ -1,86 +1,121 @@
-# 廖楠 Personal Job-Seeking Homepage
+# 廖楠 · 个人求职主页
 
-单页静态 personal job-seeking homepage，用于展示经历、教育、项目、作品、能力与生活切片。视觉采用浅色瑞士编辑风：近白画布、碳黑文字、中性锌灰、1px 细线、4px 圆角，无阴影与模糊。
+单页静态求职主页，用来展示经历、教育、项目、技能、作品集、生活切片与联系方式。视觉采用「暖灰纸上编辑」风格：`#F4F5F8` 暖灰画布、白色大圆角卡片、宋体大标题与数字、胶囊按钮、圆形头像、手绘 IP 小人、黑色联系卡，以及作品集双层筛选和生活区卡牌堆叠。
 
-内容严格以根目录 PDF resume 为准，不虚构经历、时间、论文数量或项目结果。年龄、性别、党员身份默认不展示。
+内容严格以根目录简历 PDF 为准，不虚构经历、时间、论文数量或项目结果。年龄、性别、党员身份默认不展示。
 
 ## 当前状态
 
-- 10 个章节：Home、About、Experience、Education、Projects、Portfolio、Skills、Interests、Resume、Contact。
-- 桌面端 Projects 三栏、Portfolio 四栏；平板两栏；手机端项目单栏、生活区两栏。
-- 项目封面与生活区使用原创 SVG 占位图，并在页面中明确标注，后续可直接替换真实素材。
-- 所有字体文件、图标、图片与 PDF 均为本地资源，不依赖 Google Fonts 或第三方运行时。
+- 首屏 + 8 个编号章节：01 关于、02 经历、03 教育、04 项目、05 技能、06 作品集、07 工作之外、08 联系我。
+- 桌面端英雄区双栏、项目 12 栏、作品集封面与文案双栏；手机端全部单栏，作品集标签自动换成两行。
+- 生活区为六张 3:4 卡牌堆叠，支持分类筛选、点选置顶与灯箱查看。
+- 项目封面与生活切片使用原创单色 SVG 占位图，页面内已标注，可直接替换成真实素材。
+- 字体、图标、图片与 PDF 全部本地化，不依赖 Google Fonts 或第三方运行时。
+- 已部署到 GitHub Pages：<https://lnan01089-blip.github.io/lnan-resume/>
 
 ## 技术栈
 
-原生 HTML + CSS + JavaScript，无框架、无构建步骤、无后端。Inter 以 `@font-face` 自托管（`assets/fonts/`，400 / 500 / 600 三个字重），全站统一使用 Inter；中文字符按字形回落到苹方、微软雅黑或思源黑体。CSS 中不再使用等宽字体。
+原生 HTML + CSS + JavaScript，无框架、无构建步骤、无后端。
+
+字体自托管：
+
+- **Inter** 400 / 500 / 600（`assets/fonts/inter-latin-*.woff2`），用于正文、标签、按钮与导航。
+- **Noto Serif SC** 500（`assets/fonts/noto-serif-sc-500.woff2`），仅保留页面实际用到的字符，约 96KB，用于标题、姓名、数字与联系卡大标题。
+
+中文字符若不在子集内会回落到系统的苹方 / 宋体 / 微软雅黑。新增中文文案后，需要重新生成宋体子集；否则新字会以回退字体显示。
 
 ## 目录结构
 
 ```text
 .
 ├── index.html
+├── DESIGN.md                 # 设计系统（颜色、字体、组件、动效、无障碍）
 ├── README.md
-├── 主页需求文档.md
-├── 廖楠—18374627109(1).pdf
+├── 廖楠-求职简历.pdf          # 页面下载链接使用的正式文件
+├── 廖楠—18374627109(1).pdf    # 原始简历备份
 └── assets
     ├── css/style.css
     ├── js/main.js
     ├── fonts
-    │   └── inter-latin-{400,500,600}-normal.woff2
+    │   ├── inter-latin-{400,500,600}-normal.woff2
+    │   └── noto-serif-sc-500.woff2
     └── img
+        ├── avatar-720.jpg / avatar-360.jpg
+        ├── mascot-head.svg     # 关于我标题旁的圆形 IP 头
+        ├── ip-nan.svg          # 工作之外区的全身 IP
         ├── favicon.svg
-        ├── og-cover.png
-        ├── ip-nan.svg
-        ├── work-*.svg
-        ├── pf-site.svg
+        ├── og-cover.png        # 1200 × 630 分享封面
+        ├── work-*.svg / pf-site.svg
         └── life-1.svg … life-6.svg
 ```
 
 ## 本地预览
 
-```powershell
-python -m http.server 4173 --bind 127.0.0.1
+```bash
+python -m http.server 8000 --bind 127.0.0.1
 ```
 
-浏览器打开 `http://127.0.0.1:4173/`。建议使用本地服务器预览 PDF 的下载与在线打开行为。
+打开 <http://127.0.0.1:8000/>。建议用本地服务器预览，确保 PDF 下载、字体加载与相对路径行为与线上一致。
 
 ## 交互
 
-- 顶部滚动进度条与当前章节高亮。
-- Experience 手风琴：默认展开最近一段经历，同时只展开一项，支持键盘操作。
-- Portfolio 灯箱：点击打开、按钮/遮罩/Esc 关闭，带焦点陷阱与焦点返回。
-- Interests 分类筛选：全部、日常、出行、灵感，并提供结果数量提示。
-- 邮箱一键复制与轻量提示。
-- 手机端全屏菜单：Esc 关闭、焦点陷阱、背景 `inert`、横屏可滚动。
-- 支持 `prefers-reduced-motion`，关闭非必要动画。
+- **经历手风琴**：默认展开最近一段，同时只展开一项；按钮带 `aria-expanded`，关闭面板为 `inert`。
+- **作品集双层筛选**：先按分类（全部 / 产品 / 研究 / 内容 / 个人主页）过滤标签页，再在标签页之间切换；标签支持方向键、Home / End，面板切换有淡入动效。
+- **灯箱**：作品封面与生活卡牌共用；点击打开，按钮、遮罩或 Esc 关闭，带焦点陷阱、焦点返回与背景 `inert`。
+- **生活区卡牌**：全部 / 日常 / 出行 / 灵感筛选；点击后排卡牌会置顶，点击最上层卡牌打开灯箱。
+- **邮箱复制**：一键复制并弹出轻提示，失败时回退到手动选择。
+- **手机菜单**：全屏抽屉、Esc 关闭、焦点陷阱、背景滚动锁定，点击链接后平滑滚动到对应章节。
+- **滚动反馈**：页头在滚动后出现毛玻璃与细线；导航随章节高亮。
+- **动效降级**：`prefers-reduced-motion` 下关闭入场、位移与平滑滚动。
 
 ## 素材替换
 
-- **生活区照片**：放入 `assets/img/`，建议统一为 3:4 竖图，主体居中；替换 `life-*.svg` 的 `src` 与 `alt`。
-- **项目封面**：建议统一为 16:10；替换 `work-*.svg` 或 `pf-site.svg` 的 `src`。
-- **个人 IP**：替换 `ip-nan.svg` 即可，建议保持单色矢量与透明/近白背景。
-- **社交分享图**：替换 `assets/img/og-cover.png`，建议尺寸 1200 × 630。
+- **头像**：替换 `assets/img/avatar-720.jpg`（720 × 720）与 `avatar-360.jpg`（360 × 360），保持 1:1 正方形、人物居中。
+- **生活区照片**：建议统一 3:4 竖图，主体居中；替换 `life-*.svg` 的 `src` 与 `alt`。
+- **项目封面**：建议 16:10；替换 `work-*.svg` 或 `pf-site.svg`。
+- **个人 IP**：替换 `ip-nan.svg`（全身）或 `mascot-head.svg`（圆形头像），保持单色、透明背景。
+- **社交分享图**：替换 `assets/img/og-cover.png`，尺寸保持 1200 × 630。
 - **Favicon**：替换 `assets/img/favicon.svg`。
 
 替换图片时保留现有 `width`、`height`、`loading` 与 `alt` 属性，避免布局跳动并保持无障碍语义。
 
-部署到正式域名后，建议把 `index.html` 中的 `og:image` 改为可公开访问的绝对 URL，确保社交平台能抓取分享封面。
+### 重新生成宋体子集
 
-## Resume PDF
+安装了 `fonttools` 后，可从完整 Noto Serif SC 字体中按页面字符生成子集：
 
-根目录 `廖楠—18374627109(1).pdf` 是唯一 resume 来源，目前为 1 页。页面中的三处链接使用百分号编码：页头 Resume PDF、首屏下载按钮、Resume 章节的下载与在线预览。
+```bash
+pyftsubset NotoSerifSC-Regular.otf \
+  --text-file=page-chars.txt \
+  --flavor=woff2 \
+  --output-file=assets/fonts/noto-serif-sc-500.woff2
+```
 
-替换 PDF 时请保留原文件名；如改名，需要同步更新 `index.html` 中所有对应链接。
+`page-chars.txt` 应包含 `index.html`、`main.js` 与 CSS 中出现的全部字符。修改文案后重新执行，并确认页面上的宋体没有回退。
+
+## 简历 PDF
+
+页面中的下载按钮统一指向根目录 `廖楠-求职简历.pdf`（1 页）。`廖楠—18374627109(1).pdf` 仅作原始备份，不再被页面引用。
+
+替换 PDF 时保留文件名即可；若改名，需要同步更新 `index.html` 中所有对应链接。文件名含中文，链接已做百分号编码。
 
 ## 无障碍与质量
 
-- 跳过导航链接、可见焦点样式、`aria-current`、`aria-expanded`、`aria-pressed`、`aria-controls`。
-- 灯箱与移动菜单均支持 Esc、焦点陷阱与焦点返回。
-- 小字号正文与标签使用次级锌灰 `#71717A`；三级锌灰 `#A1A1AA` 仅用于辅助索引、时间与编号。
-- 图片带替代文本、显式尺寸与懒加载。
+- 跳过导航链接、可见的 2px 焦点环、`aria-current`、`aria-expanded`、`aria-pressed`、`aria-controls`。
+- 作品标签使用 `role="tablist" / tab / tabpanel`、漫游 `tabindex` 与方向键操作；筛选结果通过 `aria-live` 播报。
+- 灯箱与移动菜单均支持 Esc、Tab 焦点陷阱、焦点返回与背景 `inert`。
+- 正文使用 `#61636A`，辅助索引使用 `#8D8F96`；信息不依赖颜色单独传达。
+- 图片带替代文本、显式尺寸与懒加载；无 JS 时内容仍然可见。
 - 目标：Lighthouse Performance、Accessibility ≥ 90。
 
 ## 部署
 
-可直接托管到 GitHub Pages、Netlify、Vercel 或任意静态服务器。保持相对路径不变即可，无需安装依赖或执行构建命令。
+当前托管在 GitHub Pages：
+
+- 仓库：<https://github.com/lnan01089-blip/lnan-resume>
+- 线上地址：<https://lnan01089-blip.github.io/lnan-resume/>
+
+发布方式：将 `main` 分支根目录推送到 GitHub，在仓库 **Settings → Pages** 中选择 `Deploy from a branch` → `main` → `/ (root)`。页面无需构建，推送后 1–2 分钟生效。
+
+也可以原样托管到 Netlify、Vercel 或任意静态服务器，保持相对路径不变即可。
+
+若绑定自定义域名，请同步更新 `index.html` 中的 `canonical`、`og:url` 与 `og:image` 为新的绝对地址，确保社交平台能抓取分享封面。
