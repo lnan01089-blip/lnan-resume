@@ -56,6 +56,7 @@
   --ease: cubic-bezier(.22, .61, .36, 1);
   --header-h: 72px;
   --wrap: 1180px;
+  --data-size: clamp(1.8rem, 2.4vw, 2.15rem);
 }
 
 *,
@@ -136,6 +137,7 @@ strong { font-weight: 600; }
   text-transform: uppercase;
   color: var(--ink-3);
 }
+.eyebrow__break { display: none; }
 
 .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
 
@@ -480,7 +482,7 @@ strong { font-weight: 600; }
   gap: 4px;
   font-family: var(--serif);
   font-weight: 500;
-  font-size: 2.75rem;
+  font-size: var(--data-size);
   line-height: 1;
   letter-spacing: -.02em;
 }
@@ -587,9 +589,6 @@ strong { font-weight: 600; }
 .edu-row__honors { margin-top: 10px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
 .edu-row .badge { margin-top: 3px; }
 
-.edu-langs { display: flex; align-items: center; gap: 14px; margin-top: 18px; padding-left: 4px; }
-.edu-langs__label { font-size: 10.5px; letter-spacing: .14em; color: var(--ink-3); }
-
 /* ============ Campus ============ */
 .campus-card {
   display: grid;
@@ -630,7 +629,7 @@ strong { font-weight: 600; }
   gap: 2px;
   font-family: var(--serif);
   font-weight: 500;
-  font-size: 1.65rem;
+  font-size: var(--data-size);
   line-height: 1;
   letter-spacing: -.01em;
 }
@@ -781,10 +780,10 @@ strong { font-weight: 600; }
   font-weight: 500;
   line-height: 1;
 }
-.metric__num { font-size: clamp(1.75rem, 2.6vw, 2.15rem); letter-spacing: -.02em; }
+.metric__num { font-size: var(--data-size); letter-spacing: -.02em; }
 .metric__num--text {
-  font-size: clamp(1.35rem, 1.7vw, 1.6rem);
-  line-height: 1.25;
+  font-size: var(--data-size);
+  line-height: 1.1;
   letter-spacing: 0;
   white-space: nowrap;
 }
@@ -1777,7 +1776,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .about__statement { font-size: 1.9rem; }
   .about__bio { font-size: 13.5px; }
   .stat { min-height: 126px; padding: 20px 18px; }
-  .stat__value { font-size: 2.2rem; }
   .stat__label { font-size: 11px; margin-top: 9px; }
 
   .exp-card__head { gap: 12px; padding: 20px 18px; }
@@ -1797,7 +1795,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .edu-row .badge { grid-column: 2; grid-row: 1; margin-top: 0; }
   .edu-row__body { grid-column: 1 / -1; grid-row: 2; }
   .edu-row__school { font-size: 21px; }
-  .edu-langs { padding-left: 0; }
 
   .project-card, .project-card--wide { padding: 22px; }
   .project-card__title { font-size: 1.3rem; }
@@ -1806,7 +1803,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .project-gallery__hint { font-size: 9px; letter-spacing: .04em; }
   .metric { padding: 14px 12px 13px 0; }
   .metric + .metric { padding-left: 12px; }
-  .metric__num { font-size: 1.65rem; }
   .metric__label { font-size: 10.5px; }
   .project-card__foot { padding-top: 18px; }
   .project-edit-bar {
@@ -1824,7 +1820,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .campus-stat { padding: 14px 14px 12px 0; }
   .campus-stat:nth-child(3) { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .campus-stat:nth-child(4) { border-top: 1px solid var(--line); }
-  .campus-stat__value { font-size: 1.5rem; }
 
   .skill-card { padding: 22px; }
   .skills-flow { padding: 16px 22px; }
@@ -1877,6 +1872,10 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .img-manager__foot { padding: 13px 18px; }
   .img-manager__foot .btn { flex: 1 1 auto; }
   .footer__actions { width: 100%; justify-content: space-between; }
+}
+
+@media (max-width: 400px) {
+  .eyebrow__break { display: inline; }
 }
 
 @media (max-width: 380px) {

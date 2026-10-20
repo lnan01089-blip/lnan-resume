@@ -117,7 +117,7 @@ Soft Editorial / Warm Minimalism. A contemporary take on the personal-profile zi
 ### Non-negotiables
 
 - No accent hues. The complete palette is warm gray, white, and near-black.
-- No photography outside the avatar, project images, and life cards.
+- No photography outside the avatar, project images, and interest images.
 - Mascots are monochrome line art; never recolor them or add gradients.
 - The page never exceeds the viewport width at any breakpoint.
 
@@ -159,7 +159,7 @@ Used for everything that should feel authored:
 - Hero masthead (`clamp(2.6rem, 5.2vw, 4.4rem)` desktop, `clamp(1.72rem, 7vw, 2.05rem)` mobile, line-height .98), with 廖楠 · LIAO NAN as the tracked subtitle
 - Hero claim, about statement, section question
 - Section titles and project titles
-- Big stat numbers
+- Data values in the About, campus, and project sections; all three use the shared `--data-size` token so numerals stay consistent across the page
 - Contact card headline
 - Footer name
 
@@ -190,12 +190,12 @@ A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sect
 
 - **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Below 900px the copy becomes a single column and the portrait moves to the top-right corner as a 76–112px avatar, with the masthead width capped so the two never overlap.
 - **About:** statement + bio on the left, a 2×2 stat card on the right; stats are separated by 1px hairlines, not gaps.
-- **Education:** one white card with rows separated by hairlines; language tags sit underneath.
+- **Education:** one white card with rows separated by hairlines. The degree level appears once, as the right-side badge; the major line no longer repeats "硕士" / "本科", and the language tags have been removed.
 - **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
 - **Projects:** a three-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes two columns at 1180px (last card spans) and one column at 900px.
 - **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (four-cell stat strip first, then the two-row detail list). It follows the project grid as a quieter closing chapter.
 - **Skills:** one rounded panel with two hairline-divided columns of category chips (one column on mobile), plus a full-width AI-workflow footer row. The "研究与分析" group has been removed.
-- **Life:** a narrow left rail with only the full-body mascot, plus a centered stacked deck of six 3:4 cards. There are no category filters.
+- **Interests:** a narrow left rail with only the full-body mascot, plus a centered stacked deck of six 3:4 cards. There are no category filters.
 - **Contact:** one full-width black card, two columns on desktop (copy + actions | contact rows).
 - **Footer:** black, flush with the contact card's visual block, ending the page.
 
@@ -266,30 +266,30 @@ Depth is soft and minimal, never skeuomorphic.
 
 - **Header:** fixed, 72px tall, transparent at the top; after 8px of scroll it gains a translucent canvas background, blur, and a hairline bottom border.
 - **Brand:** serif N'RESUME over a small tracked 廖楠 · LIAO NAN.
-- **Links:** seven text links in page order (关于 / 教育 / 经历 / 项目 / 校园 / 技能 / 生活), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`. The mobile menu also includes 联系我.
+- **Links:** seven text links in page order (关于 / 教育 / 经历 / 项目 / 校园 / 技能 / 兴趣), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`. The mobile menu also includes 联系我.
 - **Right side:** availability status text, a dark pill "联系我", and a circular menu button below 1080px.
 - **Mobile menu:** full-screen canvas overlay with large serif links, staggered entrance, and a close button; background content is `inert`.
 
-### Life Deck
+### Interests Deck
 
 - **Rail:** full-body mascot only; the former 全部 / 日常 / 出行 / 灵感 filters have been removed.
-- **Deck:** six 3:4 cards stacked with progressive offsets. The top card has a caption pill. Clicking a back card brings it to the front; clicking the top card opens the lightbox. All six cards stay in the stack at every breakpoint.
+- **Deck:** six 3:4 cards stacked with progressive offsets. The top card has a caption pill. Clicking any card brings it to the front and opens the lightbox in the same action, so a back card only needs one click. All six cards stay in the stack at every breakpoint.
 - **Illustrations:** monochrome city, coffee, hiking, reading, etc., with one soft gray circle motif.
 
 ### Lightbox
 
 - Full-screen ink scrim (`rgba(15,16,19,.64)`) with backdrop blur.
 - Two-column white panel: media left, type/title/description/caption right. The media area holds the current image, a counter pill, circular prev/next buttons, and a thumbnail strip for multi-image galleries.
-- Opens from project gallery triggers and life cards. Focus moves to close, Tab is trapped, Esc and backdrop click close, and focus returns to the trigger.
+- Opens from project gallery triggers and interest cards. Focus moves to close, Tab is trapped, Esc and backdrop click close, and focus returns to the trigger.
 - The caption under the image is the image's editable note. Multi-image galleries support thumbnail selection, `←` / `→` / `Home` / `End`, and horizontal pointer swipes on touch devices. The image fades/scales slightly when switching; `prefers-reduced-motion` disables it.
 
 ### Image Manager
 
 - Opened from a low-contrast "替换图片" link in the footer.
 - Modal dialog over the ink scrim: white 24px panel, fixed header and footer, scrollable body, close button and Esc.
-- Nine single-image slots grouped as 头像与 IP / 生活切片, each with a thumbnail, label, recommended ratio, a note field, "选择图片" pill, and a per-slot "恢复默认" link once replaced or annotated.
+- Nine single-image slots grouped as 头像与 IP / 兴趣爱好, each with a thumbnail, label, recommended ratio, a note field, "选择图片" pill, and a per-slot "恢复默认" link once replaced or annotated.
 - Three project gallery blocks grouped under 项目图片. Each block shows its current thumbnails with 替换 / 移除 overlays, an editable note field under every image, an "添加图片" tile, a count line, and a gallery-level "恢复默认" link.
-- Notes are capped at 80 characters. Project and life-card notes appear below the image in the lightbox; avatar and IP notes act as image hover titles and stay available in the manager.
+- Notes are capped at 80 characters. Project and interest-card notes appear below the image in the lightbox; avatar and IP notes act as image hover titles and stay available in the manager.
 - Project galleries accept up to eight images and always keep at least one; multiple files can be added at once.
 - The footer holds "全部恢复默认" and "完成". Resetting an image or gallery also clears its notes.
 - Images are compressed in-browser to max 1200px and stored as data URLs in `localStorage` (`nresume:image:*` for single slots, `nresume:gallery:*` for project galleries). Project gallery values are image objects with `src`, `alt`, and `caption`; single-slot notes use `nresume:note:*`. This is a local preview, not a server-side edit.
@@ -315,7 +315,7 @@ Depth is soft and minimal, never skeuomorphic.
 - Skip link to main content; visible 2px ink focus ring everywhere.
 - Landmarks: header, nav, main, sections with accessible names, footer.
 - Accordion buttons use `aria-expanded` / `aria-controls`; closed panels are `inert`.
-- Life cards are real buttons with captions; the removed category filters no longer introduce a filter state.
+- Interest cards are real buttons with captions; the removed category filters no longer introduce a filter state.
 - Project gallery triggers use `aria-haspopup="dialog"` and `aria-controls`. The lightbox supports thumbnail buttons with `aria-current`, labelled prev/next buttons, arrow/Home/End keys, pointer swipes, and an `aria-live` position announcement. Image notes are exposed as the lightbox caption and in thumbnail `aria-label`s.
 - Project text editing uses `aria-pressed` on the section toggle and labels every editable field with its project and field name; exiting removes the editing affordances. Esc exits the mode and returns focus to the toggle.
 - Menu, lightbox, and image manager: `aria-hidden` + `inert` on the background, body scroll lock, Esc to close, Tab trap, focus return.
@@ -330,7 +330,7 @@ Depth is soft and minimal, never skeuomorphic.
 - The image manager is a client-side preview: single-image and project-gallery replacements live in `localStorage` for the current browser. Permanent asset changes require replacing files in `assets/img` and redeploying.
 - Project text edits are a client-side preview too, stored under `nresume:project-text:<project-key>` with only changed fields; "恢复默认文字" removes those keys. Other visitors see the defaults in the HTML.
 - Design tokens live at the top of `assets/css/style.css`; components consume variables, not raw hex values.
-- Breakpoints: 1180px (project grid three → two columns, last card spans), 1080px (nav → menu), 900px (grids collapse to one column; hero copy becomes single-column with a top-right avatar), 640px (compact mobile masthead, stacked CTAs, two-column manager galleries, 300px deck), 380px (small-phone trims and a 76px avatar).
+- Breakpoints: 1180px (project grid three → two columns, last card spans), 1080px (nav → menu), 900px (grids collapse to one column; hero copy becomes single-column with a top-right avatar), 640px (compact mobile masthead, stacked CTAs, two-column manager galleries, 300px deck), 400px (the hero eyebrow breaks cleanly after "OPEN TO WORK ·" instead of leaving an orphan character), 380px (small-phone trims and a 76px avatar).
 - Container width is capped at 1180px with 24px side margins (16px on mobile).
 - All image assets are raster (JPG / PNG / WebP); the page does not reference SVG files.
 - The self-hosted Noto Serif SC subset and Inter files are preloaded in `index.html`; the OG cover is generated from the same tokens.

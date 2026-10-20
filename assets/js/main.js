@@ -174,7 +174,7 @@
       label: "N'RESUME 个人主页",
       type: '项目图片 · 个人主页 / 网页搭建',
       title: "N'RESUME 个人主页",
-      desc: '以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、教育、工作、项目、校园、技能、生活与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。',
+      desc: '以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、教育、工作、项目、校园、技能、兴趣与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。',
       images: [
         { src: 'assets/img/project-site-1.webp', alt: "N'RESUME 个人主页桌面端首页", caption: '桌面端首页' },
         { src: 'assets/img/project-site-2.webp', alt: "N'RESUME 个人主页项目经历", caption: '项目经历' },
@@ -1099,12 +1099,12 @@
     { key: 'avatar', group: '头像与 IP', label: '个人头像', spec: '1:1 · 建议 720 × 720' },
     { key: 'mascot-head', group: '头像与 IP', label: '圆形 IP 头像', spec: '透明背景 · 方形' },
     { key: 'mascot-body', group: '头像与 IP', label: '全身 IP 小人', spec: '透明背景 · 竖图' },
-    { key: 'life-1', group: '生活切片', label: 'City walk · 城市散步', spec: '3:4 竖图' },
-    { key: 'life-2', group: '生活切片', label: 'Coffee · 周末咖啡', spec: '3:4 竖图' },
-    { key: 'life-6', group: '生活切片', label: 'Build mode · 做产品', spec: '3:4 竖图' },
-    { key: 'life-3', group: '生活切片', label: 'Night read · 夜读', spec: '3:4 竖图' },
-    { key: 'life-5', group: '生活切片', label: 'Exhibition · 看展', spec: '3:4 竖图' },
-    { key: 'life-4', group: '生活切片', label: 'On the road · 在路上', spec: '3:4 竖图' }
+    { key: 'life-1', group: '兴趣爱好', label: 'City walk · 城市散步', spec: '3:4 竖图' },
+    { key: 'life-2', group: '兴趣爱好', label: 'Coffee · 周末咖啡', spec: '3:4 竖图' },
+    { key: 'life-6', group: '兴趣爱好', label: 'Build mode · 做产品', spec: '3:4 竖图' },
+    { key: 'life-3', group: '兴趣爱好', label: 'Night read · 夜读', spec: '3:4 竖图' },
+    { key: 'life-5', group: '兴趣爱好', label: 'Exhibition · 看展', spec: '3:4 竖图' },
+    { key: 'life-4', group: '兴趣爱好', label: 'On the road · 在路上', spec: '3:4 竖图' }
   ];
   const imageSlots = IMAGE_SLOT_DEFS.map((def) => {
     const img = $(`img[data-img-slot="${def.key}"]`);
@@ -1272,7 +1272,7 @@
     noteInput.type = 'text';
     noteInput.maxLength = NOTE_MAX_LENGTH;
     noteInput.value = slot.note || '';
-    noteInput.placeholder = slot.group === '生活切片' ? '备注，会显示在弹窗中' : '添加图片备注…';
+    noteInput.placeholder = slot.group === '兴趣爱好' ? '备注，会显示在弹窗中' : '添加图片备注…';
     noteInput.dataset.slotNote = slot.key;
     noteInput.setAttribute('aria-label', `${slot.label}的图片备注`);
     noteLabel.appendChild(noteInput);
@@ -1398,7 +1398,7 @@
       groups.get(slot.group).push(slot);
     });
 
-    ['头像与 IP', '项目图片', '生活切片'].forEach((groupName) => {
+    ['头像与 IP', '项目图片', '兴趣爱好'].forEach((groupName) => {
       const group = document.createElement('section');
       group.className = 'img-manager__group';
 
@@ -1925,7 +1925,7 @@
     });
 
     if (lifeStatus) {
-      lifeStatus.textContent = `显示 ${visible.length} 张生活切片`;
+      lifeStatus.textContent = `显示 ${visible.length} 张兴趣图片`;
     }
   }
 
@@ -1938,21 +1938,17 @@
 
   deckCards.forEach((card) => {
     card.addEventListener('click', () => {
-      const visible = visibleDeckCards();
-      if (visible[0] === card) {
-        const cardImage = card.querySelector('img');
-        const slot = cardImage ? imageSlotMap.get(cardImage.getAttribute('data-img-slot')) : null;
-        openLightbox({
-          img: card.dataset.img,
-          alt: cardImage ? cardImage.alt : card.dataset.title,
-          title: card.dataset.title,
-          type: card.dataset.type,
-          desc: card.dataset.desc,
-          caption: slot ? slot.note : ''
-        }, card);
-      } else {
-        bringToFront(card);
-      }
+      const cardImage = card.querySelector('img');
+      const slot = cardImage ? imageSlotMap.get(cardImage.getAttribute('data-img-slot')) : null;
+      bringToFront(card);
+      openLightbox({
+        img: card.dataset.img,
+        alt: cardImage ? cardImage.alt : card.dataset.title,
+        title: card.dataset.title,
+        type: card.dataset.type,
+        desc: card.dataset.desc,
+        caption: slot ? slot.note : ''
+      }, card);
     });
     card.addEventListener('focus', () => {
       if (card.matches(':focus-visible')) bringToFront(card);
