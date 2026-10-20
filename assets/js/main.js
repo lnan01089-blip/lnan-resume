@@ -145,6 +145,126 @@
     toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2200);
   }
 
+  /* ---------- Project galleries ---------- */
+  const PROJECT_MAX_IMAGES = 8;
+  const GALLERY_STORAGE_PREFIX = 'nresume:gallery:';
+  const PROJECT_GALLERIES = {
+    stashly: {
+      label: 'Stashly 书柜 App',
+      type: '项目图片 · 产品 / AI Coding',
+      title: 'Stashly 书柜 App',
+      desc: '围绕个人实体藏书管理场景，梳理图书查找、分类、成本记录与售出收益统计等需求；规划产品结构及核心功能，借助 Claude 等 AI 工具辅助开发，实现本地数据存储与离线访问，完成 APP 网页端功能搭建。',
+      images: [
+        { src: 'assets/img/project-stashly-1.webp', alt: 'Stashly 书柜 App 项目封面', caption: '项目封面' },
+        { src: 'assets/img/project-stashly-2.webp', alt: 'Stashly 书柜 App 项目封面细节', caption: '封面细节' }
+      ]
+    },
+    research: {
+      label: '既有建筑绿色改造研究',
+      type: '项目图片 · 研究 / 国家自然科学基金',
+      title: '既有建筑绿色改造研究',
+      desc: '围绕既有建筑绿色改造多主体决策行为，识别核心决策主体及其利益诉求，梳理行为影响因素并开展数据分析；以第一作者发表核心论文 2 篇，参与 1 篇期刊论文及 3 部著作编写。',
+      images: [
+        { src: 'assets/img/project-research-1.webp', alt: '既有建筑绿色改造研究项目封面', caption: '项目封面' },
+        { src: 'assets/img/project-research-2.webp', alt: '既有建筑绿色改造研究项目封面细节', caption: '封面细节' }
+      ]
+    },
+    site: {
+      label: "N'RESUME 个人主页",
+      type: '项目图片 · 个人主页 / 网页搭建',
+      title: "N'RESUME 个人主页",
+      desc: '以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、教育、工作、项目、校园、技能、生活与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。',
+      images: [
+        { src: 'assets/img/project-site-1.webp', alt: "N'RESUME 个人主页桌面端首页", caption: '桌面端首页' },
+        { src: 'assets/img/project-site-2.webp', alt: "N'RESUME 个人主页项目经历", caption: '项目经历' },
+        { src: 'assets/img/project-site-3.webp', alt: "N'RESUME 个人主页移动端页面", caption: '移动端页面' }
+      ]
+    }
+  };
+
+  const projectStates = new Map();
+  Object.entries(PROJECT_GALLERIES).forEach(([key, definition]) => {
+    projectStates.set(key, {
+      key,
+      label: definition.label,
+      type: definition.type,
+      title: definition.title,
+      desc: definition.desc,
+      defaults: definition.images.map((image) => ({ ...image })),
+      images: definition.images.map((image) => ({ ...image })),
+      custom: false,
+      trigger: $(`[data-project-gallery="${key}"]`),
+      preview: null,
+      countEl: null,
+      managerEl: null
+    });
+  });
+
+  function readStoredGallery(key) {
+    try {
+      const raw = localStorage.getItem(GALLERY_STORAGE_PREFIX + key);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return null;
+      return parsed.filter((src) => typeof src === 'string' && src);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveStoredGallery(key, images) {
+    try {
+      localStorage.setItem(GALLERY_STORAGE_PREFIX + key, JSON.stringify(images.map((image) => image.src)));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function removeStoredGallery(key) {
+    try { localStorage.removeItem(GALLERY_STORAGE_PREFIX + key); }
+    catch (error) { /* storage can be unavailable; preview still works */ }
+  }
+
+  function storedGalleryImages(project, sources) {
+    return sources.slice(0, PROJECT_MAX_IMAGES).map((src, index) => ({
+      src,
+      alt: `${project.title} 项目图片 ${index + 1}`,
+      caption: ''
+    }));
+  }
+
+  function updateProjectGalleryUI(project) {
+    const count = project.images.length;
+    if (project.preview) {
+      project.preview.src = count ? project.images[0].src : '';
+      project.preview.alt = '';
+    }
+    if (project.countEl) project.countEl.textContent = String(count);
+    if (project.trigger) {
+      project.trigger.classList.toggle('is-empty', count === 0);
+      project.trigger.disabled = count === 0;
+      project.trigger.setAttribute('aria-label', `查看${project.title}的项目图片，共 ${count} 张`);
+    }
+  }
+
+  function hydrateProjectStates() {
+    projectStates.forEach((project) => {
+      if (project.trigger) {
+        project.preview = $('[data-gallery-preview]', project.trigger);
+        project.countEl = $('[data-gallery-count]', project.trigger);
+      }
+      const stored = readStoredGallery(project.key);
+      if (stored && stored.length) {
+        project.images = storedGalleryImages(project, stored);
+        project.custom = true;
+      }
+      updateProjectGalleryUI(project);
+    });
+  }
+
+  hydrateProjectStates();
+
   /* ---------- Overlay state (menu / lightbox) ---------- */
   const siteHeader = $('#siteHeader');
   const menuToggle = $('.menu-toggle');
@@ -257,23 +377,145 @@
 
   /* ---------- Lightbox ---------- */
   const lightboxImg = $('#lightboxImg');
+  const lightboxStage = $('#lightboxStage');
   const lightboxType = $('#lightboxType');
   const lightboxTitle = $('#lightboxTitle');
   const lightboxDesc = $('#lightboxDesc');
+  const lightboxCaption = $('#lightboxCaption');
   const lightboxClose = $('#lightboxClose');
+  const lightboxPrev = $('#lightboxPrev');
+  const lightboxNext = $('#lightboxNext');
+  const lightboxCounter = $('#lightboxCounter');
+  const lightboxIndexEl = $('#lightboxIndex');
+  const lightboxTotalEl = $('#lightboxTotal');
+  const lightboxThumbs = $('#lightboxThumbs');
+  const lightboxStatus = $('#lightboxStatus');
   let lightboxLastFocus = null;
+  let lightboxGallery = [];
+  let lightboxIndex = 0;
+  let lightboxBase = {};
+  let swipeStartX = null;
+  let swipeStartY = null;
+  let swipePointerId = null;
+
+  function renderLightboxThumbs() {
+    if (!lightboxThumbs) return;
+    lightboxThumbs.textContent = '';
+    if (lightboxGallery.length <= 1) {
+      lightboxThumbs.hidden = true;
+      return;
+    }
+    lightboxGallery.forEach((image, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'lightbox__thumb';
+      button.dataset.lightboxThumb = String(index);
+      button.setAttribute('aria-label', `查看第 ${index + 1} 张图片${image.caption ? '：' + image.caption : ''}`);
+      const thumb = document.createElement('img');
+      thumb.src = image.src;
+      thumb.alt = '';
+      thumb.loading = 'lazy';
+      thumb.decoding = 'async';
+      button.appendChild(thumb);
+      lightboxThumbs.appendChild(button);
+    });
+    lightboxThumbs.hidden = false;
+    updateLightboxThumbs();
+  }
+
+  function updateLightboxThumbs() {
+    if (!lightboxThumbs) return;
+    $$('[data-lightbox-thumb]', lightboxThumbs).forEach((button, index) => {
+      const active = index === lightboxIndex;
+      button.classList.toggle('is-active', active);
+      if (active) button.setAttribute('aria-current', 'true');
+      else button.removeAttribute('aria-current');
+    });
+  }
+
+  function preloadLightboxNeighbors() {
+    const total = lightboxGallery.length;
+    if (total < 2) return;
+    [lightboxIndex - 1, lightboxIndex + 1].forEach((index) => {
+      const neighbor = lightboxGallery[(index + total) % total];
+      if (!neighbor) return;
+      const preload = new Image();
+      preload.src = neighbor.src;
+    });
+  }
+
+  function renderLightboxImage(options = {}) {
+    const image = lightboxGallery[lightboxIndex] || null;
+    const isGallery = lightboxGallery.length > 1;
+    if (lightbox) lightbox.classList.toggle('is-gallery', isGallery);
+    if (!image) return;
+
+    if (lightboxImg) {
+      lightboxImg.src = image.src;
+      lightboxImg.alt = image.alt || lightboxBase.title || '';
+      if (isGallery || !image.width) lightboxImg.removeAttribute('width');
+      else lightboxImg.setAttribute('width', image.width);
+      if (isGallery || !image.height) lightboxImg.removeAttribute('height');
+      else lightboxImg.setAttribute('height', image.height);
+      if (options.animate && !reduceMotion) {
+        lightboxImg.classList.remove('is-switching');
+        void lightboxImg.offsetWidth;
+        lightboxImg.classList.add('is-switching');
+      }
+    }
+
+    if (lightboxPrev) lightboxPrev.hidden = !isGallery;
+    if (lightboxNext) lightboxNext.hidden = !isGallery;
+    if (lightboxCounter) lightboxCounter.hidden = !isGallery;
+    if (lightboxIndexEl) lightboxIndexEl.textContent = String(lightboxIndex + 1);
+    if (lightboxTotalEl) lightboxTotalEl.textContent = String(lightboxGallery.length);
+
+    if (lightboxCaption) {
+      lightboxCaption.textContent = image.caption || '';
+      lightboxCaption.hidden = !image.caption;
+    }
+    if (lightboxStatus) {
+      lightboxStatus.textContent = isGallery
+        ? `第 ${lightboxIndex + 1} 张，共 ${lightboxGallery.length} 张${image.caption ? '：' + image.caption : ''}`
+        : '';
+    }
+
+    updateLightboxThumbs();
+    preloadLightboxNeighbors();
+  }
+
+  function goToLightboxImage(index, focusThumb = false) {
+    const total = lightboxGallery.length;
+    if (total < 2) return;
+    lightboxIndex = ((index % total) + total) % total;
+    renderLightboxImage({ animate: true });
+    if (focusThumb && lightboxThumbs) {
+      const thumb = $(`[data-lightbox-thumb="${lightboxIndex}"]`, lightboxThumbs);
+      if (thumb) thumb.focus({ preventScroll: true });
+    }
+  }
 
   function openLightbox(data, trigger) {
     if (!lightbox) return;
+    const images = Array.isArray(data.images)
+      ? data.images.filter((image) => image && image.src)
+      : (data.img ? [{
+        src: data.img,
+        alt: data.alt || data.title || '',
+        caption: '',
+        width: data.width,
+        height: data.height
+      }] : []);
+    if (!images.length) return;
+
     if (menuOpen) closeMenu(false);
     if (imagePanelOpen) closeImageManager(false);
     lightboxLastFocus = trigger || document.activeElement;
     lightboxOpen = true;
+    lightboxBase = data;
+    lightboxGallery = images;
+    lightboxIndex = 0;
 
-    if (lightboxImg) {
-      lightboxImg.src = data.img || '';
-      lightboxImg.alt = data.alt || data.title || '';
-    }
     if (lightboxType) lightboxType.textContent = data.type || '';
     if (lightboxTitle) lightboxTitle.textContent = data.title || '';
     if (lightboxDesc) {
@@ -281,6 +523,8 @@
       lightboxDesc.hidden = !data.desc;
     }
 
+    renderLightboxThumbs();
+    renderLightboxImage();
     lightbox.classList.add('is-open');
     lightbox.setAttribute('aria-hidden', 'false');
     lightbox.inert = false;
@@ -297,9 +541,22 @@
     }
   }
 
+  function openProjectGallery(project) {
+    if (!project || !project.images.length) return;
+    openLightbox({
+      images: project.images,
+      type: project.type,
+      title: project.title,
+      desc: project.desc
+    }, project.trigger);
+  }
+
   function closeLightbox(restoreFocus = true) {
     if (!lightbox || !lightboxOpen) return;
     lightboxOpen = false;
+    swipeStartX = null;
+    swipeStartY = null;
+    swipePointerId = null;
     clearTimeout(lightboxFocusTimer);
     lightbox.classList.remove('is-open');
     lightbox.setAttribute('aria-hidden', 'true');
@@ -316,6 +573,58 @@
     });
   }
 
+  if (lightboxPrev) {
+    lightboxPrev.addEventListener('click', () => goToLightboxImage(lightboxIndex - 1));
+  }
+  if (lightboxNext) {
+    lightboxNext.addEventListener('click', () => goToLightboxImage(lightboxIndex + 1));
+  }
+  if (lightboxThumbs) {
+    lightboxThumbs.addEventListener('click', (event) => {
+      if (!event.target || typeof event.target.closest !== 'function') return;
+      const thumb = event.target.closest('[data-lightbox-thumb]');
+      if (!thumb) return;
+      goToLightboxImage(Number(thumb.dataset.lightboxThumb));
+    });
+  }
+
+  if (lightboxStage) {
+    lightboxStage.addEventListener('pointerdown', (event) => {
+      if (!lightboxOpen || lightboxGallery.length < 2 || event.button !== 0) return;
+      if (event.target && event.target.closest && event.target.closest('button')) return;
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+      swipePointerId = event.pointerId;
+      try { lightboxStage.setPointerCapture(event.pointerId); }
+      catch (error) { /* pointer capture is a progressive enhancement */ }
+    });
+    lightboxStage.addEventListener('pointerup', (event) => {
+      if (swipeStartX === null || event.pointerId !== swipePointerId) return;
+      const deltaX = event.clientX - swipeStartX;
+      const deltaY = event.clientY - swipeStartY;
+      swipeStartX = null;
+      swipeStartY = null;
+      swipePointerId = null;
+      if (Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+        goToLightboxImage(lightboxIndex + (deltaX < 0 ? 1 : -1));
+      }
+    });
+    lightboxStage.addEventListener('pointercancel', () => {
+      swipeStartX = null;
+      swipeStartY = null;
+      swipePointerId = null;
+    });
+  }
+
+  projectStates.forEach((project) => {
+    if (!project.trigger) return;
+    project.trigger.addEventListener('click', () => openProjectGallery(project));
+  });
+
+  if (lightboxImg) {
+    lightboxImg.addEventListener('animationend', () => lightboxImg.classList.remove('is-switching'));
+  }
+
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       if (imagePanelOpen) {
@@ -329,6 +638,28 @@
         closeMenu();
       }
       return;
+    }
+    if (lightboxOpen && lightboxGallery.length > 1) {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        goToLightboxImage(lightboxIndex + 1);
+        return;
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        goToLightboxImage(lightboxIndex - 1);
+        return;
+      }
+      if (event.key === 'Home') {
+        event.preventDefault();
+        goToLightboxImage(0);
+        return;
+      }
+      if (event.key === 'End') {
+        event.preventDefault();
+        goToLightboxImage(lightboxGallery.length - 1);
+        return;
+      }
     }
     if (event.key === 'Tab') {
       if (imagePanelOpen) trapFocus(imageManager, event);
@@ -350,10 +681,6 @@
     { key: 'avatar', group: '头像与 IP', label: '个人头像', spec: '1:1 · 建议 720 × 720' },
     { key: 'mascot-head', group: '头像与 IP', label: '圆形 IP 头像', spec: '透明背景 · 方形' },
     { key: 'mascot-body', group: '头像与 IP', label: '全身 IP 小人', spec: '透明背景 · 竖图' },
-    { key: 'work-stashly', group: '作品封面', label: 'Stashly 书柜 App', spec: '16:10 横图' },
-    { key: 'work-research', group: '作品封面', label: '绿色改造研究', spec: '16:10 横图' },
-    { key: 'work-media', group: '作品封面', label: '校园新媒体', spec: '16:10 横图' },
-    { key: 'pf-site', group: '作品封面', label: "N'RESUME 主页", spec: '16:10 横图' },
     { key: 'life-1', group: '生活切片', label: 'City walk · 城市散步', spec: '3:4 竖图' },
     { key: 'life-2', group: '生活切片', label: 'Coffee · 周末咖啡', spec: '3:4 竖图' },
     { key: 'life-6', group: '生活切片', label: 'Build mode · 做产品', spec: '3:4 竖图' },
@@ -376,8 +703,7 @@
     };
   }).filter(Boolean);
   const imageSlotMap = new Map(imageSlots.map((slot) => [slot.key, slot]));
-  let activeImageSlot = null;
-  let activeImageTrigger = null;
+  let fileRequest = null;
   let imageManagerLastFocus = null;
   let imageManagerFocusTimer = null;
 
@@ -422,6 +748,139 @@
     updateImageSlotUI(slot);
   }
 
+  function buildSingleSlotCard(slot) {
+    const card = document.createElement('article');
+    card.className = 'img-slot';
+
+    const thumb = document.createElement('div');
+    thumb.className = 'img-slot__thumb';
+    const thumbImg = document.createElement('img');
+    thumbImg.alt = '';
+    thumbImg.loading = 'lazy';
+    thumbImg.decoding = 'async';
+    thumb.appendChild(thumbImg);
+
+    const info = document.createElement('div');
+    const label = document.createElement('p');
+    label.className = 'img-slot__label';
+    label.textContent = slot.label;
+    const spec = document.createElement('p');
+    spec.className = 'img-slot__spec';
+    spec.textContent = slot.spec;
+    info.append(label, spec);
+
+    const actions = document.createElement('div');
+    actions.className = 'img-slot__actions';
+    const choose = document.createElement('button');
+    choose.type = 'button';
+    choose.className = 'img-slot__choose';
+    choose.dataset.slotChoose = slot.key;
+    choose.textContent = '选择图片';
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'img-slot__reset';
+    reset.dataset.slotReset = slot.key;
+    reset.textContent = '恢复默认';
+    reset.hidden = true;
+    actions.append(choose, reset);
+
+    card.append(thumb, info, actions);
+    slot.card = card;
+    slot.thumbImg = thumbImg;
+    slot.resetBtn = reset;
+    updateImageSlotUI(slot);
+    return card;
+  }
+
+  function buildGalleryBlock(project) {
+    const block = document.createElement('section');
+    block.className = 'img-gallery';
+    block.dataset.galleryBlock = project.key;
+
+    const head = document.createElement('header');
+    head.className = 'img-gallery__head';
+    const info = document.createElement('div');
+    const label = document.createElement('p');
+    label.className = 'img-gallery__label';
+    label.textContent = project.label;
+    const spec = document.createElement('p');
+    spec.className = 'img-gallery__spec';
+    spec.textContent = `${project.images.length} 张 · 最多 ${PROJECT_MAX_IMAGES} 张 · 建议 16:10 横图`;
+    info.append(label, spec);
+
+    const headActions = document.createElement('div');
+    headActions.className = 'img-gallery__head-actions';
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'img-slot__reset';
+    reset.dataset.galleryReset = project.key;
+    reset.textContent = '恢复默认';
+    reset.hidden = !project.custom;
+    reset.setAttribute('aria-label', `恢复「${project.label}」的默认图片`);
+    headActions.appendChild(reset);
+    head.append(info, headActions);
+
+    const grid = document.createElement('div');
+    grid.className = 'img-gallery__grid';
+
+    project.images.forEach((image, index) => {
+      const item = document.createElement('figure');
+      item.className = 'img-gallery__item';
+
+      const thumb = document.createElement('img');
+      thumb.src = image.src;
+      thumb.alt = '';
+      thumb.loading = 'lazy';
+      thumb.decoding = 'async';
+
+      const caption = document.createElement('figcaption');
+      caption.textContent = `图片 ${index + 1}`;
+
+      const actions = document.createElement('div');
+      actions.className = 'img-gallery__actions';
+      const replace = document.createElement('button');
+      replace.type = 'button';
+      replace.className = 'img-gallery__action';
+      replace.dataset.galleryReplace = project.key;
+      replace.dataset.index = String(index);
+      replace.textContent = '替换';
+      replace.setAttribute('aria-label', `替换「${project.label}」的第 ${index + 1} 张图片`);
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'img-gallery__action img-gallery__action--muted';
+      remove.dataset.galleryRemove = project.key;
+      remove.dataset.index = String(index);
+      remove.textContent = '移除';
+      remove.disabled = project.images.length <= 1;
+      remove.setAttribute('aria-label', `移除「${project.label}」的第 ${index + 1} 张图片`);
+      if (remove.disabled) remove.title = '至少保留一张图片';
+      actions.append(replace, remove);
+
+      item.append(thumb, caption, actions);
+      grid.appendChild(item);
+    });
+
+    if (project.images.length < PROJECT_MAX_IMAGES) {
+      const add = document.createElement('button');
+      add.type = 'button';
+      add.className = 'img-gallery__add';
+      add.dataset.galleryAdd = project.key;
+      add.setAttribute('aria-label', `向「${project.label}」添加图片`);
+      const plus = document.createElement('span');
+      plus.className = 'img-gallery__add-icon';
+      plus.setAttribute('aria-hidden', 'true');
+      plus.textContent = '+';
+      const text = document.createElement('span');
+      text.textContent = '添加图片';
+      add.append(plus, text);
+      grid.appendChild(add);
+    }
+
+    block.append(head, grid);
+    project.managerEl = block;
+    return block;
+  }
+
   function buildImageManager() {
     if (!imageManagerBody) return;
     const groups = new Map();
@@ -430,63 +889,46 @@
       groups.get(slot.group).push(slot);
     });
 
-    groups.forEach((slots, groupName) => {
+    ['头像与 IP', '项目图片', '生活切片'].forEach((groupName) => {
       const group = document.createElement('section');
       group.className = 'img-manager__group';
 
       const title = document.createElement('h3');
       title.className = 'img-manager__group-title';
       title.textContent = groupName;
+      group.appendChild(title);
 
-      const grid = document.createElement('div');
-      grid.className = 'img-manager__grid';
+      if (groupName === '项目图片') {
+        const list = document.createElement('div');
+        list.className = 'img-gallery-list';
+        projectStates.forEach((project) => list.appendChild(buildGalleryBlock(project)));
+        group.appendChild(list);
+      } else {
+        const grid = document.createElement('div');
+        grid.className = 'img-manager__grid';
+        (groups.get(groupName) || []).forEach((slot) => grid.appendChild(buildSingleSlotCard(slot)));
+        group.appendChild(grid);
+      }
 
-      slots.forEach((slot) => {
-        const card = document.createElement('article');
-        card.className = 'img-slot';
-
-        const thumb = document.createElement('div');
-        thumb.className = 'img-slot__thumb';
-        const thumbImg = document.createElement('img');
-        thumbImg.alt = '';
-        thumbImg.loading = 'lazy';
-        thumbImg.decoding = 'async';
-        thumb.appendChild(thumbImg);
-
-        const info = document.createElement('div');
-        const label = document.createElement('p');
-        label.className = 'img-slot__label';
-        label.textContent = slot.label;
-        const spec = document.createElement('p');
-        spec.className = 'img-slot__spec';
-        spec.textContent = slot.spec;
-        info.append(label, spec);
-
-        const actions = document.createElement('div');
-        actions.className = 'img-slot__actions';
-        const choose = document.createElement('button');
-        choose.type = 'button';
-        choose.className = 'img-slot__choose';
-        choose.dataset.slotChoose = slot.key;
-        choose.textContent = '选择图片';
-        const reset = document.createElement('button');
-        reset.type = 'button';
-        reset.className = 'img-slot__reset';
-        reset.dataset.slotReset = slot.key;
-        reset.textContent = '恢复默认';
-        reset.hidden = true;
-        actions.append(choose, reset);
-
-        card.append(thumb, info, actions);
-        grid.appendChild(card);
-        slot.card = card;
-        slot.thumbImg = thumbImg;
-        slot.resetBtn = reset;
-        updateImageSlotUI(slot);
-      });
-
-      group.append(title, grid);
       imageManagerBody.appendChild(group);
+    });
+  }
+
+  function renderProjectGalleryManager(project) {
+    if (!project.managerEl || !project.managerEl.parentNode) return;
+    const current = project.managerEl;
+    const next = buildGalleryBlock(project);
+    current.replaceWith(next);
+  }
+
+  function restoreProjectManagerFocus(project, action, index = 0) {
+    window.requestAnimationFrame(() => {
+      let target = null;
+      if (action === 'replace') {
+        target = $(`[data-gallery-replace="${project.key}"][data-index="${index}"]`, imageManager);
+      }
+      if (!target) target = $(`[data-gallery-add="${project.key}"]`, imageManager);
+      if (target) target.focus({ preventScroll: true });
     });
   }
 
@@ -529,24 +971,14 @@
 
   function readImageFile(file, slot) {
     const isMascot = Boolean(slot && slot.key.indexOf('mascot-') === 0);
+    const acceptedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
     return new Promise((resolve, reject) => {
-      if (!file || !file.type || !file.type.startsWith('image/')) {
+      if (!file || acceptedTypes.indexOf(file.type) === -1) {
         reject(new Error('type'));
         return;
       }
       if (file.size > 20 * 1024 * 1024) {
         reject(new Error('size'));
-        return;
-      }
-      if (file.type === 'image/svg+xml' || file.type === 'image/gif') {
-        if (file.size > 2.5 * 1024 * 1024) {
-          reject(new Error('vector-size'));
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error('read'));
-        reader.readAsDataURL(file);
         return;
       }
 
@@ -595,8 +1027,16 @@
   function chooseImage(key, trigger) {
     const slot = imageSlotMap.get(key);
     if (!slot || !imageManagerInput) return;
-    activeImageSlot = slot;
-    activeImageTrigger = trigger || null;
+    fileRequest = { mode: 'single', slot, trigger: trigger || null };
+    imageManagerInput.multiple = false;
+    imageManagerInput.value = '';
+    imageManagerInput.click();
+  }
+
+  function chooseGalleryImage(mode, project, index, trigger) {
+    if (!project || !imageManagerInput) return;
+    fileRequest = { mode, project, index, trigger: trigger || null };
+    imageManagerInput.multiple = mode === 'gallery-add';
     imageManagerInput.value = '';
     imageManagerInput.click();
   }
@@ -607,6 +1047,66 @@
     restoreImage(slot);
     removeStoredImage(key);
     showToast(`已恢复「${slot.label}」的默认图片`);
+  }
+
+  function resetProjectGallery(project) {
+    project.images = project.defaults.map((image) => ({ ...image }));
+    project.custom = false;
+    removeStoredGallery(project.key);
+    updateProjectGalleryUI(project);
+    renderProjectGalleryManager(project);
+    restoreProjectManagerFocus(project, 'add');
+    showToast(`已恢复「${project.label}」的默认图片`);
+  }
+
+  function removeProjectImage(project, index) {
+    if (project.images.length <= 1) {
+      showToast('项目至少保留一张图片');
+      return;
+    }
+    project.images.splice(index, 1);
+    project.custom = true;
+    const saved = saveStoredGallery(project.key, project.images);
+    updateProjectGalleryUI(project);
+    renderProjectGalleryManager(project);
+    restoreProjectManagerFocus(project, 'replace', Math.min(index, project.images.length - 1));
+    showToast(saved
+      ? '已移除这张项目图片'
+      : '已移除，但浏览器存储空间不足，刷新后会恢复默认');
+  }
+
+  function replaceProjectImage(project, index, dataUrl) {
+    const previous = project.images[index] || {};
+    project.images[index] = {
+      src: dataUrl,
+      alt: `${project.title} 项目图片 ${index + 1}`,
+      caption: previous.caption || ''
+    };
+    project.custom = true;
+    const saved = saveStoredGallery(project.key, project.images);
+    updateProjectGalleryUI(project);
+    renderProjectGalleryManager(project);
+    restoreProjectManagerFocus(project, 'replace', index);
+    showToast(saved
+      ? `已替换「${project.label}」的第 ${index + 1} 张图片`
+      : '已预览，但浏览器存储空间不足，刷新后会恢复默认');
+  }
+
+  function addProjectImages(project, dataUrls) {
+    const room = PROJECT_MAX_IMAGES - project.images.length;
+    if (room <= 0) return { added: 0, saved: true };
+    const additions = dataUrls.slice(0, room).map((src, index) => ({
+      src,
+      alt: `${project.title} 项目图片 ${project.images.length + index + 1}`,
+      caption: ''
+    }));
+    project.images = project.images.concat(additions);
+    project.custom = true;
+    const saved = saveStoredGallery(project.key, project.images);
+    updateProjectGalleryUI(project);
+    renderProjectGalleryManager(project);
+    restoreProjectManagerFocus(project, 'add');
+    return { added: additions.length, saved };
   }
 
   buildImageManager();
@@ -640,7 +1140,37 @@
         return;
       }
       const reset = event.target.closest('[data-slot-reset]');
-      if (reset) resetImageSlot(reset.getAttribute('data-slot-reset'));
+      if (reset) {
+        resetImageSlot(reset.getAttribute('data-slot-reset'));
+        return;
+      }
+      const galleryAdd = event.target.closest('[data-gallery-add]');
+      if (galleryAdd) {
+        chooseGalleryImage('gallery-add', projectStates.get(galleryAdd.dataset.galleryAdd), null, galleryAdd);
+        return;
+      }
+      const galleryReplace = event.target.closest('[data-gallery-replace]');
+      if (galleryReplace) {
+        chooseGalleryImage(
+          'gallery-replace',
+          projectStates.get(galleryReplace.dataset.galleryReplace),
+          Number(galleryReplace.dataset.index),
+          galleryReplace
+        );
+        return;
+      }
+      const galleryRemove = event.target.closest('[data-gallery-remove]');
+      if (galleryRemove) {
+        removeProjectImage(
+          projectStates.get(galleryRemove.dataset.galleryRemove),
+          Number(galleryRemove.dataset.index)
+        );
+        return;
+      }
+      const galleryReset = event.target.closest('[data-gallery-reset]');
+      if (galleryReset) {
+        resetProjectGallery(projectStates.get(galleryReset.dataset.galleryReset));
+      }
     });
   }
 
@@ -654,39 +1184,117 @@
         }
         removeStoredImage(slot.key);
       });
+      projectStates.forEach((project) => {
+        if (project.custom) changed = true;
+        project.images = project.defaults.map((image) => ({ ...image }));
+        project.custom = false;
+        removeStoredGallery(project.key);
+        updateProjectGalleryUI(project);
+        renderProjectGalleryManager(project);
+      });
       showToast(changed ? '已恢复全部默认图片' : '当前已经是默认图片');
     });
   }
 
   if (imageManagerInput) {
+    const imageErrorMessages = {
+      type: '请选择 JPG / PNG / WebP / AVIF 图片',
+      size: '图片超过 20MB，请换一张',
+      read: '图片读取失败，请换一张试试'
+    };
+
+    imageManagerInput.addEventListener('cancel', () => {
+      const request = fileRequest;
+      fileRequest = null;
+      imageManagerInput.value = '';
+      if (!request) return;
+      if (request.mode === 'single') {
+        if (request.trigger && document.contains(request.trigger)) {
+          request.trigger.focus({ preventScroll: true });
+        }
+      } else {
+        restoreProjectManagerFocus(
+          request.project,
+          request.mode === 'gallery-add' ? 'add' : 'replace',
+          request.index || 0
+        );
+      }
+    });
+
     imageManagerInput.addEventListener('change', async () => {
-      const slot = activeImageSlot;
-      const trigger = activeImageTrigger;
-      const file = imageManagerInput.files && imageManagerInput.files[0];
-      activeImageSlot = null;
-      activeImageTrigger = null;
-      if (!slot || !file) {
-        imageManagerInput.value = '';
+      const request = fileRequest;
+      const files = Array.from(imageManagerInput.files || []);
+      fileRequest = null;
+      imageManagerInput.value = '';
+      if (!request || !files.length) return;
+
+      if (request.mode === 'single') {
+        try {
+          const dataUrl = await readImageFile(files[0], request.slot);
+          applyImage(request.slot, dataUrl);
+          const saved = saveStoredImage(request.slot.key, dataUrl);
+          showToast(saved
+            ? `已替换「${request.slot.label}」`
+            : '已预览，但浏览器存储空间不足，刷新后会恢复默认');
+        } catch (error) {
+          showToast(imageErrorMessages[error.message] || '图片读取失败，请换一张试试');
+        }
+        if (request.trigger && document.contains(request.trigger)) {
+          request.trigger.focus({ preventScroll: true });
+        }
         return;
       }
-      try {
-        const dataUrl = await readImageFile(file, slot);
-        applyImage(slot, dataUrl);
-        const saved = saveStoredImage(slot.key, dataUrl);
-        showToast(saved
-          ? `已替换「${slot.label}」`
-          : '已预览，但浏览器存储空间不足，刷新后会恢复默认');
-      } catch (error) {
-        const messages = {
-          type: '请选择图片文件',
-          size: '图片超过 20MB，请换一张',
-          'vector-size': 'GIF / SVG 请控制在 2.5MB 以内',
-          read: '图片读取失败，请换一张试试'
-        };
-        showToast(messages[error.message] || '图片读取失败，请换一张试试');
+
+      const project = request.project;
+      if (!project) return;
+
+      if (request.mode === 'gallery-replace') {
+        try {
+          const dataUrl = await readImageFile(files[0], null);
+          replaceProjectImage(project, request.index, dataUrl);
+        } catch (error) {
+          showToast(imageErrorMessages[error.message] || '图片读取失败，请换一张试试');
+          restoreProjectManagerFocus(project, 'replace', request.index || 0);
+        }
+        return;
       }
-      imageManagerInput.value = '';
-      if (trigger && document.contains(trigger)) trigger.focus({ preventScroll: true });
+
+      if (request.mode === 'gallery-add') {
+        const room = PROJECT_MAX_IMAGES - project.images.length;
+        if (room <= 0) {
+          showToast(`每个项目最多 ${PROJECT_MAX_IMAGES} 张图片`);
+          restoreProjectManagerFocus(project, 'add');
+          return;
+        }
+        const selected = files.slice(0, room);
+        const extra = files.length - selected.length;
+        showToast(`正在处理 ${selected.length} 张图片…`);
+        const dataUrls = [];
+        let failed = 0;
+        let firstError = '';
+        for (const file of selected) {
+          try {
+            dataUrls.push(await readImageFile(file, null));
+          } catch (error) {
+            failed += 1;
+            if (!firstError) firstError = error.message;
+          }
+        }
+        if (dataUrls.length) {
+          const result = addProjectImages(project, dataUrls);
+          let message = result.saved
+            ? `已添加 ${result.added} 张项目图片`
+            : `已预览 ${result.added} 张图片，但浏览器存储空间不足，刷新后会恢复默认`;
+          const notes = [];
+          if (failed) notes.push(`${failed} 张读取失败`);
+          if (extra > 0) notes.push(`${extra} 张超过 ${PROJECT_MAX_IMAGES} 张上限未添加`);
+          if (notes.length) message += `；${notes.join('；')}`;
+          showToast(message);
+        } else {
+          showToast(imageErrorMessages[firstError] || '图片读取失败，请换一张试试');
+          restoreProjectManagerFocus(project, 'add');
+        }
+      }
     });
   }
 
@@ -711,89 +1319,6 @@
         helper.remove();
         showToast(copied ? '邮箱已复制' : '复制失败，请手动选择邮箱');
       }
-    });
-  });
-
-  /* ---------- Portfolio ---------- */
-  const pfFilters = $$('.filter-pill');
-  const pfTabs = $$('.pf-tab');
-  const pfPanels = $$('.pf-panel');
-  const pfStatus = $('#pfStatus');
-
-  function activateTab(tab, focus = false) {
-    pfTabs.forEach((item) => {
-      const active = item === tab;
-      item.classList.toggle('is-active', active);
-      item.setAttribute('aria-selected', String(active));
-      item.tabIndex = active ? 0 : -1;
-    });
-    pfPanels.forEach((panel) => {
-      const active = panel.id === tab.getAttribute('aria-controls');
-      panel.classList.toggle('is-active', active);
-      panel.hidden = !active;
-    });
-    if (focus) tab.focus();
-    if (pfStatus) pfStatus.textContent = `当前作品：${tab.textContent.trim()}`;
-  }
-
-  function applyFilter(filter) {
-    pfFilters.forEach((button) => {
-      const active = button.dataset.filter === filter;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
-
-    let activeTab = $('.pf-tab.is-active');
-    pfTabs.forEach((tab) => {
-      const matches = filter === 'all' || tab.dataset.cat === filter;
-      tab.hidden = !matches;
-    });
-
-    const visibleTabs = pfTabs.filter((tab) => !tab.hidden);
-    if (activeTab && activeTab.hidden && visibleTabs.length) {
-      activateTab(visibleTabs[0]);
-    }
-    if (pfStatus && visibleTabs.length) {
-      pfStatus.textContent = `显示 ${visibleTabs.length} 个作品条目`;
-    }
-  }
-
-  pfFilters.forEach((button) => {
-    button.addEventListener('click', () => applyFilter(button.dataset.filter || 'all'));
-  });
-
-  pfTabs.forEach((tab) => {
-    tab.addEventListener('click', () => activateTab(tab));
-    tab.addEventListener('keydown', (event) => {
-      const visibleTabs = pfTabs.filter((item) => !item.hidden);
-      const currentIndex = visibleTabs.indexOf(tab);
-      let nextIndex = null;
-
-      if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % visibleTabs.length;
-      else if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + visibleTabs.length) % visibleTabs.length;
-      else if (event.key === 'Home') nextIndex = 0;
-      else if (event.key === 'End') nextIndex = visibleTabs.length - 1;
-
-      if (nextIndex !== null) {
-        event.preventDefault();
-        activateTab(visibleTabs[nextIndex], true);
-      }
-    });
-  });
-
-  pfPanels.forEach((panel) => { panel.hidden = !panel.classList.contains('is-active'); });
-  const initiallyActiveTab = $('.pf-tab.is-active');
-  if (initiallyActiveTab) activateTab(initiallyActiveTab);
-
-  $$('.pf-panel__cover').forEach((button) => {
-    button.addEventListener('click', () => {
-      openLightbox({
-        img: button.dataset.img,
-        alt: button.dataset.alt,
-        title: button.dataset.title,
-        type: button.dataset.type,
-        desc: button.dataset.desc
-      }, button);
     });
   });
 

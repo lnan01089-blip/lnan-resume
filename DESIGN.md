@@ -117,7 +117,7 @@ Soft Editorial / Warm Minimalism. A contemporary take on the personal-profile zi
 ### Non-negotiables
 
 - No accent hues. The complete palette is warm gray, white, and near-black.
-- No photography outside the avatar, portfolio covers, and life cards.
+- No photography outside the avatar, project images, and life cards.
 - Mascots are monochrome line art; never recolor them or add gradients.
 - The page never exceeds the viewport width at any breakpoint.
 
@@ -137,7 +137,7 @@ The palette is intentionally tiny: one canvas tone, two white surfaces, three in
 
 - **Ink (`#16171A`):** Headlines, serif display, active labels, primary buttons.
 - **Ink Secondary (`#61636A`):** Body copy, descriptions, metadata.
-- **Ink Tertiary (`#8D8F96`):** Eyebrows, section indices, captions, inactive tabs, placeholders.
+- **Ink Tertiary (`#8D8F96`):** Eyebrows, section indices, captions, gallery hints, placeholders.
 - **Line (`#E4E6E9`):** Default hairline for cards, dividers, and list separators.
 - **Line Strong (`#D4D6DB`):** Outlined pills, avatar ring, and controls that need slightly more presence.
 
@@ -158,7 +158,7 @@ Used for everything that should feel authored:
 
 - Hero masthead (`clamp(3rem, 6.2vw, 5.4rem)`, line-height .98), with 廖楠 · LIAO NAN as the tracked subtitle
 - Hero claim, about statement, section question
-- Section titles, project and portfolio titles
+- Section titles and project titles
 - Big stat numbers
 - Contact card headline
 - Footer name
@@ -184,7 +184,7 @@ Used for everything functional:
 
 ## Layout & Spacing
 
-A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sections (`62px` desktop, `50px` tablet, `40px` mobile). The page is long by design; sections are numbered 01–09 and separated by a hairline section head. The narrative order is education → work → projects → campus, so a reader meets the academic foundation and professional work before the campus chapter.
+A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sections (`62px` desktop, `50px` tablet, `40px` mobile). The page is long by design; sections are numbered 01–08 and separated by a hairline section head. The narrative order is education → work → projects → campus, so a reader meets the academic foundation and professional work before the campus chapter.
 
 ### Grid Mechanics
 
@@ -192,10 +192,9 @@ A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sect
 - **About:** statement + bio on the left, a 2×2 stat card on the right; stats are separated by 1px hairlines, not gaps.
 - **Education:** one white card with rows separated by hairlines; language tags sit underneath.
 - **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
-- **Projects:** a two-column grid of equal cards; each card ends with a three-metric hairline row and a tag footer.
+- **Projects:** a three-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes two columns at 1180px (last card spans) and one column at 900px.
 - **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (detail list + four-cell stat strip). It follows the project grid as a quieter closing chapter.
 - **Skills:** one rounded panel with three hairline-divided columns of category chips, plus a full-width AI-workflow footer row. This deliberately keeps the earlier chip-board layout instead of the long list treatment.
-- **Portfolio:** filter pills above a tablist; the active tab controls one large two-column panel (cover left, copy right). Tabs wrap to two rows on mobile instead of scrolling.
 - **Life:** a narrow left rail with the full-body mascot and vertical filters, plus a centered stacked deck of six 3:4 cards.
 - **Contact:** one full-width black card, two columns on desktop (copy + actions | contact rows).
 - **Footer:** black, flush with the contact card's visual block, ending the page.
@@ -221,7 +220,7 @@ Depth is soft and minimal, never skeuomorphic.
 ## Shapes
 
 - **Cards:** 18px default, 24px for large feature panels, 20–22px on mobile.
-- **Media frames:** 12–14px inner radius; portfolio covers use 12px.
+- **Media frames:** 12–14px inner radius; project gallery thumbnails use 12px.
 - **Pills and tags:** fully rounded (`999px`).
 - **Avatar:** perfect circle with a 1px ring and a white gap between ring and photo.
 - **Buttons:** pill-shaped, min-height 46px.
@@ -249,7 +248,7 @@ Depth is soft and minimal, never skeuomorphic.
 
 - **Static card:** white, 1px line, 18–24px radius, soft shadow. No hover movement.
 - **Accordion card:** head is a button with role/org/dates on the left, tags and a circular +/− toggle on the right. Open state lifts the border to `--line-strong` and reveals a panel separated by a hairline.
-- **Project card:** title, description, a three-metric hairline row, and a tag footer. Both projects sit as equal halves of the two-column grid.
+- **Project card:** type/title block with a top-right gallery trigger, description, a three-metric hairline row, and a tag footer. Three cards sit as equal columns on desktop; the trigger shows the latest cover, an image count badge, and a small "项目图片 ↗" cue.
 - **Campus card:** a two-column feature card. The left aside carries dates, a serif role, organization, badge, and bottom-aligned tags; the right body carries a two-row detail list and a four-cell stat strip. Collapses to one column at 900px.
 - **Stat card:** 2×2 cells divided by hairlines; serif numerals with small sans labels.
 - **Contact card:** near-black, 24px radius, serif headline, two CTAs, then four contact rows separated by translucent hairlines.
@@ -258,16 +257,9 @@ Depth is soft and minimal, never skeuomorphic.
 
 - **Header:** fixed, 72px tall, transparent at the top; after 8px of scroll it gains a translucent canvas background, blur, and a hairline bottom border.
 - **Brand:** serif N'RESUME over a small tracked 廖楠 · LIAO NAN.
-- **Links:** eight text links in page order (关于 / 教育 / 经历 / 项目 / 校园 / 技能 / 作品集 / 生活), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`.
+- **Links:** seven text links in page order (关于 / 教育 / 经历 / 项目 / 校园 / 技能 / 生活), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`. The mobile menu also includes 联系我.
 - **Right side:** availability status text, a dark pill "联系我", and a circular menu button below 1080px.
 - **Mobile menu:** full-screen canvas overlay with large serif links, staggered entrance, and a close button; background content is `inert`.
-
-### Portfolio
-
-- **Filter row:** pill buttons that filter both the tablist and the visible entries.
-- **Tablist:** text tabs with a 2px animated underline. Keyboard: arrows, Home/End. On mobile the tabs wrap onto two rows.
-- **Panel:** copy on the left (eyebrow, serif title, meta, description, note block, tags) and the cover on the right. Switching tabs fades/rises the panel.
-- **Cover:** button with a subtle hover zoom on the image and a "查看" cue; opens the lightbox.
 
 ### Life Deck
 
@@ -277,29 +269,33 @@ Depth is soft and minimal, never skeuomorphic.
 
 ### Lightbox
 
-- Full-screen ink scrim (`rgba(10,11,13,.82)`) with backdrop blur.
-- White media frame, close button top-right, type/title/description below.
-- Opens from portfolio covers and life cards; focus moves to close, Tab is trapped, Esc and backdrop click close, focus returns to the trigger.
+- Full-screen ink scrim (`rgba(15,16,19,.64)`) with backdrop blur.
+- Two-column white panel: media left, type/title/description/caption right. The media area holds the current image, a counter pill, circular prev/next buttons, and a thumbnail strip for multi-image galleries.
+- Opens from project gallery triggers and life cards. Focus moves to close, Tab is trapped, Esc and backdrop click close, and focus returns to the trigger.
+- Multi-image galleries support thumbnail selection, `←` / `→` / `Home` / `End`, and horizontal pointer swipes on touch devices. The image fades/scales slightly when switching; `prefers-reduced-motion` disables it.
 
 ### Image Manager
 
 - Opened from a low-contrast "替换图片" link in the footer.
 - Modal dialog over the ink scrim: white 24px panel, fixed header and footer, scrollable body, close button and Esc.
-- Thirteen replaceable slots grouped as 头像与 IP / 作品封面 / 生活切片. Each slot has a thumbnail, label, recommended ratio, "选择图片" pill, and a per-slot "恢复默认" link once replaced.
+- Nine single-image slots grouped as 头像与 IP / 生活切片, each with a thumbnail, label, recommended ratio, "选择图片" pill, and a per-slot "恢复默认" link once replaced.
+- Three project gallery blocks grouped under 项目图片. Each block shows its current thumbnails with 替换 / 移除 overlays, an "添加图片" tile, a count line, and a gallery-level "恢复默认" link.
+- Project galleries accept up to eight images and always keep at least one; multiple files can be added at once.
 - The footer holds "全部恢复默认" and "完成".
-- Images are compressed in-browser and stored as data URLs in `localStorage` under `nresume:image:*`; this is a local preview, not a server-side edit.
+- Images are compressed in-browser to max 1200px and stored as data URLs in `localStorage` (`nresume:image:*` for single slots, `nresume:gallery:*` for project galleries); this is a local preview, not a server-side edit.
+- Only raster formats are accepted (JPG / PNG / WebP / AVIF). SVG and GIF are rejected.
 
 ### Feedback
 
-- **Toast:** ink pill, white text, bottom center, auto-dismiss after 2.2s; used for "邮箱已复制".
-- **Live regions:** visually hidden status text for portfolio filter and life filter results.
+- **Toast:** ink pill, white text, bottom center, auto-dismiss after 2.2s; used for image changes and "邮箱已复制".
+- **Live regions:** visually hidden status text for life filter results and lightbox image position.
 
 ## Motion
 
 - Standard easing: `cubic-bezier(.22,.61,.36,1)`; durations 180–400ms.
 - **Reveal:** sections and cards fade up 18px when they enter the viewport, once. A noscript / timeout fallback removes the hidden state if JS fails.
 - **Accordion:** all panels start open; each height animates via measured `max-height` and toggles independently.
-- **Tabs:** 2px underline slides via `right` transition; panel content fades in.
+- **Gallery:** prev/next changes fade and slightly scale the image; thumbnails and the counter update immediately.
 - **Deck:** cards transition transform and opacity; the new top card settles with a slight rotation.
 - **Header:** background and border fade in after 8px of scroll.
 - **Reduced motion:** all reveals, transforms, and smooth scrolling are disabled; content remains fully visible.
@@ -309,9 +305,10 @@ Depth is soft and minimal, never skeuomorphic.
 - Skip link to main content; visible 2px ink focus ring everywhere.
 - Landmarks: header, nav, main, sections with accessible names, footer.
 - Accordion buttons use `aria-expanded` / `aria-controls`; closed panels are `inert`.
-- Tabs use `role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, roving `tabindex`, and arrow/Home/End keys.
-- Filters use `aria-pressed`; results are announced via `aria-live`.
+- Life filters use `aria-pressed`; results are announced via `aria-live`.
+- Project gallery triggers use `aria-haspopup="dialog"` and `aria-controls`. The lightbox supports thumbnail buttons with `aria-current`, labelled prev/next buttons, arrow/Home/End keys, pointer swipes, and an `aria-live` position announcement.
 - Menu, lightbox, and image manager: `aria-hidden` + `inert` on the background, body scroll lock, Esc to close, Tab trap, focus return.
+- Image manager actions return focus to the corresponding gallery button after add / replace / remove / reset.
 - Images have explicit dimensions, `alt` text, and lazy loading below the fold.
 - The dark contact card and footer meet contrast for body text; tertiary ink is reserved for large or non-essential text.
 - No information is conveyed by color alone.
@@ -319,9 +316,10 @@ Depth is soft and minimal, never skeuomorphic.
 ## Implementation Notes
 
 - Plain HTML/CSS/JS; no framework, no build step. All assets are local.
-- The image manager is a client-side preview: replacements live in `localStorage` for the current browser. Permanent asset changes require replacing files in `assets/img` and redeploying.
+- The image manager is a client-side preview: single-image and project-gallery replacements live in `localStorage` for the current browser. Permanent asset changes require replacing files in `assets/img` and redeploying.
 - Design tokens live at the top of `assets/css/style.css`; components consume variables, not raw hex values.
-- Breakpoints: 1080px (nav → menu), 900px (grids collapse to one column; hero stacks), 640px (mobile type scale, stacked CTAs, wrapped tabs, 300px deck), 380px (small-phone trims).
+- Breakpoints: 1180px (project grid three → two columns, last card spans), 1080px (nav → menu), 900px (grids collapse to one column; hero stacks), 640px (mobile type scale, stacked CTAs, two-column manager galleries, 300px deck), 380px (small-phone trims).
 - Container width is capped at 1180px with 24px side margins (16px on mobile).
+- All image assets are raster (JPG / PNG / WebP); the page does not reference SVG files.
 - The self-hosted Noto Serif SC subset and Inter files are preloaded in `index.html`; the OG cover is generated from the same tokens.
 - Keep `og:image`, canonical URL, and favicon in sync with the deployment URL.
