@@ -15,7 +15,7 @@ colors:
 typography:
   display-xl:
     fontFamily: Noto Serif SC
-    fontSize: 8rem
+    fontSize: 5.4rem
     fontWeight: '500'
     lineHeight: '0.98'
     letterSpacing: -0.035em
@@ -87,8 +87,9 @@ rounded:
 spacing:
   wrap: 1180px
   gutter: 24px
-  section-y: 88px
-  section-y-mobile: 56px
+  section-y: 62px
+  section-y-tablet: 50px
+  section-y-mobile: 40px
   stack-xs: 8px
   stack-sm: 12px
   stack-md: 20px
@@ -99,6 +100,8 @@ spacing:
 ## Brand & Style
 
 A warm, quiet editorial portfolio: paper-like gray canvas, white rounded cards, serif display type, and a small cast of hand-drawn mascots. The page should feel like a well-made personal zine rather than a corporate template — calm, human, and confident, with just enough craft details to be memorable.
+
+The page opens with a large N'RESUME masthead; 廖楠 · LIAO NAN sits beneath it as the personal subtitle. The same lockup carries through the header, footer, browser title, and sharing cover.
 
 ### Personality & Tone
 
@@ -153,7 +156,7 @@ Two families, strictly separated by role.
 
 Used for everything that should feel authored:
 
-- Hero name (`clamp(4.5rem, 9vw, 8rem)`, line-height .98)
+- Hero masthead (`clamp(3rem, 6.2vw, 5.4rem)`, line-height .98), with 廖楠 · LIAO NAN as the tracked subtitle
 - Hero claim, about statement, section question
 - Section titles, project and portfolio titles
 - Big stat numbers
@@ -181,14 +184,14 @@ Used for everything functional:
 
 ## Layout & Spacing
 
-A single centered column, `min(100% - 48px, 1180px)`, with generous vertical sections (`88px` desktop, `56px` mobile). The page is long by design; sections are numbered 01–09 and separated by a hairline section head. The narrative order is education → work → projects → campus, so a reader meets the academic foundation and professional work before the campus chapter.
+A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sections (`62px` desktop, `50px` tablet, `40px` mobile). The page is long by design; sections are numbered 01–09 and separated by a hairline section head. The narrative order is education → work → projects → campus, so a reader meets the academic foundation and professional work before the campus chapter.
 
 ### Grid Mechanics
 
 - **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Collapses to a single column below 900px with the portrait after the copy.
 - **About:** statement + bio on the left, a 2×2 stat card on the right; stats are separated by 1px hairlines, not gaps.
 - **Education:** one white card with rows separated by hairlines; language tags sit underneath.
-- **Experience:** vertical stack of accordion cards. Each head is a full-width button; closed state shows role, org, dates, tags.
+- **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
 - **Projects:** a two-column grid of equal cards; each card ends with a three-metric hairline row and a tag footer.
 - **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (detail list + four-cell stat strip). It follows the project grid as a quieter closing chapter.
 - **Skills:** one rounded panel with three hairline-divided columns of category chips, plus a full-width AI-workflow footer row. This deliberately keeps the earlier chip-board layout instead of the long list treatment.
@@ -199,7 +202,7 @@ A single centered column, `min(100% - 48px, 1180px)`, with generous vertical sec
 
 ### Spacing Discipline
 
-- Section vertical padding: 88px desktop / 72px tablet / 56px mobile.
+- Section vertical padding: 62px desktop / 50px tablet / 40px mobile.
 - Card padding: 28–40px desktop, 20–22px mobile.
 - Hairline dividers replace most margins inside cards.
 - Never use more than one accent of space between related items: 8 / 12 / 20 / 32 / 56.
@@ -254,7 +257,7 @@ Depth is soft and minimal, never skeuomorphic.
 ### Navigation
 
 - **Header:** fixed, 72px tall, transparent at the top; after 8px of scroll it gains a translucent canvas background, blur, and a hairline bottom border.
-- **Brand:** serif 廖楠 over a small tracked LIAO NAN.
+- **Brand:** serif N'RESUME over a small tracked 廖楠 · LIAO NAN.
 - **Links:** eight text links in page order (关于 / 教育 / 经历 / 项目 / 校园 / 技能 / 作品集 / 生活), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`.
 - **Right side:** availability status text, a dark pill "联系我", and a circular menu button below 1080px.
 - **Mobile menu:** full-screen canvas overlay with large serif links, staggered entrance, and a close button; background content is `inert`.
@@ -278,6 +281,14 @@ Depth is soft and minimal, never skeuomorphic.
 - White media frame, close button top-right, type/title/description below.
 - Opens from portfolio covers and life cards; focus moves to close, Tab is trapped, Esc and backdrop click close, focus returns to the trigger.
 
+### Image Manager
+
+- Opened from a low-contrast "替换图片" link in the footer.
+- Modal dialog over the ink scrim: white 24px panel, fixed header and footer, scrollable body, close button and Esc.
+- Thirteen replaceable slots grouped as 头像与 IP / 作品封面 / 生活切片. Each slot has a thumbnail, label, recommended ratio, "选择图片" pill, and a per-slot "恢复默认" link once replaced.
+- The footer holds "全部恢复默认" and "完成".
+- Images are compressed in-browser and stored as data URLs in `localStorage` under `nresume:image:*`; this is a local preview, not a server-side edit.
+
 ### Feedback
 
 - **Toast:** ink pill, white text, bottom center, auto-dismiss after 2.2s; used for "邮箱已复制".
@@ -287,7 +298,7 @@ Depth is soft and minimal, never skeuomorphic.
 
 - Standard easing: `cubic-bezier(.22,.61,.36,1)`; durations 180–400ms.
 - **Reveal:** sections and cards fade up 18px when they enter the viewport, once. A noscript / timeout fallback removes the hidden state if JS fails.
-- **Accordion:** height animates via measured `max-height`; one panel open at a time.
+- **Accordion:** all panels start open; each height animates via measured `max-height` and toggles independently.
 - **Tabs:** 2px underline slides via `right` transition; panel content fades in.
 - **Deck:** cards transition transform and opacity; the new top card settles with a slight rotation.
 - **Header:** background and border fade in after 8px of scroll.
@@ -300,7 +311,7 @@ Depth is soft and minimal, never skeuomorphic.
 - Accordion buttons use `aria-expanded` / `aria-controls`; closed panels are `inert`.
 - Tabs use `role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, roving `tabindex`, and arrow/Home/End keys.
 - Filters use `aria-pressed`; results are announced via `aria-live`.
-- Menu and lightbox: `aria-hidden` + `inert` on the background, body scroll lock, Esc to close, Tab trap, focus return.
+- Menu, lightbox, and image manager: `aria-hidden` + `inert` on the background, body scroll lock, Esc to close, Tab trap, focus return.
 - Images have explicit dimensions, `alt` text, and lazy loading below the fold.
 - The dark contact card and footer meet contrast for body text; tertiary ink is reserved for large or non-essential text.
 - No information is conveyed by color alone.
@@ -308,6 +319,7 @@ Depth is soft and minimal, never skeuomorphic.
 ## Implementation Notes
 
 - Plain HTML/CSS/JS; no framework, no build step. All assets are local.
+- The image manager is a client-side preview: replacements live in `localStorage` for the current browser. Permanent asset changes require replacing files in `assets/img` and redeploying.
 - Design tokens live at the top of `assets/css/style.css`; components consume variables, not raw hex values.
 - Breakpoints: 1080px (nav → menu), 900px (grids collapse to one column; hero stacks), 640px (mobile type scale, stacked CTAs, wrapped tabs, 300px deck), 380px (small-phone trims).
 - Container width is capped at 1180px with 24px side margins (16px on mobile).

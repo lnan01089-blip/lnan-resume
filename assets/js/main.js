@@ -1,5 +1,5 @@
 /* ==========================================================================
-   廖楠 · 个人求职主页 — interactions
+   N'RESUME · 廖楠的个人主页 — interactions
    ========================================================================== */
 (function () {
   'use strict';
@@ -94,14 +94,6 @@
     }
   }
 
-  function closeOthers(currentIndex) {
-    expCards.forEach((card, index) => {
-      if (index !== currentIndex && card.classList.contains('is-open')) {
-        setPanelState(index, false, true);
-      }
-    });
-  }
-
   function initAccordion() {
     expCards.forEach((card, index) => {
       const open = card.classList.contains('is-open');
@@ -115,7 +107,6 @@
       if (isOpen) {
         setPanelState(index, false, true);
       } else {
-        closeOthers(index);
         setPanelState(index, true, true);
       }
     });
@@ -162,9 +153,10 @@
   const lightbox = $('#lightbox');
   let menuOpen = false;
   let lightboxOpen = false;
+  let imagePanelOpen = false;
 
   function syncInert() {
-    const overlayOpen = menuOpen || lightboxOpen;
+    const overlayOpen = menuOpen || lightboxOpen || imagePanelOpen;
     if (main) main.inert = overlayOpen;
     if (footer) footer.inert = overlayOpen;
     if (siteHeader) siteHeader.inert = overlayOpen;
@@ -209,6 +201,7 @@
   function openMenu() {
     if (!mobileMenu || menuOpen) return;
     if (lightboxOpen) closeLightbox(false);
+    if (imagePanelOpen) closeImageManager(false);
     menuOpen = true;
     menuLastFocus = (document.activeElement && document.activeElement !== document.body)
       ? document.activeElement
@@ -273,6 +266,7 @@
   function openLightbox(data, trigger) {
     if (!lightbox) return;
     if (menuOpen) closeMenu(false);
+    if (imagePanelOpen) closeImageManager(false);
     lightboxLastFocus = trigger || document.activeElement;
     lightboxOpen = true;
 
@@ -324,7 +318,10 @@
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-      if (lightboxOpen) {
+      if (imagePanelOpen) {
+        event.preventDefault();
+        closeImageManager();
+      } else if (lightboxOpen) {
         event.preventDefault();
         closeLightbox();
       } else if (menuOpen) {
@@ -334,10 +331,364 @@
       return;
     }
     if (event.key === 'Tab') {
-      if (lightboxOpen) trapFocus(lightbox, event);
+      if (imagePanelOpen) trapFocus(imageManager, event);
+      else if (lightboxOpen) trapFocus(lightbox, event);
       else if (menuOpen) trapFocus(mobileMenu, event);
     }
   });
+
+  /* ---------- Image manager (local preview) ---------- */
+  const imageManager = $('#imageManager');
+  const imageManagerBody = $('#imageManagerBody');
+  const imageManagerInput = $('#imageManagerInput');
+  const imageManagerClose = $('#imageManagerClose');
+  const imageManagerDone = $('#imageManagerDone');
+  const imageManagerResetAll = $('#imageManagerResetAll');
+  const imageManagerOpenBtn = $('#imageManagerOpen');
+  const IMAGE_STORAGE_PREFIX = 'nresume:image:';
+  const IMAGE_SLOT_DEFS = [
+    { key: 'avatar', group: '头像与 IP', label: '个人头像', spec: '1:1 · 建议 720 × 720' },
+    { key: 'mascot-head', group: '头像与 IP', label: '圆形 IP 头像', spec: '透明背景 · 方形' },
+    { key: 'mascot-body', group: '头像与 IP', label: '全身 IP 小人', spec: '透明背景 · 竖图' },
+    { key: 'work-stashly', group: '作品封面', label: 'Stashly 书柜 App', spec: '16:10 横图' },
+    { key: 'work-research', group: '作品封面', label: '绿色改造研究', spec: '16:10 横图' },
+    { key: 'work-media', group: '作品封面', label: '校园新媒体', spec: '16:10 横图' },
+    { key: 'pf-site', group: '作品封面', label: "N'RESUME 主页", spec: '16:10 横图' },
+    { key: 'life-1', group: '生活切片', label: 'City walk · 城市散步', spec: '3:4 竖图' },
+    { key: 'life-2', group: '生活切片', label: 'Coffee · 周末咖啡', spec: '3:4 竖图' },
+    { key: 'life-6', group: '生活切片', label: 'Build mode · 做产品', spec: '3:4 竖图' },
+    { key: 'life-3', group: '生活切片', label: 'Night read · 夜读', spec: '3:4 竖图' },
+    { key: 'life-5', group: '生活切片', label: 'Exhibition · 看展', spec: '3:4 竖图' },
+    { key: 'life-4', group: '生活切片', label: 'On the road · 出行', spec: '3:4 竖图' }
+  ];
+  const imageSlots = IMAGE_SLOT_DEFS.map((def) => {
+    const img = $(`img[data-img-slot="${def.key}"]`);
+    if (!img) return null;
+    const trigger = img.closest('button[data-img]');
+    return {
+      ...def,
+      img,
+      trigger,
+      originalSrc: img.getAttribute('src') || '',
+      originalSrcset: img.getAttribute('srcset'),
+      originalLightboxSrc: trigger ? trigger.getAttribute('data-img') : null,
+      custom: false
+    };
+  }).filter(Boolean);
+  const imageSlotMap = new Map(imageSlots.map((slot) => [slot.key, slot]));
+  let activeImageSlot = null;
+  let activeImageTrigger = null;
+  let imageManagerLastFocus = null;
+  let imageManagerFocusTimer = null;
+
+  function readStoredImage(key) {
+    try { return localStorage.getItem(IMAGE_STORAGE_PREFIX + key); }
+    catch (error) { return null; }
+  }
+
+  function saveStoredImage(key, dataUrl) {
+    try {
+      localStorage.setItem(IMAGE_STORAGE_PREFIX + key, dataUrl);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function removeStoredImage(key) {
+    try { localStorage.removeItem(IMAGE_STORAGE_PREFIX + key); }
+    catch (error) { /* storage can be unavailable; preview still works */ }
+  }
+
+  function updateImageSlotUI(slot) {
+    if (slot.thumbImg) slot.thumbImg.src = slot.img.src;
+    if (slot.card) slot.card.classList.toggle('has-custom', slot.custom);
+    if (slot.resetBtn) slot.resetBtn.hidden = !slot.custom;
+  }
+
+  function applyImage(slot, dataUrl) {
+    slot.img.src = dataUrl;
+    if (slot.img.hasAttribute('srcset')) slot.img.removeAttribute('srcset');
+    if (slot.trigger) slot.trigger.dataset.img = dataUrl;
+    slot.custom = true;
+    updateImageSlotUI(slot);
+  }
+
+  function restoreImage(slot) {
+    slot.img.src = slot.originalSrc;
+    if (slot.originalSrcset) slot.img.setAttribute('srcset', slot.originalSrcset);
+    if (slot.trigger && slot.originalLightboxSrc) slot.trigger.dataset.img = slot.originalLightboxSrc;
+    slot.custom = false;
+    updateImageSlotUI(slot);
+  }
+
+  function buildImageManager() {
+    if (!imageManagerBody) return;
+    const groups = new Map();
+    imageSlots.forEach((slot) => {
+      if (!groups.has(slot.group)) groups.set(slot.group, []);
+      groups.get(slot.group).push(slot);
+    });
+
+    groups.forEach((slots, groupName) => {
+      const group = document.createElement('section');
+      group.className = 'img-manager__group';
+
+      const title = document.createElement('h3');
+      title.className = 'img-manager__group-title';
+      title.textContent = groupName;
+
+      const grid = document.createElement('div');
+      grid.className = 'img-manager__grid';
+
+      slots.forEach((slot) => {
+        const card = document.createElement('article');
+        card.className = 'img-slot';
+
+        const thumb = document.createElement('div');
+        thumb.className = 'img-slot__thumb';
+        const thumbImg = document.createElement('img');
+        thumbImg.alt = '';
+        thumbImg.loading = 'lazy';
+        thumbImg.decoding = 'async';
+        thumb.appendChild(thumbImg);
+
+        const info = document.createElement('div');
+        const label = document.createElement('p');
+        label.className = 'img-slot__label';
+        label.textContent = slot.label;
+        const spec = document.createElement('p');
+        spec.className = 'img-slot__spec';
+        spec.textContent = slot.spec;
+        info.append(label, spec);
+
+        const actions = document.createElement('div');
+        actions.className = 'img-slot__actions';
+        const choose = document.createElement('button');
+        choose.type = 'button';
+        choose.className = 'img-slot__choose';
+        choose.dataset.slotChoose = slot.key;
+        choose.textContent = '选择图片';
+        const reset = document.createElement('button');
+        reset.type = 'button';
+        reset.className = 'img-slot__reset';
+        reset.dataset.slotReset = slot.key;
+        reset.textContent = '恢复默认';
+        reset.hidden = true;
+        actions.append(choose, reset);
+
+        card.append(thumb, info, actions);
+        grid.appendChild(card);
+        slot.card = card;
+        slot.thumbImg = thumbImg;
+        slot.resetBtn = reset;
+        updateImageSlotUI(slot);
+      });
+
+      group.append(title, grid);
+      imageManagerBody.appendChild(group);
+    });
+  }
+
+  function openImageManager() {
+    if (!imageManager || imagePanelOpen) return;
+    if (menuOpen) closeMenu(false);
+    if (lightboxOpen) closeLightbox(false);
+    imagePanelOpen = true;
+    imageManagerLastFocus = (document.activeElement && document.activeElement !== document.body)
+      ? document.activeElement
+      : imageManagerOpenBtn;
+    imageManager.classList.add('is-open');
+    imageManager.setAttribute('aria-hidden', 'false');
+    imageManager.inert = false;
+    syncInert();
+    if (imageManagerClose) {
+      void imageManager.offsetHeight;
+      imageManagerClose.focus({ preventScroll: true });
+      clearTimeout(imageManagerFocusTimer);
+      imageManagerFocusTimer = setTimeout(() => {
+        if (imagePanelOpen && !imageManager.contains(document.activeElement)) {
+          imageManagerClose.focus({ preventScroll: true });
+        }
+      }, 140);
+    }
+  }
+
+  function closeImageManager(restoreFocus = true) {
+    if (!imageManager || !imagePanelOpen) return;
+    imagePanelOpen = false;
+    clearTimeout(imageManagerFocusTimer);
+    imageManager.classList.remove('is-open');
+    imageManager.setAttribute('aria-hidden', 'true');
+    imageManager.inert = true;
+    syncInert();
+    if (restoreFocus && imageManagerLastFocus && typeof imageManagerLastFocus.focus === 'function') {
+      imageManagerLastFocus.focus({ preventScroll: true });
+    }
+  }
+
+  function readImageFile(file, slot) {
+    const isMascot = Boolean(slot && slot.key.indexOf('mascot-') === 0);
+    return new Promise((resolve, reject) => {
+      if (!file || !file.type || !file.type.startsWith('image/')) {
+        reject(new Error('type'));
+        return;
+      }
+      if (file.size > 20 * 1024 * 1024) {
+        reject(new Error('size'));
+        return;
+      }
+      if (file.type === 'image/svg+xml' || file.type === 'image/gif') {
+        if (file.size > 2.5 * 1024 * 1024) {
+          reject(new Error('vector-size'));
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('read'));
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      const objectUrl = URL.createObjectURL(file);
+      const image = new Image();
+      image.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        const maxSide = 1200;
+        const sourceWidth = image.naturalWidth || 1;
+        const sourceHeight = image.naturalHeight || 1;
+        const scale = Math.min(1, maxSide / Math.max(sourceWidth, sourceHeight));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(sourceWidth * scale));
+        canvas.height = Math.max(1, Math.round(sourceHeight * scale));
+        const context = canvas.getContext('2d');
+        if (!context) {
+          reject(new Error('read'));
+          return;
+        }
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        let dataUrl = '';
+        try { dataUrl = canvas.toDataURL('image/webp', .84); } catch (error) { dataUrl = ''; }
+        if (!dataUrl || dataUrl.indexOf('data:image/webp') !== 0) {
+          try {
+            dataUrl = isMascot
+              ? canvas.toDataURL('image/png')
+              : canvas.toDataURL('image/jpeg', .86);
+          } catch (error) {
+            dataUrl = '';
+          }
+        }
+        if (!dataUrl) {
+          reject(new Error('read'));
+          return;
+        }
+        resolve(dataUrl);
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error('read'));
+      };
+      image.src = objectUrl;
+    });
+  }
+
+  function chooseImage(key, trigger) {
+    const slot = imageSlotMap.get(key);
+    if (!slot || !imageManagerInput) return;
+    activeImageSlot = slot;
+    activeImageTrigger = trigger || null;
+    imageManagerInput.value = '';
+    imageManagerInput.click();
+  }
+
+  function resetImageSlot(key) {
+    const slot = imageSlotMap.get(key);
+    if (!slot) return;
+    restoreImage(slot);
+    removeStoredImage(key);
+    showToast(`已恢复「${slot.label}」的默认图片`);
+  }
+
+  buildImageManager();
+  imageSlots.forEach((slot) => {
+    const stored = readStoredImage(slot.key);
+    if (stored) applyImage(slot, stored);
+    else updateImageSlotUI(slot);
+  });
+
+  if (imageManagerOpenBtn) {
+    imageManagerOpenBtn.hidden = false;
+    imageManagerOpenBtn.addEventListener('click', openImageManager);
+  }
+
+  if (imageManager) {
+    $$('[data-img-close]', imageManager).forEach((element) => {
+      element.addEventListener('click', () => closeImageManager());
+    });
+  }
+
+  if (imageManagerDone) {
+    imageManagerDone.addEventListener('click', () => closeImageManager());
+  }
+
+  if (imageManagerBody) {
+    imageManagerBody.addEventListener('click', (event) => {
+      if (!event.target || typeof event.target.closest !== 'function') return;
+      const choose = event.target.closest('[data-slot-choose]');
+      if (choose) {
+        chooseImage(choose.getAttribute('data-slot-choose'), choose);
+        return;
+      }
+      const reset = event.target.closest('[data-slot-reset]');
+      if (reset) resetImageSlot(reset.getAttribute('data-slot-reset'));
+    });
+  }
+
+  if (imageManagerResetAll) {
+    imageManagerResetAll.addEventListener('click', () => {
+      let changed = false;
+      imageSlots.forEach((slot) => {
+        if (slot.custom) {
+          restoreImage(slot);
+          changed = true;
+        }
+        removeStoredImage(slot.key);
+      });
+      showToast(changed ? '已恢复全部默认图片' : '当前已经是默认图片');
+    });
+  }
+
+  if (imageManagerInput) {
+    imageManagerInput.addEventListener('change', async () => {
+      const slot = activeImageSlot;
+      const trigger = activeImageTrigger;
+      const file = imageManagerInput.files && imageManagerInput.files[0];
+      activeImageSlot = null;
+      activeImageTrigger = null;
+      if (!slot || !file) {
+        imageManagerInput.value = '';
+        return;
+      }
+      try {
+        const dataUrl = await readImageFile(file, slot);
+        applyImage(slot, dataUrl);
+        const saved = saveStoredImage(slot.key, dataUrl);
+        showToast(saved
+          ? `已替换「${slot.label}」`
+          : '已预览，但浏览器存储空间不足，刷新后会恢复默认');
+      } catch (error) {
+        const messages = {
+          type: '请选择图片文件',
+          size: '图片超过 20MB，请换一张',
+          'vector-size': 'GIF / SVG 请控制在 2.5MB 以内',
+          read: '图片读取失败，请换一张试试'
+        };
+        showToast(messages[error.message] || '图片读取失败，请换一张试试');
+      }
+      imageManagerInput.value = '';
+      if (trigger && document.contains(trigger)) trigger.focus({ preventScroll: true });
+    });
+  }
 
   /* ---------- Copy email ---------- */
   $$('.copy-email').forEach((button) => {
