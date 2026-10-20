@@ -195,7 +195,7 @@ A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sect
 - **Projects:** a three-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes two columns at 1180px (last card spans) and one column at 900px.
 - **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (four-cell stat strip first, then the two-row detail list). It follows the project grid as a quieter closing chapter.
 - **Skills:** one rounded panel with two hairline-divided columns of category chips (one column on mobile), plus a full-width AI-workflow footer row. The "研究与分析" group has been removed.
-- **Interests:** a narrow left rail with only the full-body mascot, plus a centered stacked deck of six 3:4 cards. There are no category filters.
+- **Interests:** a narrow left rail with only the full-body mascot, plus a stacked deck of six 3:4 cards that scatters into a full grid on click. There are no category filters.
 - **Contact:** one full-width black card, two columns on desktop (copy + actions | contact rows).
 - **Footer:** black, flush with the contact card's visual block, ending the page.
 
@@ -273,14 +273,16 @@ Depth is soft and minimal, never skeuomorphic.
 ### Interests Deck
 
 - **Rail:** full-body mascot only; the former 全部 / 日常 / 出行 / 灵感 filters have been removed.
-- **Deck:** six 3:4 cards stacked with progressive offsets. The top card has a caption pill. Clicking any card brings it to the front and opens the lightbox in the same action, so a back card only needs one click. All six cards stay in the stack at every breakpoint.
+- **Deck:** six 3:4 cards stacked with progressive offsets. The top card has a caption pill. Clicking any card scatters all six into a 3×2 grid on desktop and tablet, and a 2×3 grid below 640px, with a slight rotation and vertical offset per card so it reads like photos laid out on a table; the full set is visible at a glance.
+- **Spread controls:** a pill under the deck reads "展开全部 6 张" when stacked and "收起卡牌" when spread, with a short hint beside it. The pill carries `aria-expanded` and is the explicit way back to the stack.
+- **Expanded cards:** while spread, clicking any photo opens it in the lightbox; collapsing does not open the lightbox. All six cards stay in the deck at every breakpoint.
 - **Illustrations:** monochrome city, coffee, hiking, reading, etc., with one soft gray circle motif.
 
 ### Lightbox
 
 - Full-screen ink scrim (`rgba(15,16,19,.64)`) with backdrop blur.
 - Two-column white panel: media left, type/title/description/caption right. The media area holds the current image, a counter pill, circular prev/next buttons, and a thumbnail strip for multi-image galleries.
-- Opens from project gallery triggers and interest cards. Focus moves to close, Tab is trapped, Esc and backdrop click close, and focus returns to the trigger.
+- Opens from project gallery triggers and from individual cards once the interests deck is spread. Focus moves to close, Tab is trapped, Esc and backdrop click close, and focus returns to the trigger.
 - The caption under the image is the image's editable note. Multi-image galleries support thumbnail selection, `←` / `→` / `Home` / `End`, and horizontal pointer swipes on touch devices. The image fades/scales slightly when switching; `prefers-reduced-motion` disables it.
 
 ### Image Manager
@@ -306,7 +308,7 @@ Depth is soft and minimal, never skeuomorphic.
 - **Reveal:** sections and cards fade up 18px when they enter the viewport, once. A noscript / timeout fallback removes the hidden state if JS fails.
 - **Accordion:** all panels start open; each height animates via measured `max-height` and toggles independently.
 - **Gallery:** prev/next changes fade and slightly scale the image; thumbnails and the counter update immediately.
-- **Deck:** cards transition transform and opacity; the new top card settles with a slight rotation.
+- **Deck:** cards transition transform and opacity; opening the deck deals the six cards out with a short stagger, a slight rise, and a rotation into their scattered positions.
 - **Header:** background and border fade in after 8px of scroll.
 - **Reduced motion:** all reveals, transforms, and smooth scrolling are disabled; content remains fully visible.
 
@@ -315,7 +317,7 @@ Depth is soft and minimal, never skeuomorphic.
 - Skip link to main content; visible 2px ink focus ring everywhere.
 - Landmarks: header, nav, main, sections with accessible names, footer.
 - Accordion buttons use `aria-expanded` / `aria-controls`; closed panels are `inert`.
-- Interest cards are real buttons with captions; the removed category filters no longer introduce a filter state.
+- Interest cards are real buttons with captions. While stacked, only the four visible cards are in the Tab order; hidden cards are `aria-hidden` and `tabindex="-1"`. Spreading exposes all six. Card labels change from "展开全部兴趣图片" to "查看 …，打开大图", and the deck toggle updates `aria-expanded` and announces the state through the existing live region. The removed category filters no longer introduce a filter state.
 - Project gallery triggers use `aria-haspopup="dialog"` and `aria-controls`. The lightbox supports thumbnail buttons with `aria-current`, labelled prev/next buttons, arrow/Home/End keys, pointer swipes, and an `aria-live` position announcement. Image notes are exposed as the lightbox caption and in thumbnail `aria-label`s.
 - Project text editing uses `aria-pressed` on the section toggle and labels every editable field with its project and field name; exiting removes the editing affordances. Esc exits the mode and returns focus to the toggle.
 - Menu, lightbox, and image manager: `aria-hidden` + `inert` on the background, body scroll lock, Esc to close, Tab trap, focus return.

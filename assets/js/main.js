@@ -1901,46 +1901,71 @@
 
   /* ---------- Life deck ---------- */
   const deck = $('#lifeDeck');
+  const deckStage = $('.deck-stage');
+  const deckToggle = $('#deckToggle');
+  const deckHint = $('#deckHint');
   const deckCards = $$('.deck-card');
   const lifeStatus = $('#lifeStatus');
-  let deckOrder = deckCards.slice();
   const MAX_VISIBLE_DEPTH = 4;
+  let deckSpread = false;
 
-  function visibleDeckCards() {
-    return deckOrder;
-  }
+  function renderDeck(announce = false) {
+    if (deck) deck.classList.toggle('is-spread', deckSpread);
+    if (deckStage) deckStage.classList.toggle('is-spread', deckSpread);
 
-  function renderDeck() {
-    const visible = visibleDeckCards();
-
-    deckCards.forEach((card) => {
-      card.hidden = false;
-      card.classList.remove('is-top');
-    });
-
-    visible.forEach((card, index) => {
+    deckCards.forEach((card, index) => {
+      const label = `${card.dataset.title} ${card.dataset.desc}`;
       card.style.setProperty('--i', index);
-      card.classList.toggle('is-top', index === 0);
-      card.classList.toggle('is-out', index >= MAX_VISIBLE_DEPTH);
+      card.classList.toggle('is-top', !deckSpread && index === 0);
+      card.classList.toggle('is-out', !deckSpread && index >= MAX_VISIBLE_DEPTH);
+
+      if (deckSpread) {
+        card.tabIndex = 0;
+        card.removeAttribute('aria-hidden');
+        card.setAttribute('aria-label', `查看 ${label}，打开大图`);
+      } else {
+        const stackedAway = index >= MAX_VISIBLE_DEPTH;
+        card.tabIndex = stackedAway ? -1 : 0;
+        if (stackedAway) card.setAttribute('aria-hidden', 'true');
+        else card.removeAttribute('aria-hidden');
+        card.setAttribute('aria-label', `展开全部兴趣图片：${label}`);
+      }
     });
 
-    if (lifeStatus) {
-      lifeStatus.textContent = `显示 ${visible.length} 张兴趣图片`;
+    if (deckToggle) {
+      deckToggle.setAttribute('aria-expanded', String(deckSpread));
+      const toggleLabel = deckToggle.querySelector('.deck-toggle__label');
+      const toggleIcon = deckToggle.querySelector('.deck-toggle__icon');
+      if (toggleLabel) toggleLabel.textContent = deckSpread ? '收起卡牌' : '展开全部 6 张';
+      if (toggleIcon) toggleIcon.textContent = deckSpread ? '↙' : '↗';
+    }
+
+    if (deckHint) {
+      deckHint.textContent = deckSpread ? '点击单张照片查看大图' : '点击卡牌也可展开';
+    }
+
+    if (lifeStatus && announce) {
+      lifeStatus.textContent = deckSpread
+        ? '已展开全部 6 张兴趣图片，点击任意图片查看大图'
+        : '已收起兴趣卡牌';
     }
   }
 
-  function bringToFront(card) {
-    const visible = visibleDeckCards();
-    if (!visible.includes(card) || visible[0] === card) return;
-    deckOrder = [card].concat(deckOrder.filter((item) => item !== card));
-    renderDeck();
+  function setDeckSpread(spread) {
+    if (deckSpread === spread) return;
+    deckSpread = spread;
+    renderDeck(true);
   }
 
   deckCards.forEach((card) => {
     card.addEventListener('click', () => {
+      if (!deckSpread) {
+        setDeckSpread(true);
+        return;
+      }
+
       const cardImage = card.querySelector('img');
       const slot = cardImage ? imageSlotMap.get(cardImage.getAttribute('data-img-slot')) : null;
-      bringToFront(card);
       openLightbox({
         img: card.dataset.img,
         alt: cardImage ? cardImage.alt : card.dataset.title,
@@ -1950,10 +1975,11 @@
         caption: slot ? slot.note : ''
       }, card);
     });
-    card.addEventListener('focus', () => {
-      if (card.matches(':focus-visible')) bringToFront(card);
-    });
   });
+
+  if (deckToggle) {
+    deckToggle.addEventListener('click', () => setDeckSpread(!deckSpread));
+  }
 
   if (deck) renderDeck();
 
