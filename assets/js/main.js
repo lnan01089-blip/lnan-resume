@@ -175,7 +175,7 @@
       label: "N'RESUME 个人主页",
       type: '项目图片 · 个人主页 / 网页搭建',
       title: "N'RESUME 个人主页",
-      desc: '以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、教育、工作、项目、校园、技能、兴趣与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。',
+      desc: '以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联教育、工作、项目、校园、技能、兴趣与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。',
       images: [
         { src: 'assets/img/project-site-1.webp', alt: "N'RESUME 个人主页桌面端首页", caption: '桌面端首页' },
         { src: 'assets/img/project-site-2.webp', alt: "N'RESUME 个人主页项目经历", caption: '项目经历' },
@@ -1100,7 +1100,6 @@
   const NOTE_STORAGE_PREFIX = 'nresume:note:';
   const IMAGE_SLOT_DEFS = [
     { key: 'avatar', group: '头像与 IP', label: '个人头像', spec: '1:1 · 建议 720 × 720' },
-    { key: 'mascot-head', group: '头像与 IP', label: '圆形 IP 头像', spec: '透明背景 · 方形' },
     { key: 'mascot-body', group: '头像与 IP', label: '全身 IP 小人', spec: '透明背景 · 竖图' },
     { key: 'life-1', group: '兴趣爱好', label: '跳舞 · Dancing', spec: '3:4 竖图' },
     { key: 'life-2', group: '兴趣爱好', label: '烹饪 · Cooking', spec: '3:4 竖图' },

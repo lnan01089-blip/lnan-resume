@@ -101,7 +101,7 @@ spacing:
 
 A warm, quiet editorial portfolio: paper-like gray canvas, white rounded cards, serif display type, and a small cast of hand-drawn mascots. The page should feel like a well-made personal zine rather than a corporate template — calm, human, and confident, with just enough craft details to be memorable.
 
-The page opens with a large N'RESUME masthead; 廖楠 · LIAO NAN sits beneath it as the personal subtitle. The same lockup carries through the header, footer, browser title, and sharing cover.
+The page opens with a large 廖楠 masthead; a personal meta line (26岁 | 中共党员 | 管理科学与工程硕士) sits beneath it, followed by two intro paragraphs. The N'RESUME name carries through the header, footer, browser title, and sharing cover.
 
 ### Personality & Tone
 
@@ -156,10 +156,10 @@ Two families, strictly separated by role.
 
 Used for everything that should feel authored:
 
-- Hero masthead (`clamp(2.6rem, 5.2vw, 4.4rem)` desktop, `clamp(1.72rem, 7vw, 2.05rem)` mobile, line-height .98), with 廖楠 · LIAO NAN as the tracked subtitle
-- Hero claim, about statement, section question
+- Hero masthead (`clamp(2.6rem, 5.2vw, 4.4rem)` desktop, `clamp(1.72rem, 7vw, 2.05rem)` mobile, line-height .98), with the meta line 「26岁 | 中共党员 | 管理科学与工程硕士」as the subtitle
+- Section question
 - Section titles and project titles
-- Data values in the About, campus, and project sections; all three use the shared `--data-size` token so numerals stay consistent across the page
+- Data values in the campus and project sections; both use the shared `--data-size` token so numerals stay consistent across the page
 - Contact card headline
 - Footer name
 
@@ -184,12 +184,11 @@ Used for everything functional:
 
 ## Layout & Spacing
 
-A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sections (`62px` desktop, `50px` tablet, `40px` mobile). The page is long by design; sections are numbered 01–08 and separated by a hairline section head. The narrative order is education → work → projects → campus, so a reader meets the academic foundation and professional work before the campus chapter.
+A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sections (`62px` desktop, `50px` tablet, `40px` mobile). The page is long by design; sections are numbered 01–07 and separated by a hairline section head. The narrative order is education → work → projects → campus, so a reader meets the academic foundation and professional work before the campus chapter.
 
 ### Grid Mechanics
 
 - **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Below 900px the copy becomes a single column and the portrait moves to the top-right corner as a 76–112px avatar, with the masthead width capped so the two never overlap.
-- **About:** statement + bio on the left, a 2×2 stat card on the right; stats are separated by 1px hairlines, not gaps.
 - **Education:** one white card with rows separated by hairlines. The degree level appears once, as the right-side badge; the major line no longer repeats "硕士" / "本科", and the language tags have been removed.
 - **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
 - **Projects:** a three-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes two columns at 1180px (last card spans) and one column at 900px.
@@ -265,8 +264,8 @@ Depth is soft and minimal, never skeuomorphic.
 ### Navigation
 
 - **Header:** fixed, 72px tall, transparent at the top; after 8px of scroll it gains a translucent canvas background, blur, and a hairline bottom border.
-- **Brand:** serif N'RESUME over a small tracked 廖楠 · LIAO NAN.
-- **Links:** seven text links in page order (关于 / 教育 / 经历 / 项目 / 校园 / 技能 / 兴趣), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`. The mobile menu also includes 联系我.
+- **Brand:** a single serif N'RESUME wordmark, no subtitle.
+- **Links:** six text links in page order (教育 / 经历 / 项目 / 校园 / 技能 / 兴趣), 13px, ink-secondary, 8px gap; active link is ink with a 2px underline and `aria-current="location"`. The mobile menu also includes 联系我.
 - **Right side:** availability status text, a dark pill "联系我", and a circular menu button below 1080px.
 - **Mobile menu:** full-screen canvas overlay with large serif links, staggered entrance, and a close button; background content is `inert`.
 
@@ -289,7 +288,7 @@ Depth is soft and minimal, never skeuomorphic.
 
 - Opened from a low-contrast "替换图片" link in the footer.
 - Modal dialog over the ink scrim: white 24px panel, fixed header and footer, scrollable body, close button and Esc.
-- Seven single-image slots grouped as 头像与 IP / 兴趣爱好, each with a thumbnail, label, recommended ratio, a note field, "选择图片" pill, and a per-slot "恢复默认" link once replaced or annotated.
+- Six single-image slots grouped as 头像与 IP / 兴趣爱好, each with a thumbnail, label, recommended ratio, a note field, "选择图片" pill, and a per-slot "恢复默认" link once replaced or annotated.
 - Three project gallery blocks grouped under 项目图片. Each block shows its current thumbnails with 替换 / 移除 overlays, an editable note field under every image, an "添加图片" tile, a count line, and a gallery-level "恢复默认" link.
 - Notes are capped at 80 characters. Project notes appear below the image in the lightbox; interest-card, avatar, and IP notes act as image hover titles and stay available in the manager.
 - Project galleries accept up to eight images and always keep at least one; multiple files can be added at once.
@@ -333,7 +332,7 @@ Depth is soft and minimal, never skeuomorphic.
 - The image manager is a client-side preview: single-image and project-gallery replacements live in `localStorage` for the current browser. Permanent asset changes require replacing files in `assets/img` and redeploying.
 - Project text edits are a client-side preview too, stored under `nresume:project-text:<project-key>` with only changed fields; "恢复默认文字" removes those keys. Other visitors see the defaults in the HTML.
 - Design tokens live at the top of `assets/css/style.css`; components consume variables, not raw hex values.
-- Breakpoints: 1180px (project grid three → two columns, last card spans), 1080px (nav → menu), 900px (grids collapse to one column; hero copy becomes single-column with a top-right avatar), 640px (compact mobile masthead, stacked CTAs, two-column manager galleries, 300px deck), 400px (the hero eyebrow breaks cleanly after "OPEN TO WORK ·" instead of leaving an orphan character), 380px (small-phone trims and a 76px avatar).
+- Breakpoints: 1180px (project grid three → two columns, last card spans), 1080px (nav → menu), 900px (grids collapse to one column; hero copy becomes single-column with a top-right avatar), 640px (compact mobile masthead, stacked CTAs, two-column manager galleries, 300px deck), 400px, 380px (small-phone trims and a 76px avatar).
 - Container width is capped at 1180px with 24px side margins (16px on mobile).
 - All image assets are raster (JPG / PNG / WebP); the page does not reference SVG files.
 - The self-hosted Noto Serif SC subset and Inter files are preloaded in `index.html`; the OG cover is generated from the same tokens.

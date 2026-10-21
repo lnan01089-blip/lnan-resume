@@ -130,15 +130,6 @@ strong { font-weight: 600; }
 }
 
 /* ============ Type helpers ============ */
-.eyebrow {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-.eyebrow__break { display: none; }
-
 .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .tag {
@@ -223,9 +214,8 @@ strong { font-weight: 600; }
 }
 .header__inner { display: flex; align-items: center; gap: 28px; }
 
-.brand { display: flex; flex-direction: column; gap: 5px; line-height: 1; margin-right: auto; }
+.brand { display: flex; align-items: center; line-height: 1; margin-right: auto; }
 .brand__name { font-family: var(--serif); font-weight: 500; font-size: 21px; letter-spacing: .02em; }
-.brand__en { font-size: 9px; font-weight: 500; letter-spacing: .26em; color: var(--ink-3); }
 
 .nav { display: flex; align-items: center; gap: 26px; }
 .nav__link {
@@ -303,19 +293,11 @@ strong { font-weight: 600; }
   letter-spacing: -.035em;
 }
 .hero__en {
-  margin-top: 14px;
-  font-size: 11px;
+  margin-top: 16px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: .42em;
-  color: var(--ink-3);
-}
-.hero__claim {
-  margin-top: 30px;
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(1.55rem, 2.3vw, 2.05rem);
-  line-height: 1.5;
-  letter-spacing: -.01em;
+  letter-spacing: .06em;
+  color: var(--ink-2);
 }
 .hero__lead {
   max-width: 520px;
@@ -324,6 +306,7 @@ strong { font-weight: 600; }
   line-height: 1.9;
   color: var(--ink-2);
 }
+.hero__lead + .hero__lead { margin-top: 10px; }
 .hero__tags { margin-top: 26px; }
 .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 
@@ -400,7 +383,6 @@ strong { font-weight: 600; }
   line-height: 1.3;
   letter-spacing: .01em;
 }
-.section-head__mascot { width: 44px; height: 44px; }
 .section-head__dot {
   width: 8px; height: 8px;
   margin-bottom: 9px;
@@ -428,66 +410,6 @@ strong { font-weight: 600; }
 .section-edit:hover { border-color: var(--ink-3); color: var(--ink); }
 .section-edit[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--white); }
 .section-edit[hidden] { display: none; }
-
-/* ============ About ============ */
-.about__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
-  align-items: start;
-  gap: 56px;
-}
-.about__statement {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(2rem, 3.4vw, 2.9rem);
-  line-height: 1.4;
-  letter-spacing: -.015em;
-}
-.about__bio {
-  max-width: 600px;
-  margin-top: 24px;
-  font-size: 14px;
-  line-height: 1.95;
-  color: var(--ink-2);
-}
-.about__sign {
-  margin-top: 26px;
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: 13.5px;
-  color: var(--ink-3);
-}
-
-.stat-card {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--line);
-  box-shadow: var(--shadow-sm);
-}
-.stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 148px;
-  padding: 26px;
-  background: var(--card);
-}
-.stat__value {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: var(--data-size);
-  line-height: 1;
-  letter-spacing: -.02em;
-}
-.stat__suffix { font-size: .95rem; color: var(--ink-3); }
-.stat__label { margin-top: 12px; font-size: 12px; color: var(--ink-2); }
 
 /* ============ Experience ============ */
 .exp-list { display: flex; flex-direction: column; gap: 14px; }
@@ -1760,7 +1682,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
     display: block;
     min-height: 0;
   }
-  .hero__copy > .eyebrow,
   .hero__name,
   .hero__en { max-width: calc(100% - var(--hero-avatar) - 20px); }
   .hero__name { margin-top: 12px; font-size: clamp(2.1rem, 5.6vw, 2.6rem); }
@@ -1776,11 +1697,7 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .avatar { width: 96px; }
   .avatar-badge,
   .hero__caption { display: none; }
-  .hero__claim { margin-top: 34px; }
 
-  .about__grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .about__bio { max-width: none; }
-  .stat-card { max-width: 560px; }
 
   .project-grid { grid-template-columns: minmax(0, 1fr); }
   .project-card:last-child { grid-column: auto; }
@@ -1823,8 +1740,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .hero { padding-top: calc(var(--header-h) + 38px); }
   .hero__grid { --hero-avatar: 98px; }
   .hero__name { margin-top: 10px; font-size: clamp(1.72rem, 7vw, 2.05rem); }
-  .hero__en { letter-spacing: .3em; }
-  .hero__claim { margin-top: 30px; font-size: 1.45rem; }
   .hero__lead { font-size: 14px; }
   .hero__cta { gap: 10px; }
   .hero__cta .btn { flex: 1 1 auto; }
@@ -1834,14 +1749,11 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .section-head { gap: 12px; margin-bottom: 22px; padding-bottom: 12px; }
   .section-head__left { gap: 12px; }
   .section-head__title { font-size: 1.5rem; }
-  .section-head__mascot { width: 38px; height: 38px; }
   .section-head__dot { margin-bottom: 8px; }
   .section-head__actions { gap: 8px; }
   .section-head__actions .section-head__dot { margin-bottom: 0; }
   .section-edit { height: 30px; padding: 0 12px; font-size: 11px; }
 
-  .about__statement { font-size: 1.9rem; }
-  .about__bio { font-size: 13.5px; }
   .stat { min-height: 126px; padding: 20px 18px; }
   .stat__label { font-size: 11px; margin-top: 9px; }
 
@@ -1945,15 +1857,10 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .footer__actions { width: 100%; justify-content: space-between; }
 }
 
-@media (max-width: 400px) {
-  .eyebrow__break { display: inline; }
-}
-
 @media (max-width: 380px) {
   .header__actions .btn--sm { display: none; }
   .hero__grid { --hero-avatar: 88px; }
   .hero__name { font-size: 1.66rem; }
-  .hero__claim { margin-top: 26px; }
   .avatar-ring { padding: 6px; }
   .avatar { width: 76px; }
   .deck-stage { padding-right: 34px; }

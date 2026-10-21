@@ -33,7 +33,7 @@ except ImportError:  # pragma: no cover - only hit without Pillow
 
 PROJECT_KEYS = ["stashly", "research", "site"]
 SLOT_KEYS = [
-    "avatar", "mascot-head", "mascot-body",
+    "avatar", "mascot-body",
     "life-1", "life-2", "life-3", "life-4",
 ]
 GALLERY_NAMES = {
@@ -55,7 +55,7 @@ FALLBACK_TEXT = {
     "site": {
         "title": "N'RESUME 个人主页",
         "type": "网页 / 原生前端",
-        "desc": "以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联关于、教育、工作、项目、校园、技能、兴趣与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。",
+        "desc": "以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联教育、工作、项目、校园、技能、兴趣与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。",
     },
 }
 DATA_URL_RE = re.compile(r"^data:image/([a-zA-Z0-9.+-]+);base64,(.+)$", re.S)
@@ -158,10 +158,7 @@ def save_slot_image(key: str, src: str, root: Path, dry_run: bool, changed: set[
     if key == "avatar":
         large, _small = save_avatar(src, root, dry_run, changed)
         return large
-    if key == "mascot-head":
-        data = encode_png(image)
-        rel = "assets/img/mascot-head.png"
-    elif key == "mascot-body":
+    if key == "mascot-body":
         data = encode_png(image)
         rel = "assets/img/ip-nan.png"
     elif key.startswith("life-"):
