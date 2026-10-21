@@ -14,3 +14,6 @@ resume.txt
 
 # 浏览器导出的页面修改（含 base64 图片，不提交）
 nresume-edits-*.json
+
+# Python 缓存
+__pycache__/

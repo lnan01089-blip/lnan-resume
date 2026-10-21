@@ -34,7 +34,7 @@ except ImportError:  # pragma: no cover - only hit without Pillow
 PROJECT_KEYS = ["stashly", "research", "site"]
 SLOT_KEYS = [
     "avatar", "mascot-head", "mascot-body",
-    "life-1", "life-2", "life-3", "life-4", "life-5", "life-6",
+    "life-1", "life-2", "life-3", "life-4",
 ]
 GALLERY_NAMES = {
     "stashly": "project-stashly",

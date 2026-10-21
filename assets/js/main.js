@@ -1102,12 +1102,10 @@
     { key: 'avatar', group: '头像与 IP', label: '个人头像', spec: '1:1 · 建议 720 × 720' },
     { key: 'mascot-head', group: '头像与 IP', label: '圆形 IP 头像', spec: '透明背景 · 方形' },
     { key: 'mascot-body', group: '头像与 IP', label: '全身 IP 小人', spec: '透明背景 · 竖图' },
-    { key: 'life-1', group: '兴趣爱好', label: 'City walk · 城市散步', spec: '3:4 竖图' },
-    { key: 'life-2', group: '兴趣爱好', label: 'Coffee · 周末咖啡', spec: '3:4 竖图' },
-    { key: 'life-6', group: '兴趣爱好', label: 'Build mode · 做产品', spec: '3:4 竖图' },
-    { key: 'life-3', group: '兴趣爱好', label: 'Night read · 夜读', spec: '3:4 竖图' },
-    { key: 'life-5', group: '兴趣爱好', label: 'Exhibition · 看展', spec: '3:4 竖图' },
-    { key: 'life-4', group: '兴趣爱好', label: 'On the road · 在路上', spec: '3:4 竖图' }
+    { key: 'life-1', group: '兴趣爱好', label: '跳舞 · Dancing', spec: '3:4 竖图' },
+    { key: 'life-2', group: '兴趣爱好', label: '烹饪 · Cooking', spec: '3:4 竖图' },
+    { key: 'life-3', group: '兴趣爱好', label: '烘焙 · Baking', spec: '3:4 竖图' },
+    { key: 'life-4', group: '兴趣爱好', label: '羽毛球 · Badminton', spec: '3:4 竖图' }
   ];
   const imageSlots = IMAGE_SLOT_DEFS.map((def) => {
     const img = $(`img[data-img-slot="${def.key}"]`);
@@ -2012,9 +2010,9 @@
       card.classList.toggle('is-out', !deckSpread && index >= MAX_VISIBLE_DEPTH);
 
       if (deckSpread) {
-        card.tabIndex = 0;
+        card.tabIndex = -1;
         card.removeAttribute('aria-hidden');
-        card.setAttribute('aria-label', `查看 ${label}，打开大图`);
+        card.removeAttribute('aria-label');
       } else {
         const stackedAway = index >= MAX_VISIBLE_DEPTH;
         card.tabIndex = stackedAway ? -1 : 0;
@@ -2028,17 +2026,17 @@
       deckToggle.setAttribute('aria-expanded', String(deckSpread));
       const toggleLabel = deckToggle.querySelector('.deck-toggle__label');
       const toggleIcon = deckToggle.querySelector('.deck-toggle__icon');
-      if (toggleLabel) toggleLabel.textContent = deckSpread ? '收起卡牌' : '展开全部 6 张';
+      if (toggleLabel) toggleLabel.textContent = deckSpread ? '收起' : '展开';
       if (toggleIcon) toggleIcon.textContent = deckSpread ? '↙' : '↗';
     }
 
     if (deckHint) {
-      deckHint.textContent = deckSpread ? '点击单张照片查看大图' : '点击卡牌也可展开';
+      deckHint.textContent = deckSpread ? '点击「收起」回到堆叠' : '点击卡牌也可展开';
     }
 
     if (lifeStatus && announce) {
       lifeStatus.textContent = deckSpread
-        ? '已展开全部 6 张兴趣图片，点击任意图片查看大图'
+        ? '已展开全部 4 张兴趣图片'
         : '已收起兴趣卡牌';
     }
   }
@@ -2051,21 +2049,7 @@
 
   deckCards.forEach((card) => {
     card.addEventListener('click', () => {
-      if (!deckSpread) {
-        setDeckSpread(true);
-        return;
-      }
-
-      const cardImage = card.querySelector('img');
-      const slot = cardImage ? imageSlotMap.get(cardImage.getAttribute('data-img-slot')) : null;
-      openLightbox({
-        img: card.dataset.img,
-        alt: cardImage ? cardImage.alt : card.dataset.title,
-        title: card.dataset.title,
-        type: card.dataset.type,
-        desc: card.dataset.desc,
-        caption: slot ? slot.note : ''
-      }, card);
+      if (!deckSpread) setDeckSpread(true);
     });
   });
 
