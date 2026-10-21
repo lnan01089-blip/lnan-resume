@@ -194,7 +194,7 @@ A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sect
 - **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
 - **Projects:** a three-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes two columns at 1180px (last card spans) and one column at 900px.
 - **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (four-cell stat strip first, then the two-row detail list). It follows the project grid as a quieter closing chapter.
-- **Skills:** one rounded panel with two hairline-divided columns of category chips (one column on mobile), plus a full-width AI-workflow footer row. The "研究与分析" group has been removed.
+- **Skills:** one rounded panel with three hairline-divided columns of category chips (办公应用 / AI 工具 / 内容编辑; one column on mobile), plus a full-width AI-workflow footer row. The "研究与分析" group has been removed.
 - **Interests:** a narrow left rail with only the full-body mascot, plus a stacked deck of four 3:4 cards that scatters into a full grid on click. There are no category filters.
 - **Contact:** one full-width black card, two columns on desktop (copy + actions | contact rows).
 - **Footer:** black, flush with the contact card's visual block, ending the page.
