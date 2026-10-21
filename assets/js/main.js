@@ -155,7 +155,7 @@
       label: 'Stashly 书柜 App',
       type: '项目图片 · 产品 / AI Coding',
       title: 'Stashly 书柜 App',
-      desc: '围绕个人实体藏书管理场景，梳理图书查找、分类、成本记录与售出收益统计等需求；规划产品结构及核心功能，借助 Claude 等 AI 工具辅助开发，实现本地数据存储与离线访问，完成 APP 网页端功能搭建。',
+      desc: '针对实体书存放在不同柜子和收纳盒中、查找位置不便的问题，设计与实际存储方式对应的管理结构，实现书籍与存放位置的关联；使用 Claude 辅助编写和修改代码，实现书柜、收纳盒与书籍的管理，并支持本地存储和离线使用；根据实际使用情况发现问题，借助 AI 排查和修复代码，逐步完善功能。',
       images: [
         { src: 'assets/img/project-stashly-1.webp', alt: 'Stashly 书柜 App 项目封面', caption: '项目封面' },
         { src: 'assets/img/project-stashly-2.webp', alt: 'Stashly 书柜 App 项目封面细节', caption: '封面细节' }
