@@ -254,7 +254,7 @@ Depth is soft and minimal, never skeuomorphic.
 
 ### Project Text Editing
 
-- The project section head carries an "编辑文字" pill next to the section dot; the footer repeats the entry so it is reachable after a long scroll. Both toggle the same mode and label themselves "完成编辑" while active.
+- The project section head carries an "编辑文字" pill next to the section dot; the footer repeats the entry so it is reachable after a long scroll. Both toggle the same mode and label themselves "完成编辑" while active. These entries, the footer "替换图片" link, and the image manager are owner-only: visitors never see them. Owner mode is enabled once with `?edit=1` / `#edit` and remembered in `localStorage`; `?edit=0` clears it. Local previews are always in owner mode.
 - Entering edit mode exposes every type, title, description, metric, result, and tag on the three project cards as `contenteditable` text boxes with `role="textbox"` and field-specific labels. Dashed outlines mark editable fields without changing the card frame.
 - A soft edit bar above the grid explains that changes save automatically and holds "恢复默认文字". Exiting edit mode removes the outlines and normalizes empty fields back to defaults.
 - Edits are stored per project in `localStorage` under `nresume:project-text:<project-key>`; only fields that differ from defaults are written. Project titles and descriptions also flow into the gallery trigger labels, lightbox, and image manager.
@@ -286,7 +286,7 @@ Depth is soft and minimal, never skeuomorphic.
 
 ### Image Manager
 
-- Opened from a low-contrast "替换图片" link in the footer.
+- Opened from a low-contrast "替换图片" link in the footer (owner mode only).
 - Modal dialog over the ink scrim: white 24px panel, fixed header and footer, scrollable body, close button and Esc.
 - Six single-image slots grouped as 头像与 IP / 兴趣爱好, each with a thumbnail, label, recommended ratio, a note field, "选择图片" pill, and a per-slot "恢复默认" link once replaced or annotated.
 - Three project gallery blocks grouped under 项目图片. Each block shows its current thumbnails with 替换 / 移除 overlays, an editable note field under every image, an "添加图片" tile, a count line, and a gallery-level "恢复默认" link.

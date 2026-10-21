@@ -12,6 +12,32 @@
   const footer = $('.site-footer');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- Owner mode ----------
+     Editing tools stay hidden for visitors. Open the page with ?edit=1
+     (or #edit) once on your own browser to reveal them; the choice is
+     remembered locally. ?edit=0 clears it again. Local previews
+     (localhost / 127.0.0.1 / file://) always allow editing. */
+  const OWNER_STORAGE_KEY = 'nresume:owner';
+  function resolveOwnerMode() {
+    const params = new URLSearchParams(window.location.search);
+    const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+    const toggle = params.get('edit');
+    if (toggle === '0' || toggle === 'off' || hash === 'edit=0') {
+      try { localStorage.removeItem(OWNER_STORAGE_KEY); } catch (error) { /* ignore */ }
+      return false;
+    }
+    const isLocal = window.location.protocol === 'file:'
+      || ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
+    if (toggle === '1' || toggle === 'on' || hash === 'edit') {
+      try { localStorage.setItem(OWNER_STORAGE_KEY, '1'); } catch (error) { /* ignore */ }
+      return true;
+    }
+    try { if (localStorage.getItem(OWNER_STORAGE_KEY) === '1') return true; }
+    catch (error) { /* ignore */ }
+    return isLocal;
+  }
+  const OWNER_MODE = resolveOwnerMode();
+
   /* ---------- Reveal on scroll ---------- */
   const revealEls = $$('.reveal');
   if ('IntersectionObserver' in window && !reduceMotion) {
@@ -637,12 +663,12 @@
   }
 
   if (projectTextEditBtn) {
-    projectTextEditBtn.hidden = false;
+    if (OWNER_MODE) projectTextEditBtn.hidden = false;
     projectTextEditBtn.addEventListener('click', () => setProjectEditing(!projectTextEditing));
   }
 
   if (projectTextOpenBtn) {
-    projectTextOpenBtn.hidden = false;
+    if (OWNER_MODE) projectTextOpenBtn.hidden = false;
     projectTextOpenBtn.addEventListener('click', () => {
       if (!projectTextEditing) setProjectEditing(true);
       if (projectSection) {
@@ -1759,7 +1785,7 @@
   }
 
   if (imageManagerOpenBtn) {
-    imageManagerOpenBtn.hidden = false;
+    if (OWNER_MODE) imageManagerOpenBtn.hidden = false;
     imageManagerOpenBtn.addEventListener('click', openImageManager);
   }
 
