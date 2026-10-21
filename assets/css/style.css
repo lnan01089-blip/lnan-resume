@@ -300,7 +300,6 @@ strong { font-weight: 600; }
   color: var(--ink-2);
 }
 .hero__lead {
-  max-width: 520px;
   margin-top: 20px;
   font-size: 15px;
   line-height: 1.9;
@@ -515,8 +514,8 @@ strong { font-weight: 600; }
   letter-spacing: .02em;
   color: var(--ink-2);
 }
-.edu-row__courses { margin-top: 10px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
-.edu-row__tags { margin-top: 12px; }
+.edu-row__courses { margin-top: 16px; font-size: 12px; line-height: 1.8; color: var(--ink-3); }
+.edu-row__tags { margin-top: 16px; }
 .edu-row .badge { margin-top: 3px; }
 
 /* ============ Campus ============ */

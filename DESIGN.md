@@ -180,7 +180,7 @@ Used for everything functional:
 - Display type uses slight negative tracking (-.015em to -.035em) for a tight, printed lockup.
 - Labels use open tracking (+.1em to +.18em) so small text stays legible and feels intentional.
 - No italics. No all-caps body text. No faux-bold.
-- Line length is capped around 600–660px for paragraphs; the hero lead is capped at 520px.
+- Line length is capped around 600–660px for paragraphs; the hero lead fills the copy column edge to edge.
 
 ## Layout & Spacing
 
