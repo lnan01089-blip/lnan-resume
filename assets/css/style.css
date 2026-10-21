@@ -304,6 +304,7 @@ strong { font-weight: 600; }
   font-size: 15px;
   line-height: 1.9;
   color: var(--ink-2);
+  text-align: justify;
 }
 .hero__lead + .hero__lead { margin-top: 10px; }
 .hero__tags { margin-top: 26px; }
@@ -514,7 +515,7 @@ strong { font-weight: 600; }
   letter-spacing: .02em;
   color: var(--ink-2);
 }
-.edu-row__courses { margin-top: 16px; font-size: 12px; line-height: 1.8; color: var(--ink-3); }
+.edu-row__courses { margin-top: 16px; font-size: 13.5px; line-height: 1.8; color: var(--ink-2); }
 .edu-row__tags { margin-top: 16px; }
 .edu-row .badge { margin-top: 3px; }
 
@@ -1663,7 +1664,7 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .hero__name,
   .hero__en { max-width: calc(100% - var(--hero-avatar) - 20px); }
   .hero__name { margin-top: 12px; font-size: clamp(2.1rem, 5.6vw, 2.6rem); }
-  .hero__lead { margin-top: 40px; text-align: center; }
+  .hero__lead { margin-top: 40px; }
   .hero__lead + .hero__lead { margin-top: 14px; }
   .hero__figure {
     position: absolute;
