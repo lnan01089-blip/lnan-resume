@@ -17,3 +17,6 @@ nresume-edits-*.json
 
 # Python 缓存
 __pycache__/
+
+# 用户上传的导出文件
+reply/

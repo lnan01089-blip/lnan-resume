@@ -178,23 +178,27 @@
   /* PUBLISHED_GALLERIES_START */
   const PROJECT_GALLERIES = {
     research: {
-      label: '既有建筑绿色改造研究',
-      type: '项目图片 · 研究 / 国家自然科学基金',
-      title: '既有建筑绿色改造研究',
-      desc: '围绕既有建筑绿色改造相关问题开展研究，参与研究资料整理、理论分析、数据分析及论文撰写工作。',
+      label: "既有建筑绿色改造研究",
+      type: "项目图片 · 研究 / 国家自然科学基金",
+      title: "既有建筑绿色改造研究",
+      desc: "围绕既有建筑绿色改造相关问题开展研究，参与研究资料整理、理论分析、数据分析及论文撰写工作。",
       images: [
-        { src: 'assets/img/project-research-1.webp', alt: '既有建筑绿色改造研究项目封面', caption: '项目封面' },
-        { src: 'assets/img/project-research-2.webp', alt: '既有建筑绿色改造研究项目封面细节', caption: '封面细节' }
+        { src: "assets/img/project-research-1.webp?v=c68c7e82", alt: "既有建筑绿色改造研究 项目图片 1", caption: "期刊" },
+        { src: "assets/img/project-research-2.webp?v=d22d3dab", alt: "既有建筑绿色改造研究 项目图片 2", caption: "著作" }
       ]
     },
     stashly: {
-      label: 'Stashly 书柜 App',
-      type: '项目图片 · Vibe Coding 产品',
-      title: 'Stashly 书柜 App',
-      desc: '针对实体书存放在不同柜子和收纳盒中、查找位置不便的问题，设计与实际存储方式对应的管理结构，实现书籍与存放位置的关联；使用 Claude 辅助编写和修改代码，实现书柜、收纳盒与书籍的管理，并支持本地存储和离线使用；根据实际使用情况发现问题，借助 AI 排查和修复代码，逐步完善功能。',
+      label: "Stashly 书柜 App",
+      type: "项目图片 · Vibe Coding 产品",
+      title: "Stashly 书柜 App",
+      desc: "针对实体书存放在不同柜子和收纳盒中、查找位置不便的问题，设计与实际存储方式对应的管理结构，实现书籍与存放位置的关联；使用 Claude 辅助编写和修改代码，实现书柜、收纳盒与书籍的管理，并支持本地存储和离线使用；根据实际使用情况发现问题，借助 AI 排查和修复代码，逐步完善功能。",
       images: [
-        { src: 'assets/img/project-stashly-1.webp', alt: 'Stashly 书柜 App 项目封面', caption: '项目封面' },
-        { src: 'assets/img/project-stashly-2.webp', alt: 'Stashly 书柜 App 项目封面细节', caption: '封面细节' }
+        { src: "assets/img/project-stashly-1.webp?v=edae5201", alt: "Stashly 书柜 App 项目图片 1", caption: "书架封面" },
+        { src: "assets/img/project-stashly-2.webp?v=1a8a770f", alt: "Stashly 书柜 App 项目图片 2", caption: "首页" },
+        { src: "assets/img/project-stashly-3.webp?v=279e426d", alt: "Stashly 书柜 App 项目图片 3", caption: "增加柜子" },
+        { src: "assets/img/project-stashly-4.webp?v=62e5f9e7", alt: "Stashly 书柜 App 项目图片 4", caption: "增加分类" },
+        { src: "assets/img/project-stashly-5.webp?v=8acd7c73", alt: "Stashly 书柜 App 项目图片 5", caption: "书籍详细信息" },
+        { src: "assets/img/project-stashly-6.webp?v=dfcd27a1", alt: "Stashly 书柜 App 项目图片 6", caption: "统计界面" }
       ]
     }
   };
