@@ -952,29 +952,13 @@ strong { font-weight: 600; }
   background: radial-gradient(circle, rgba(255, 255, 255, .07), transparent 70%);
   pointer-events: none;
 }
-.contact-card__main { position: relative; z-index: 1; }
-.contact-card__eyebrow {
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: .18em;
-  color: rgba(255, 255, 255, .42);
+.contact-card__main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
 }
-.contact-card__title {
-  margin-top: 16px;
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(2rem, 3.3vw, 2.7rem);
-  line-height: 1.5;
-  letter-spacing: .005em;
-}
-.contact-card__desc {
-  max-width: 450px;
-  margin-top: 18px;
-  font-size: 13.5px;
-  line-height: 1.9;
-  color: rgba(255, 255, 255, .62);
-}
-.contact-card__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.contact-card__cta { display: flex; flex-wrap: wrap; gap: 12px; }
 .contact-card__side {
   display: flex;
   flex-direction: column;
@@ -1794,8 +1778,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .deck-card__cap { left: 16px; bottom: 16px; padding: 7px 10px; }
 
   .contact-card { gap: 26px; padding: 28px 22px; border-radius: 22px; }
-  .contact-card__title { font-size: 1.85rem; line-height: 1.5; }
-  .contact-card__desc { font-size: 13px; }
   .contact-card__cta { gap: 10px; margin-top: 24px; }
   .contact-card__cta .btn { flex: 1 1 100%; }
   .contact-row { grid-template-columns: 44px minmax(0, 1fr) auto; gap: 8px; padding: 13px 0; }
