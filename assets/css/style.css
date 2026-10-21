@@ -509,6 +509,7 @@ strong { font-weight: 600; }
 }
 .edu-row__major { margin-top: 6px; font-size: 13.5px; color: var(--ink-2); }
 .edu-row__honors { margin-top: 10px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
+.edu-row__courses { margin-top: 4px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
 .edu-row .badge { margin-top: 3px; }
 
 /* ============ Campus ============ */
