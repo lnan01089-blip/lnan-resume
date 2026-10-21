@@ -507,9 +507,16 @@ strong { font-weight: 600; }
   line-height: 1.35;
   letter-spacing: .01em;
 }
-.edu-row__major { margin-top: 6px; font-size: 13.5px; color: var(--ink-2); }
-.edu-row__honors { margin-top: 10px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
-.edu-row__courses { margin-top: 4px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
+.edu-row__school .edu-row__major {
+  margin-left: 14px;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: .02em;
+  color: var(--ink-2);
+}
+.edu-row__courses { margin-top: 10px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
+.edu-row__tags { margin-top: 12px; }
 .edu-row .badge { margin-top: 3px; }
 
 /* ============ Campus ============ */
@@ -1655,13 +1662,10 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
     min-height: 0;
   }
   .hero__name,
-  .hero__en,
-  .hero__lead,
-  .hero__tags,
-  .hero__cta { max-width: calc(100% - var(--hero-avatar) - 20px); }
+  .hero__en { max-width: calc(100% - var(--hero-avatar) - 20px); }
   .hero__name { margin-top: 12px; font-size: clamp(2.1rem, 5.6vw, 2.6rem); }
-  .hero__lead { margin-top: 26px; }
-  .hero__lead + .hero__lead { margin-top: 12px; }
+  .hero__lead { margin-top: 40px; text-align: center; }
+  .hero__lead + .hero__lead { margin-top: 14px; }
   .hero__figure {
     position: absolute;
     top: 0;
