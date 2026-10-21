@@ -585,7 +585,6 @@ strong { font-weight: 600; }
   border-color: var(--line-strong);
   box-shadow: var(--shadow-md);
 }
-.project-card--wide { grid-column: 1 / -1; padding: 34px; }
 .project-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .project-card__top > div { min-width: 0; }
 
@@ -1618,10 +1617,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
 .js .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ============ Responsive ============ */
-@media (max-width: 1180px) {
-  .project-card:last-child { grid-column: 1 / -1; }
-}
-
 @media (max-width: 1080px) {
   .nav { display: none; }
   .menu-toggle { display: inline-flex; }
@@ -1660,8 +1655,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
 
 
   .project-grid { grid-template-columns: minmax(0, 1fr); }
-  .project-card:last-child { grid-column: auto; }
-  .project-card--wide { grid-column: auto; padding: 30px; }
 
   .campus-card { grid-template-columns: minmax(0, 1fr); gap: 26px; padding: 30px; }
   .campus-card__role { margin-top: 8px; }
