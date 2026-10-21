@@ -190,7 +190,7 @@ A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sect
 
 - **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Below 900px the copy becomes a single column and the portrait moves to the top-right corner as a 76–112px avatar, with the masthead width capped so the two never overlap.
 - **Education:** one white card with rows separated by hairlines. The degree level appears once, as the right-side badge; the major line no longer repeats "硕士" / "本科", and the language tags have been removed.
-- **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
+- **Experience:** vertical stack of accordion cards. Both start open; each head is a full-width button that collapses or expands its own panel independently.
 - **Projects:** a two-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes one column at 900px.
 - **Campus:** one feature card split into an aside (dates, serif role, tags) and a body (four-cell stat strip first, then the two-row detail list). It follows the project grid as a quieter closing chapter.
 - **Skills:** one rounded panel with three hairline-divided columns of category chips (办公应用 / AI 工具 / 内容编辑; one column on mobile).
