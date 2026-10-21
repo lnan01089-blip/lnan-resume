@@ -272,10 +272,10 @@ Depth is soft and minimal, never skeuomorphic.
 
 ### Interests Deck
 
-- **Rail:** full-body mascot only; the former 全部 / 日常 / 出行 / 灵感 filters have been removed.
+- **Rail:** full-body mascot only on desktop; the former 全部 / 日常 / 出行 / 灵感 filters have been removed. The mascot is hidden below 640px.
 - **Deck:** four 3:4 cards (跳舞 / 烹饪 / 烘焙 / 羽毛球) stacked with progressive offsets. The top card has a caption pill. Clicking any card scatters all four into a 2×2 grid at every breakpoint, with a slight rotation and vertical offset per card so it reads like photos laid out on a table; the full set is visible at a glance.
-- **Spread controls:** a pill under the deck reads "展开" when stacked and "收起" when spread, with a short hint beside it. The pill carries `aria-expanded` and is the explicit way back to the stack.
-- **Expanded cards:** while spread, cards are not clickable and do not open the lightbox; only the pill collapses the deck. All four cards stay in the deck at every breakpoint. Below 640px the mascot sits behind the section title instead of above the deck.
+- **Spread controls:** a single pill under the deck reads "展开" when stacked and "收起" when spread. The pill carries `aria-expanded` and is the explicit way back to the stack.
+- **Expanded cards:** while spread, cards are not clickable and do not open the lightbox; only the pill collapses the deck. All four cards stay in the deck at every breakpoint. Below 640px the mascot is hidden.
 - **Illustrations:** monochrome dancing, cooking, baking, and badminton scenes, with one soft gray circle motif.
 
 ### Lightbox

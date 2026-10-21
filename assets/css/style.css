@@ -1026,7 +1026,6 @@ strong { font-weight: 600; }
 }
 .deck-toggle:hover { border-color: var(--ink); }
 .deck-toggle__icon { font-size: 14px; line-height: 1; color: var(--ink-2); }
-.deck-hint { font-size: 11.5px; color: var(--ink-3); }
 
 /* ============ Contact ============ */
 .section--contact { padding-bottom: 96px; }
@@ -1895,18 +1894,7 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .ai-flow { gap: 8px; }
   .ai-flow__step { font-size: 11.5px; padding: 4px 10px; }
 
-  #interests .wrap { position: relative; }
-  #interests .section-head { position: relative; z-index: 1; }
-  .life-aside {
-    position: absolute;
-    top: -26px;
-    left: 40px;
-    z-index: 0;
-    width: auto;
-    justify-content: flex-start;
-    pointer-events: none;
-  }
-  .life-mascot { width: 88px; }
+  .life-aside { display: none; }
   .deck-stage { padding: 12px 42px 6px 6px; }
   .deck-stage.is-spread { padding: 12px 0 6px; }
   .deck { width: min(100%, 300px); }
@@ -1968,7 +1956,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .hero__claim { margin-top: 26px; }
   .avatar-ring { padding: 6px; }
   .avatar { width: 76px; }
-  .life-mascot { width: 72px; }
   .deck-stage { padding-right: 34px; }
 }
 

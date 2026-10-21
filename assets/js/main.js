@@ -1993,7 +1993,6 @@
   const deck = $('#lifeDeck');
   const deckStage = $('.deck-stage');
   const deckToggle = $('#deckToggle');
-  const deckHint = $('#deckHint');
   const deckCards = $$('.deck-card');
   const lifeStatus = $('#lifeStatus');
   const MAX_VISIBLE_DEPTH = 4;
@@ -2028,10 +2027,6 @@
       const toggleIcon = deckToggle.querySelector('.deck-toggle__icon');
       if (toggleLabel) toggleLabel.textContent = deckSpread ? '收起' : '展开';
       if (toggleIcon) toggleIcon.textContent = deckSpread ? '↙' : '↗';
-    }
-
-    if (deckHint) {
-      deckHint.textContent = deckSpread ? '点击「收起」回到堆叠' : '点击卡牌也可展开';
     }
 
     if (lifeStatus && announce) {
