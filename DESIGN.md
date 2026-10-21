@@ -191,9 +191,9 @@ A single centered column, `min(100% - 48px, 1180px)`, with compact vertical sect
 - **Hero:** two columns — text (fluid) and portrait figure (fixed 320px max). Below 900px the copy becomes a single column and the portrait moves to the top-right corner as a 76–112px avatar, with the masthead width capped so the two never overlap.
 - **Education:** one white card with rows separated by hairlines. The degree level appears once, as the right-side badge; the major line no longer repeats "硕士" / "本科", and the language tags have been removed.
 - **Experience:** vertical stack of accordion cards. All three start open; each head is a full-width button that collapses or expands its own panel independently.
-- **Projects:** a three-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes two columns at 1180px (last card spans) and one column at 900px.
-- **Campus:** one feature card split into an aside (dates, serif role, organization, badge, tags) and a body (four-cell stat strip first, then the two-row detail list). It follows the project grid as a quieter closing chapter.
-- **Skills:** one rounded panel with three hairline-divided columns of category chips (办公应用 / AI 工具 / 内容编辑; one column on mobile), plus a full-width AI-workflow footer row. The "研究与分析" group has been removed.
+- **Projects:** a two-column grid of equal cards; each card starts with a type/title block and a top-right image trigger, then a description, a three-metric hairline row, and a tag footer. The grid becomes one column at 900px.
+- **Campus:** one feature card split into an aside (dates, serif role, tags) and a body (four-cell stat strip first, then the two-row detail list). It follows the project grid as a quieter closing chapter.
+- **Skills:** one rounded panel with three hairline-divided columns of category chips (办公应用 / AI 工具 / 内容编辑; one column on mobile).
 - **Interests:** a narrow left rail with only the full-body mascot, plus a stacked deck of four 3:4 cards that scatters into a full grid on click. There are no category filters.
 - **Contact:** one full-width black card, two columns on desktop (copy + actions | contact rows).
 - **Footer:** black, flush with the contact card's visual block, ending the page.
@@ -248,7 +248,7 @@ Depth is soft and minimal, never skeuomorphic.
 - **Static card:** white, 1px line, 18–24px radius, soft shadow. No hover movement.
 - **Accordion card:** head is a button with role/org/dates on the left, tags and a circular +/− toggle on the right. Open state lifts the border to `--line-strong` and reveals a panel separated by a hairline.
 - **Project card:** type/title block with a top-right gallery trigger, description, a three-metric hairline row, and a tag footer. Three cards sit as equal columns on desktop; the trigger shows the latest cover, an image count badge, and a small "项目图片 ↗" cue.
-- **Campus card:** a two-column feature card. The left aside carries dates, a serif role, organization, badge, and bottom-aligned tags; the right body opens with a four-cell stat strip, followed by the two-row detail list. Collapses to one column at 900px.
+- **Campus card:** a two-column feature card. The left aside carries dates, a serif role, and bottom-aligned tags; the right body opens with a four-cell stat strip, followed by the two-row detail list. Collapses to one column at 900px.
 - **Stat card:** 2×2 cells divided by hairlines; serif numerals with small sans labels.
 - **Contact card:** near-black, 24px radius, serif headline, two CTAs, then four contact rows separated by translucent hairlines.
 

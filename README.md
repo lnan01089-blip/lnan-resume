@@ -15,9 +15,9 @@ N'RESUME 是廖楠的单页静态求职主页，用来展示教育、工作与�
 - 教育背景排在工作经历之前；校园新媒体经历单独成章，不再混在项目卡片里。
 - 页面章节间距已收紧：桌面 62px、平板 50px、手机 40px，减少长页面中的空白断层。
 - 三段工作经历默认全部展开，每段都可以单独收起，不再互斥。
-- 项目经历为三栏等宽卡片（≤1180px 两栏，≤900px 单栏），每张卡片右上角有项目图片入口，点击后打开支持左右切换的多图灯箱。
+- 项目经历为两栏等宽卡片（≤900px 单栏），每张卡片右上角有项目图片入口，点击后打开支持左右切换的多图灯箱。
 - 桌面端首屏双栏、校园经历左右双栏；手机端头像位于首屏右上角，内容单栏排布，校园经历数据为 2×2 并前置在正文之前。
-- 技能区为三张技能卡片（办公应用 / AI 工具 / 内容编辑）+ AI 工作流，技能以胶囊标签呈现；已移除「研究与分析」分组。
+- 技能区为三张技能卡片（办公应用 / AI 工具 / 内容编辑），技能以胶囊标签呈现。
 - 兴趣爱好区为四张 3:4 卡牌堆叠（跳舞、烹饪、烘焙、羽毛球），不设分类筛选；点击任意卡牌会把四张照片散开铺成 2×2 网格，一眼看全，散开后卡牌不可点击，点「收起」回到堆叠状态。
 - 所有图片均为 JPG / PNG / WebP 栅格素材，不使用 SVG；页脚提供「替换图片」入口，可在浏览器内预览、管理项目多图，并为每张图片填写备注。
 - 字体、图标、图片与 PDF 全部本地化，不依赖 Google Fonts 或第三方运行时。
@@ -59,7 +59,6 @@ N'RESUME 是廖楠的单页静态求职主页，用来展示教育、工作与�
         ├── life-1.webp … life-4.webp
         ├── project-stashly-1.webp / project-stashly-2.webp
         ├── project-research-1.webp / project-research-2.webp
-        └── project-site-1.webp / project-site-2.webp / project-site-3.webp
 ```
 
 ## 本地预览
@@ -130,7 +129,7 @@ python -m http.server 8000 --bind 127.0.0.1
 
 - **头像**：替换 `assets/img/avatar-720.jpg`（720 × 720）与 `avatar-360.jpg`（360 × 360），保持 1:1 正方形、人物居中。
 - **兴趣爱好照片**：建议统一 3:4 竖图，主体居中；替换 `life-1.webp` … `life-4.webp`，并同步 `index.html` 中卡牌的 `src` / `data-img` 与 `alt`。
-- **项目图片**：建议 16:10 横图；替换 `project-stashly-*.webp`、`project-research-*.webp`、`project-site-*.webp`。默认图片清单在 `assets/js/main.js` 的 `PROJECT_GALLERIES` 中维护。
+- **项目图片**：建议 16:10 横图；替换 `project-stashly-*.webp`、`project-research-*.webp`。默认图片清单在 `assets/js/main.js` 的 `PROJECT_GALLERIES` 中维护。
 - **个人 IP**：替换 `ip-nan.png`（全身），保持透明背景。
 - **社交分享图**：替换 `assets/img/og-cover.png`，尺寸保持 1200 × 630。
 - **Favicon**：替换 `assets/img/favicon.png`。

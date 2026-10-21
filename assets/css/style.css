@@ -532,8 +532,6 @@ strong { font-weight: 600; }
   line-height: 1.35;
   letter-spacing: .005em;
 }
-.campus-card__org { margin-top: 6px; font-size: 13px; color: var(--ink-2); }
-.campus-card__aside .badge { margin-top: 16px; }
 .campus-card__tags { margin-top: auto; padding-top: 24px; }
 .campus-card__body .detail-list li { grid-template-columns: 96px minmax(0, 1fr); }
 .campus-stats {
@@ -561,7 +559,7 @@ strong { font-weight: 600; }
 /* ============ Projects ============ */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 .project-card {
@@ -797,32 +795,6 @@ strong { font-weight: 600; }
   color: var(--ink-2);
   white-space: nowrap;
 }
-.skills-flow {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  padding: 18px 30px;
-  border-top: 1px solid var(--line);
-  background: var(--card-2);
-}
-.skills-flow__label {
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: .14em;
-  color: var(--ink-3);
-  white-space: nowrap;
-}
-.ai-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.ai-flow__step {
-  padding: 4px 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--bg);
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--ink);
-}
-.ai-flow__arrow { font-size: 12px; color: var(--ink-3); }
 
 /* ============ Life ============ */
 .life-grid {
@@ -1660,7 +1632,6 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
 
 /* ============ Responsive ============ */
 @media (max-width: 1180px) {
-  .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-card:last-child { grid-column: 1 / -1; }
 }
 
@@ -1683,8 +1654,13 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
     min-height: 0;
   }
   .hero__name,
-  .hero__en { max-width: calc(100% - var(--hero-avatar) - 20px); }
+  .hero__en,
+  .hero__lead,
+  .hero__tags,
+  .hero__cta { max-width: calc(100% - var(--hero-avatar) - 20px); }
   .hero__name { margin-top: 12px; font-size: clamp(2.1rem, 5.6vw, 2.6rem); }
+  .hero__lead { margin-top: 26px; }
+  .hero__lead + .hero__lead { margin-top: 12px; }
   .hero__figure {
     position: absolute;
     top: 0;
@@ -1705,12 +1681,9 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
 
   .campus-card { grid-template-columns: minmax(0, 1fr); gap: 26px; padding: 30px; }
   .campus-card__role { margin-top: 8px; }
-  .campus-card__aside .badge { margin-top: 12px; }
-  .campus-card__tags { margin-top: 4px; padding-top: 0; }
 
   .skills-grid { grid-template-columns: minmax(0, 1fr); }
   .skill-card { padding: 26px 26px 24px; }
-  .skills-flow { align-items: flex-start; flex-direction: column; gap: 12px; padding: 18px 26px; }
 
   .life-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; max-width: 520px; }
   .life-aside { display: flex; justify-content: center; width: 100%; }
@@ -1801,10 +1774,7 @@ a.contact-row__value:hover { color: var(--white); text-decoration: underline; te
   .campus-stat:nth-child(4) { border-top: 1px solid var(--line); }
 
   .skill-card { padding: 22px; }
-  .skills-flow { padding: 16px 22px; }
   .skill-chip-list li { font-size: 12px; padding: 6px 11px; }
-  .ai-flow { gap: 8px; }
-  .ai-flow__step { font-size: 11.5px; padding: 4px 10px; }
 
   .life-aside { display: none; }
   .deck-stage { padding: 12px 42px 6px 6px; }

@@ -31,7 +31,7 @@ try:
 except ImportError:  # pragma: no cover - only hit without Pillow
     Image = None
 
-PROJECT_KEYS = ["stashly", "research", "site"]
+PROJECT_KEYS = ["research", "stashly"]
 SLOT_KEYS = [
     "avatar", "mascot-body",
     "life-1", "life-2", "life-3", "life-4",
@@ -39,23 +39,17 @@ SLOT_KEYS = [
 GALLERY_NAMES = {
     "stashly": "project-stashly",
     "research": "project-research",
-    "site": "project-site",
 }
 FALLBACK_TEXT = {
     "stashly": {
         "title": "Stashly 书柜 App",
-        "type": "产品 / AI Coding",
+        "type": "Vibe Coding 产品",
         "desc": "针对实体书存放在不同柜子和收纳盒中、查找位置不便的问题，设计与实际存储方式对应的管理结构，实现书籍与存放位置的关联；使用 Claude 辅助编写和修改代码，实现书柜、收纳盒与书籍的管理，并支持本地存储和离线使用；根据实际使用情况发现问题，借助 AI 排查和修复代码，逐步完善功能。",
     },
     "research": {
         "title": "既有建筑绿色改造研究",
         "type": "研究 / 国家自然科学基金",
-        "desc": "围绕既有建筑绿色改造相关问题开展研究，参与研究资料整理、理论分析、数据分析及论文撰写工作；以第一作者发表核心论文 2 篇、三作 1 篇，参与 3 部著作编写。",
-    },
-    "site": {
-        "title": "N'RESUME 个人主页",
-        "type": "网页 / 原生前端",
-        "desc": "以原生 HTML / CSS / JavaScript 搭建的单页个人求职主页，串联教育、工作、项目、校园、技能、兴趣与联系方式；含平滑滚动、章节高亮、多图灯箱与浏览器内图片预览。",
+        "desc": "围绕既有建筑绿色改造相关问题开展研究，参与研究资料整理、理论分析、数据分析及论文撰写工作。",
     },
 }
 DATA_URL_RE = re.compile(r"^data:image/([a-zA-Z0-9.+-]+);base64,(.+)$", re.S)
